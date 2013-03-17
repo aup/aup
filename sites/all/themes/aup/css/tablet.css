@@ -1,0 +1,25 @@
+@media only screen and (max-width: 1036px){
+	.outer{width:100%;}
+	.audience ul li{float:left;padding:0 0 0 2.8%;height:35px;}
+	
+}
+
+@media only screen and (max-width: 960px){
+	.audience ul li{float:left;padding:0 0 0 3.6%;height:35px;}
+	.secondaryNav, .topic, .relatedLinks ul{font-size:0.8em;}
+	.homeCarousel .caption h2{font-size:2.6em;}
+	.fullWidth{float:left;width:97.5%;padding: 12px 1.25% 20px;}
+	.audience ul li a{letter-spacing:-0.02em;}
+}
+
+@media only screen and (max-width: 850px){
+	.outer{width:100%;}
+	.audience ul{width:82%;}
+	.audience ul li{float:left;padding:0 0 0 2.2%;height:35px;}
+	.logo img{margin:14px 0 0;}
+	.homeCarousel .caption{padding:10px 3% 18px}
+	.gateway .main ul li li{font-size:1.2em;background-position:6% 1px;}
+	.gateway .main h2{font-size:1.5em;}
+	.admissionLead .text h3{font-size:2em;}
+}
+

@@ -1,0 +1,20 @@
+; $Id: aup.info,v 1.0 2013/2/13 00:27:20 dries Exp $
+
+name        = American University of Paris
+description = Main theme for American University of Paris
+version     = 1.0
+core        = 7.x
+engine      = phptemplate
+
+
+; Stylesheets
+stylesheets[all][]    = css/reset.css
+stylesheets[all][]    = css/base.css
+stylesheets[screen][] = css/jquery.bxslider.css
+stylesheets[screen][] = css/tablet.css
+stylesheets[screen][] = css/mobile.css
+
+
+; Scripts
+scripts[] = js/jquery.bxslider.js
+scripts[] = js/scripts.js
