@@ -3,10 +3,10 @@ body{min-width:320px;}
 .mobileShow{display:block;}
 .mobileHide{display:none;}
 .wrapper {padding:0;width: 100%;}
-.content .leftColumn{width:100%;padding:0 0 50px;}
+.page-content .leftColumn{width:100%;padding:0 0 50px;}
 .noNav{margin:0;}
-.content .mainContent{float:left;width:93.75%;padding:0 3.125%;}
-.content .mainContent .inner{width:100%;padding:0 0 20px;}
+.page-content .mainContent{float:left;width:93.75%;padding:0 3.125%;}
+.page-content .mainContent .inner{width:100%;padding:0 0 20px;}
 .bodyCopy p{padding:0 0 14px;}
 
 .mobileSearchButton{float:right;width:38px;height:38px;margin:0 14px 0 0;}
@@ -109,7 +109,7 @@ body{min-width:320px;}
 .newsevents .newsColumn{width:100%;padding-bottom:0;}
 .newsevents .eventsColumn{width:100%;}
 .actionButtons ul{width:94%;margin:0 3%;}
-.content .sideBar .side{float:left;width:100%;margin:0}
+.page-content .sideBar .side{float:left;width:100%;margin:0}
 
 .supportCarousel .media{width:100%;}
 .supportCarousel .text{width:90%;padding:12px 5% 10px;}
@@ -117,7 +117,7 @@ body{min-width:320px;}
 .supportCarousel .bx-wrapper .bx-prev{left:20px;right:auto;background-image:url('../images/carouselArrows.png');}
 .supportCarousel .bx-wrapper .bx-next{left:auto;right:20px;background-image:url('../images/carouselArrows.png');}
 .supportCarousel .more{position:relative;left:auto;float:left;width:100%;text-align:right;}
-.content .sideBar .mainContent{width:100%;}
+.page-content .sideBar .mainContent{width:100%;}
 
 .accordionPod .accContent img{float:left;width:40%;}
 .accordionPod .accContent .info{float:right;width:50%;}
