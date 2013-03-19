@@ -170,7 +170,6 @@ function course_sync_all() {
       if ($courses) {
         foreach ($courses as $course) {
           $report = array_merge($report, course_sync($course));
-          break;
         }
       }
     }
