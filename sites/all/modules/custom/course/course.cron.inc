@@ -237,7 +237,7 @@ function course_sync($course) {
 	$node->field_course_credits['und'][0]['value'] = $course->credits;
 	$node->field_course_type['und'][0]['value'] = $course->type;
 	$node->field_course_level['und'][0]['value'] = $course->level;
-	// TODO $node->field_course_term['und'][0]['value'] = $course->term;
+	$node->field_course_term['und'][0]['value'] = $course->term;
 	$node->field_course_canrepeat['und'][0]['value'] = ($course->canrepeat == 'Yes') ? 1 : 0;
 	$node->field_course_notes['und'][0]['value'] = $course->notes;
 	$node->field_cams_id['und'][0]['value'] = $course->cams_id;
