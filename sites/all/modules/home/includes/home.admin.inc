@@ -183,75 +183,11 @@ function home_administration($form_state) {
 
 function home_administration_submit($form, &$form_state) {
 
-	$title1 = variable_get('home_title1', '');
-	$title2 = variable_get('home_title2', '');
 	$slideshow_qid = variable_get('home_slideshow_qid', 0);
-	$spif_qid = variable_get('home_spif_qid', 0);	
-	
-	$button1_title = variable_get('home_button1_title', '');
-	$button1_url = variable_get('home_button1_url', '');
-	$button1_open = variable_get('home_button1_open', '');
-	
-	$button2_title = variable_get('home_button2_title', '');
-	$button2_url = variable_get('home_button2_url', '');
-	$button2_open = variable_get('home_button2_open', '');
-	
-	$button3_title = variable_get('home_button3_title', '');
-	$button3_url = variable_get('home_button3_url', '');
-	$button3_open = variable_get('home_button3_open', '');
-	
-	$button4_title = variable_get('home_button4_title', '');
-	$button4_url = variable_get('home_button4_url', '');
-	$button4_open = variable_get('home_button4_open', '');
-
-	if ($title1 != $form_state['values']['title1'])
-		variable_set('home_title1', $form_state['values']['title1']);
-		
-	if ($title2 != $form_state['values']['title2'])
-		variable_set('home_title2', $form_state['values']['title2']);
 
 	if ($slideshow_qid != $form_state['values']['slideshow_qid'])
 		variable_set('home_slideshow_qid', $form_state['values']['slideshow_qid']);
-						
-	if ($spif_qid != $form_state['values']['spif_qid'])
-		variable_set('home_spif_qid', $form_state['values']['spif_qid']);
-		
-	if ($button1_title != $form_state['values']['button1_title'])
-		variable_set('home_button1_title', $form_state['values']['button1_title']);
-		
-	if ($button1_url != $form_state['values']['button1_url'])
-		variable_set('home_button1_url', $form_state['values']['button1_url']);
-		
-	if ($button1_open != $form_state['values']['button1_open'])
-		variable_set('home_button1_open', $form_state['values']['button1_open']);
-		
-	if ($button2_title != $form_state['values']['button2_title'])
-		variable_set('home_button2_title', $form_state['values']['button2_title']);
-		
-	if ($button2_url != $form_state['values']['button2_url'])
-		variable_set('home_button2_url', $form_state['values']['button2_url']);
-		
-	if ($button2_open != $form_state['values']['button1_open'])
-		variable_set('home_button2_open', $form_state['values']['button2_open']);
 
-	if ($button3_title != $form_state['values']['button3_title'])
-		variable_set('home_button3_title', $form_state['values']['button3_title']);
-		
-	if ($button3_url != $form_state['values']['button3_url'])
-		variable_set('home_button3_url', $form_state['values']['button3_url']);
-		
-	if ($button3_open != $form_state['values']['button3_open'])
-		variable_set('home_button3_open', $form_state['values']['button3_open']);
-		
-	if ($button4_title != $form_state['values']['button4_title'])
-		variable_set('home_button4_title', $form_state['values']['button4_title']);
-		
-	if ($button4_url != $form_state['values']['button4_url'])
-		variable_set('home_button4_url', $form_state['values']['button4_url']);
-		
-	if ($button4_open != $form_state['values']['button4_open'])
-		variable_set('home_button4_open', $form_state['values']['button4_open']);
-		
 	drupal_set_message(t('Saved.'), 'status');
 		
 }

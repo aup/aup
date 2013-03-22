@@ -17,12 +17,6 @@ function home_theme($existing, $type, $theme, $path) {
 		'template' => 'home-slideshow',
 		'path' => $path,
 	);
-	
-	$theme['home_spif_region'] = array(
-		'arguments' => array('nodes' => null),
-		'template' => 'home-spif-region',
-		'path' => $path,
-	);
 
 	return $theme;
 	
@@ -62,104 +56,6 @@ function home_menu() {
 	return $items;
 	
 }
-
-function home_block_info() {
-
-	$blocks = array();
-	
-	$blocks['who_block'] = array(
-		'info' => t('Who do you want to be block (home)'),
-	);
-
-	$blocks['what_block'] = array(
-		'info' => t('Who do you want to do block (home)'),
-	);
-	
-  return $blocks;
-}
-
-function home_block_view($delta = '') {
-
-	$block = array();
-	
-	switch ($delta) {
-	
-	    case 'who_block':
-	      	$block['subject'] = t('Who do you want to be');
-
-	    	$content = '<h3><span>Who</span> do you want to be?</h3>';
-	    	$content .= '<div class="options">';
-	    	$content .= '<form action="#"><div class="field"><label for="ddA">Industry</label>';
-	    	
-	    	// main select
-	    	$content .= '<div class="styled-select"><select id="ddA">';
-	    	$content .= '<option value="select">Select Your Industry</option>';
-	    	// get root level
-	    	$root = taxonomy_get_tree(4, 0, 1, TRUE);
-	    	$children = array();
-	    	foreach($root as $industry) {
-		    	if(!empty($industry->field_career_page_reference))
-			    	$content .= '<option value="'.$industry->tid.'" data-url="'.base_path().drupal_lookup_path('alias', 'node/'.$industry->field_career_page_reference[LANGUAGE_NONE][0]['target_id']).'">'.$industry->name.'</option>';
-			    else
-			    	$content .= '<option value="'.$industry->tid.'" data-url="'.base_path().'">'.$industry->name.'</option>';
-			    	
-		    	$inner = taxonomy_get_tree(4, $industry->tid, 1, TRUE);
-	    	  	foreach($inner as $career) {
-	    	  		if(!empty($career->field_career_page_reference))
-	    	  			$children[] = '<option class="'.$industry->tid.'" value="'.$career->tid.'" data-url="'.base_path().drupal_lookup_path('alias', 'node/'.$career->field_career_page_reference[LANGUAGE_NONE][0]['target_id']).'">'.$career->name.'</option>';
-	    	  		else
-			    	  	$children[] = '<option class="'.$industry->tid.'" value="'.$career->tid.'" data-url="'.base_path().'">'.$career->name.'</option>';
-	    	    }	
-	    	}
-	    	$content .= '</select></div></div>';
-	    	
-	    	// child select
-	    	$content .= '<div class="field"><label for="ddB">Career</label><div class="styled-select"><select id="ddB">';
-	    	$content .= '<option value="select">Select Your Career</option>';
-	    	$content .= implode('', $children);
-	    	$content .= '</select></div></div>';
-	    	$content .= '<div class="submitField"><input type="button" class="btnSubmit" value="SUBMIT" onClick="goToSelectUrl(\'ddB\');"/></div></form></div>';
-
-	    	
-	      	$block['content'] = $content;
-	      	
-			break;
-		
-		case 'what_block':
-		
-	      	$block['subject'] = t('Who do you want to do');
-
-	    	$content = '<h3><span>Who</span> do you want to do?</h3>';
-	    	$content .= '<div class="options">';
-	    	$content .= '<form action="#"><div class="field"><label for="ddA">Select your Goal</label>';
-	    	
-	    	// main select
-	    	$content .= '<div class="styled-select"><select id="ddA">';
-	    	$content .= '<option value="select">Select Your Goal</option>';
-	    	// get root level
-	    	$root = taxonomy_get_tree(5, 0, 1, TRUE);
-	    	$children = array();
-	    	foreach($root as $goal) {
-		    	if(!empty($goal->field_page_reference))
-			    	$content .= '<option value="'.$goal->tid.'" data-url="'.base_path().drupal_lookup_path('alias', 'node/'.$goal->field_page_reference[LANGUAGE_NONE][0]['target_id']).'">'.$goal->name.'</option>';
-			    else
-			    	$content .= '<option value="'.$goal->tid.'" data-url="'.base_path().'">'.$goal->name.'</option>';
-			    	
-	    	}
-	    	$content .= '</select></div></div>';
-	    	
-	    	$content .= '<div class="submitField"><input type="button" class="btnSubmit" value="SUBMIT" onClick="goToSelectUrl(\'ddA\');"/></div></form></div>';
-
-	    	
-	      	$block['content'] = $content;
-	      	
-			break;
-		   
-		    
-	}
-	
-	return $block;
-}
 	    
 /**
  * Implementation of hook_preprocess_page
@@ -170,40 +66,13 @@ function home_preprocess_page(&$variables) {
 		
 		
 		$slideshow_nodes = new NodequeueNodes(variable_get('home_slideshow_qid', 0));
-		$spif_nodes = new NodequeueNodes(variable_get('home_spif_qid', 0));
-
-		print '<pre>';
-		print_r ($slideshow_nodes);
-		print '</pre>';
 		
-		if(count($spif_nodes->getNodes()) >= 3)
+		if(count($slideshow_nodes->getNodes()) >= 2)
 			$variables['show_arrows'] = 1;
 		else
 			$variables['show_arrows'] = 0;
-		
-		$variables['home_title1'] = variable_get('home_title1', '');
-		$variables['home_title2'] = variable_get('home_title2', '');
+			
 		$variables['home_slideshow'] = theme('home_slideshow', array('nodes' => $slideshow_nodes->getNodes()));
-		$variables['home_spif_region'] = theme('home_spif_region', array('nodes' => $spif_nodes->getNodes()));
-		
-		/*
-		$variables['home_button1_title'] = variable_get('home_button1_title', '');
-		$variables['home_button1_url'] = variable_get('home_button1_url', '');
-		$variables['home_button1_open'] = variable_get('home_button1_open', '');
-		$variables['home_button2_title'] = variable_get('home_button2_title', '');
-		$variables['home_button2_url'] = variable_get('home_button2_url', '');
-		$variables['home_button2_open'] = variable_get('home_button2_open', '');
-		$variables['home_button3_title'] = variable_get('home_button3_title', '');
-		$variables['home_button3_url'] = variable_get('home_button3_url', '');
-		$variables['home_button3_open'] = variable_get('home_button3_open', '');
-		$variables['home_button4_title'] = variable_get('home_button4_title', '');
-		$variables['home_button4_url'] = variable_get('home_button4_url', '');
-		$variables['home_button4_open'] = variable_get('home_button4_open', '');
-		*/
-		
-		print '<pre>';
-		//print_r($variables);
-		print '</pre>';
 
 	}
 	
