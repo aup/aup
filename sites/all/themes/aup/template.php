@@ -42,3 +42,16 @@ function aup_breadcrumb($breadcrumb) {
 	
 	return $crumbs;
 }
+
+/**
+ * Implementation of hook_preprocess_page()
+ */
+ 
+function aup_preprocess_page(&$vars) {
+ 
+    // Allow use of page--myContentType.tpl.php
+	if (isset($vars['node'])) {
+		$vars['theme_hook_suggestion'] = 'page__'.$vars['node']->type;
+	}
+  	
+}

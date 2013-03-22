@@ -1,0 +1,8 @@
+name = AUP University Implementation
+description = "An implementation specific module for AUP University."
+version = "7.x-1.0"
+core = 7.x
+package = "mStoner"
+
+dependencies[] = mstoner
+dependencies[] = nodequeue

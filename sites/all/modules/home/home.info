@@ -1,0 +1,10 @@
+; $Id$
+name = Home
+description = "The glue module between the administration layer and the presentation layer to generate the Home page."
+core = 7.x
+package = "mStoner"
+
+version = "7.x-1.0"
+
+dependencies[] = aup_implementation
+dependencies[] = nodequeue

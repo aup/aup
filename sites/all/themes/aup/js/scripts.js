@@ -1,3 +1,4 @@
+(function ($) {
 $(document).ready(function() {
 	 var temp =  $(".main .siteSearch").html();
 	 $(".mobileHeader .siteSearch").html(temp);
@@ -157,3 +158,4 @@ $(document).ready(function() {
 		$(menuClass).addClass("selected");	
 	}
 });
+})(jQuery);

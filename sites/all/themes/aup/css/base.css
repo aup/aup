@@ -68,8 +68,8 @@ body{background:#fff;font-size:62.5%;overflow-x:hidden;font-family:'proxima-nova
 .breadcrumb ul li.last{background:none;padding:0;margin:0;}
 .breadcrumb ul li a{font-family:'franklin-gothic-urw-cond', Arial, Helvetica, sans-serif;font-weight:normal;font-size:1.4em;color:#fefefe;text-transform:uppercase;}
 
-.page-content{float:left;width:100%;min-height:337px;text-align:left;background:#fefefe;box-shadow:0 4px 15px 0 #aaa;overflow:hidden;}
-.page-content .leftColumn{float:left;width:17%;}
+.content{float:left;width:100%;min-height:337px;text-align:left;background:#fefefe;box-shadow:0 4px 15px 0 #aaa;overflow:hidden;}
+.content .leftColumn{float:left;width:17%;}
 .secondaryNav{float:left;width:100%;padding:0 0 37px;}
 .secondaryNav ul{float:left;width:100%;}
 .secondaryNav ul li{float:left;width:100%;border-bottom:1px solid #f6f6f6}
@@ -96,12 +96,12 @@ body{background:#fff;font-size:62.5%;overflow-x:hidden;font-family:'proxima-nova
 
 
 .container{float:left;width:100%;padding:0 0 27px;}
-.page-content .mainContent{float:right;width:80.85%;padding-bottom:30px;}
-.page-content .noPad{padding-bottom:0px;}
-.page-content .mainContent .inner{float:right;width:98.3%;padding:0 1.7% 27px 0;}
+.content .mainContent{float:right;width:80.85%;padding-bottom:30px;}
+.content .noPad{padding-bottom:0px;}
+.content .mainContent .inner{float:right;width:98.3%;padding:0 1.7% 27px 0;}
 
-.page-content .sideBar .mainContent{float:left;width:68.4%;}
-.page-content .sideBar .side{float:right;width:28.9%;}
+.content .sideBar .mainContent{float:left;width:68.4%;}
+.content .sideBar .side{float:right;width:28.9%;}
 
 .pageTitle{float:left;width:80%;border-bottom:1px solid #aca89e;padding:15px 20% 3px 0;position:relative;}
 .leftMargin{margin-left:2%;width:83%;}

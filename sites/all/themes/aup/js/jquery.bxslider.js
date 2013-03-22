@@ -7,7 +7,7 @@
  *
  * Released under the WTFPL license - http://sam.zoy.org/wtfpl/
  */
-
+(function ($) {
 ;(function($){
 
 	var plugin = {};
@@ -1183,3 +1183,4 @@ $(document).ready(function(){
   $('.supportCarousel .bxslider').bxSlider({ pager:false, adaptiveHeight:true });
   $('.gInner .bxslider').bxSlider({ pager:false, adaptiveHeight:true, minSlides:3, maxSlides:3, moveSlides: 1 });
 });
+})(jQuery);

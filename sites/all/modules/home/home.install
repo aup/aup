@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * Implementation of hook_install
+ */
+function home_install() {
+			
+	variable_set('home_title1', '');
+	variable_set('home_title2', '');
+	variable_set('home_slideshow_qid', 0);
+	variable_set('home_spif_qid', 0);
+	variable_set('home_button1_title', '');
+	variable_set('home_button1_url', '');
+	variable_set('home_button1_open', '');
+	variable_set('home_button2_title', '');
+	variable_set('home_button2_url', '');
+	variable_set('home_button2_open', '');
+	variable_set('home_button3_title', '');
+	variable_set('home_button3_url', '');
+	variable_set('home_button3_open', '');
+	variable_set('home_button4_title', '');
+	variable_set('home_button4_url', '');
+	variable_set('home_button4_open', '');
+	
+}
+
+/**
+ * Implementation of hook_uninstall
+ */
+function home_uninstall() {
+
+	variable_del('home_title1');
+	variable_del('home_title2');
+	variable_del('home_slideshow_qid');
+	variable_del('home_spif_qid');
+	variable_del('home_button1_title');
+	variable_del('home_button1_url');
+	variable_del('home_button1_open');
+	variable_del('home_button2_title');
+	variable_del('home_button2_url');
+	variable_del('home_button2_open');
+	variable_del('home_button3_title');
+	variable_del('home_button3_url');
+	variable_del('home_button3_open');
+	variable_del('home_button4_title');
+	variable_del('home_button4_url');
+	variable_del('home_button4_open');
+	
+}

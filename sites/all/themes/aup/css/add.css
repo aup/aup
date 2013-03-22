@@ -1,0 +1,17 @@
+.audience h2 { 
+	display: none;
+}
+
+.audience .content {
+	float: none;
+	width: auto;
+	height: auto;
+	min-height: inherit;
+	box-shadow: none;
+	background: none;
+}
+
+.audience ul li.leaf {
+	list-style-image: none !important;
+	list-style-type: none !important;
+}

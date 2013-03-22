@@ -16,24 +16,28 @@ stylesheets[screen][] = css/tablet.css
 stylesheets[all][]    = css/tablet-implementation.css
 stylesheets[screen][] = css/mobile.css
 stylesheets[all][]    = css/mobile-implementation.css
+stylesheets[all][]    = css/add.css
 
 
 ; Scripts
 scripts[] = js/jquery.bxslider.js
 scripts[] = js/scripts.js
 
+
 ; Regions
-regions[page_top] = Page top
-regions[page_bottom] = Page bottom
+regions[page_top]      = Page top
+regions[page_bottom]   = Page bottom
 regions[header_search] = Header Search
 
-regions[header] = Header
+regions[header]  = Header
 regions[content] = Content
-regions[footer] = Footer
+regions[footer]  = Footer
 
-regions[homepage_left_spif] = Homepage Left (SPIF)
+regions[top_links]  = Top Links
+
+regions[homepage_left_spif]   = Homepage Left (SPIF)
 regions[homepage_middle_spif] = Homepage Middle (SPIF)
-regions[homepage_right_spif] = Homepage Right (SPIF)
+regions[homepage_right_spif]  = Homepage Right (SPIF)
 
-regions[left_column] = Left Column
+regions[left_column]  = Left Column
 regions[right_column] = Right Column

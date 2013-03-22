@@ -1,0 +1,62 @@
+<?php
+
+# MODULE BOOTSTRAP
+require_once('includes/mstoner.helper.inc');
+require_once('includes/mstoner.admin.inc');
+
+/**
+ * Implementation of hook_theme();
+ */
+function mstoner_theme($existing, $type, $theme, $path) {
+	
+	$theme = array();
+	$path = drupal_get_path('module', 'mstoner') .'/theme';
+	
+	return $theme;
+	
+}
+
+/**
+ * Implementation of hook_permission
+ */
+function mstoner_permission() {
+	
+	$perms = array();
+	  
+	$perms['administer mstoner'] =array(
+	    'title' => t('Administer mStoner'),
+	  );
+	  
+	return $perms;
+	
+}
+
+/**
+ * Implementation of hook_menu
+ */
+function mstoner_menu() {
+	
+	$items = array();
+	
+	$items['admin/config/mstoner'] = array(
+		'title' => 'mStoner',
+		'page callback' => 'mstoner_administration',
+		'access arguments' => array('administer mstoner'),
+		'type' => MENU_NORMAL_ITEM,
+		'weight' => -50,
+	);
+	
+	return $items;
+	
+}
+
+/**
+ * Implementation of hook_form_alter();
+ */
+function mstoner_form_alter(&$form, &$form_state, $form_id) {
+	
+	// Hide the "Show summary in full view" checkbox
+	if(isset($form['body_field']['teaser_include']))
+		$form['body_field']['teaser_include']['#access'] = FALSE;
+	
+}

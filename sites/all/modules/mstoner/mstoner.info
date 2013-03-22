@@ -1,0 +1,9 @@
+; $Id: mstoner.info,v 1.0 2011/01/28 06:04:18 mgn Exp $
+name = mStoner
+description = "An implementation specific module used on all mStoner Drupal projects."
+version = "7.x-1.0"
+core = 7.x
+package = "mStoner"
+
+files[] = mstoner.module
+
