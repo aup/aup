@@ -95,15 +95,7 @@
 	    		<div class="fullWidth promos">
 	            	<ul class="feed">
 	                    <li>
-	                    	<?php //echo render($page['homepage_left_spif']); ?>
-	                       
-	                        
-	                        <h3>Students <em>of</em> the World</h3>
-	                        <p><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg" alt="" /></a></p>
-	                        <h4><a href="#">A Variety of Fellow Students</a></h4>
-	                        <p>The training I received in and out of the classroom has been useful in countless ways...</p>
-	                        
-	                       
+	                    	<?php echo render($page['homepage_left_spif']); ?>
 	                    </li>
 	                    <li class="wideCol">
 	                        <?php echo render($page['homepage_middle_spif']); ?>
@@ -114,6 +106,11 @@
 	                </ul>
 	            </div>
 	    		<div class="fullWidth news">
+	    			
+	    			
+	    			<?php //echo views_embed_view('news_events_listings', 'block_1'); ?>
+	            	
+	            	
 	            	<div class="feedTitle">
 	                	<h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
 	                    <div class="more">
