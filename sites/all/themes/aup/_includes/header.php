@@ -31,7 +31,7 @@
             	<li><a href="#">Academics</a></li>
             	<li><a href="/aup/admissions">Admissions</a></li>
             	<li><a href="#">Student Life</a></li>
-            	<li><a href="/aup/news">News &amp; Events</a></li>
+            	<li><a href="/aup/news-events">News &amp; Events</a></li>
             	<li><a href="/aup/support">Support AUP</a></li>
             </ul>
         </div>

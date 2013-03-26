@@ -28,7 +28,7 @@
             			<li><a href="#">Academics</a></li>
             			<li><a href="/aup/admissions">Admissions</a></li>
             			<li><a href="#">Student Life</a></li>
-            			<li><a href="#">News &amp; Events</a></li>
+            			<li><a href="/aup/news-events">News &amp; Events</a></li>
             			<li><a href="/aup/support">Support AUP</a></li>
 	                </ul>
 	            </div>
@@ -81,66 +81,35 @@
 	            </div>
 	        </div>
 	    </div>
-	    <div class="homeCarousel">
-	        <ul class="bxslider">
-	            <li>
-	                <img src="<?php echo base_path().path_to_theme(); ?>/images/homeBanner.jpg" alt="" />
-	                <div class="caption">
-	                	<div class="text mobileHide"><img src="<?php echo base_path().path_to_theme(); ?>/images/homeBannerCaption.png" alt="" /></div>
-	                	<div class="text mobileShow"><span>At</span> Home <em>in</em> <strong>the world</strong></div>
-	                    <h2>Your classroom is Paris, A city that has made being yourself an art form</h2>
-	                    <div class="more"><a href="#">Find your Paris</a></div>
-	                </div>
-	            </li>
-	            <li>
-	                <img src="<?php echo base_path().path_to_theme(); ?>/images/homeBanner.jpg" alt="" />
-	                <div class="caption">
-	                    <h2>Slide 2</h2>
-	                    <div class="more"><a href="#">Learn more</a></div>
-	                </div>
-	            </li>
-	            <li>
-	                <img src="<?php echo base_path().path_to_theme(); ?>/images/homeBanner.jpg" alt="" />
-	                <div class="caption">
-	                    <h2>Slide 3</h2>
-	                    <div class="more"><a href="#">Learn more</a></div>
-	                </div>
-	            </li>
-	        </ul>
-	    </div>
-	   
-	   <br /> ==================================== <br />
-	   
-	   <?php if($home_slideshow): ?>
-			home is where the heart is
-	   		<?php echo $home_slideshow; ?> 
-	   <?php endif; ?>
-	    
-	   <br /> ==================================== <br />
+		
+		 <!-- Start of Slide Show -->
+		<?php if($home_slideshow): ?>
+		 	<?php echo $home_slideshow; ?> 
+		<?php endif; ?>
+		 <!-- End of Slide Show -->
 	    
 	    <!-- Start of wrapper -->
 	    <div class="wrapper">
 	        <!-- Start of Content -->
-	        <div class="content homeContent">
+	        <div class="page-content homeContent">
 	    		<div class="fullWidth promos">
 	            	<ul class="feed">
 	                    <li>
+	                    	<?php //echo render($page['homepage_left_spif']); ?>
+	                       
+	                        
 	                        <h3>Students <em>of</em> the World</h3>
 	                        <p><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg" alt="" /></a></p>
 	                        <h4><a href="#">A Variety of Fellow Students</a></h4>
 	                        <p>The training I received in and out of the classroom has been useful in countless ways...</p>
+	                        
+	                       
 	                    </li>
 	                    <li class="wideCol">
-	                        <h3>Students <em>of</em> the World</h3>
-	                        <p><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/promo2.jpg" alt="" /></a></p>
-	                        <h4><a href="#">A Variety of Fellow Students</a></h4>
-	                        <p>The training I received in and out of the classroom has been useful in countless ways...</p>
+	                        <?php echo render($page['homepage_middle_spif']); ?>
 	                    </li>
 	                    <li>
-	                        <h3>Students <em>of</em> the World</h3>
-	                        <p><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg" alt="" /></a></p>
-	                        <h4><a href="#">A Variety of Fellow Students</a></h4>
-	                        <p>The training I received in and out of the classroom has been useful in countless ways...</p>
+							<?php echo render($page['homepage_right_spif']); ?>
 	                    </li>
 	                </ul>
 	            </div>

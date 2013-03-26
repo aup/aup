@@ -41,3 +41,5 @@ regions[homepage_right_spif]  = Homepage Right (SPIF)
 
 regions[left_column]  = Left Column
 regions[right_column] = Right Column
+
+regions[news_events_col]  = News & Events Column
