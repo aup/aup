@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Enables easily themable nodequeue blocks that are completely independent of views.
+ *
+ * Provides a default set of treatments which can be applied to nodequeues, but also
+ * provides a hook_nodequeue_block_treatments() for developers to define their own
+ * treatments. See nodequeue_block.default.php in the includes file for an example on
+ * how to create your own block treatment.
+ *
+ * @todo Currently deleting a nodequeue causes problems, since there is no hook for
+ *   for our module to be notified when a nodequeue is deleted orphan block entries
+ *   are introduced. This needs to be investigated further, it doesn't cause any
+ *   problems but the nodequeue_blocks table begins to fill up. One solution is to
+ *   build an administration area to allow the user to delete orphan blocks, its not
+ *   ideal.
+ * @todo When there is a brand new nodequeue (with no nodes in it) and it's block is 
+ *   enabled, if one of the treatments calls upon nodequeue_load_random_node() in the
+ *   nodequeue module, an PHP "foreach" error occurs. Need to investigate if this is
+ *   our problem or nodequeue's problem.
+ * @todo Take all database calls and move them to their own functions within
+ *   nodequeue_block.admin.model.inc.
+ * @todo Provide a few more treatments based on the options provided in nodequeue's
+ *   README.txt file.
+ */
+
+require_once 'includes/nodequeue_block.admin.inc';
+require_once 'includes/nodequeue_block.admin.model.inc';
+require_once 'includes/nodequeue_block.model.inc';
+require_once 'includes/nodequeue_block.defaults.inc';
+
+/**
+ * Implementation of hook_menu().
+ */
+function nodequeue_block_menu() {
+	
+	$items = array();
+	
+	$admin_access = array('administer nodequeue');
+	
+	$items['admin/structure/nodequeue/%nodequeue/blocks'] = array(
+		'title' => t('Block'),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('nodequeue_block_admin_form', 3),
+		'access arguments' => $admin_access,
+		'type' => MENU_LOCAL_TASK,
+		'weight' => 1000,
+	);
+	
+	return $items;
+	
+}
+
+
+/**
+ * Implementation of hook_block_info().
+ */
+function nodequeue_block_block_info() {
+	
+	$enabled_blocks = nodequeue_block_enabled_blocks();		
+	
+	$blocks = array();
+
+	if (isset($enabled_blocks->{'#blocks'})) {
+		foreach ($enabled_blocks->{'#blocks'} as $enabled_block)
+			$blocks[$enabled_block->qbid] = array(
+				'info' => t($enabled_block->{'#queue'}->title .' (nodequeue block)'),
+				'cache' => DRUPAL_NO_CACHE
+			);
+	}
+	
+
+	return $blocks;
+	
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function nodequeue_block_block_view($delta = '') {		
+	
+	$enabled_block = nodequeue_block_get_block($delta);
+
+	$block['subject'] = t($enabled_block->{'#queue'}->title);
+	$block['content'] = theme((string) $enabled_block->{'#theme_hook'}, (array)$enabled_block);
+	
+	return $block;
+	
+}

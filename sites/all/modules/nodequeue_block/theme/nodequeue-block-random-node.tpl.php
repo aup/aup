@@ -1,0 +1,1 @@
+<?php if(isset($random_node)): echo $random_node; endif; ?>

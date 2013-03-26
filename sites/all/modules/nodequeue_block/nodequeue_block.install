@@ -1,0 +1,52 @@
+<?php
+
+function nodequeue_block_schema() {
+	
+	$schema = array();
+	
+	$schema['nodequeue_block'] = array(
+		'description' => t('Base table for queue blocks and their treatments.'),
+		'fields' => array(
+			'qbid' => array(
+				'description' => t('The primary identifier for a queue block.'),
+				'type' => 'serial',
+				'unsigned' => true,
+				'not null' => true,
+			),
+			'qid' => array(
+				'description' => t('The current {nodequeue_queue}.qid identifier.'),
+				'type' => 'int',
+				'unsigned' => true,
+				'not null' => true,
+				'default' => 0,
+			),
+			'enabled' => array(
+				'description' => t('Boolean (0 = false, 1 = true) indicating whether or not the current queue will display a block.'),
+				'type' => 'int',
+				'length' => 'tiny',
+				'unsigned' => true,
+				'not null' => true,
+				'default' => 0,
+			),
+			'block_treatment' => array(
+				'description' => t('String representing the theme hook to the treatment being applied.'),
+				'type' => 'varchar',
+				'length' => '255',
+				'not null' => true,
+				'default' => '',
+			),
+		),
+		'primary key' => array('qbid'),
+	);
+	
+	return $schema;
+	
+}
+
+//function nodequeue_block_install() {
+//	drupal_install_schema('nodequeue_block');
+//}
+
+function nodequeue_block_uninstall() {
+	drupal_uninstall_schema('nodequeue_block');
+}

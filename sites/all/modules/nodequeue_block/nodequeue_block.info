@@ -1,0 +1,14 @@
+; $Id$
+name = Nodequeue Block
+description = "Make custom blocks out of nodequeues."
+core = 7.x
+
+; This will be "Nodequeue" once a production release is ready and submitted to Drupal.org
+package = "mStoner"
+
+; Version will be removed once a production release is ready and submitted to Drupal.org
+version = "7.x-1.0 Beta"
+
+dependencies[] = nodequeue
+
+files[] = nodequeue_block.module

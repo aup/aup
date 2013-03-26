@@ -1,0 +1,13 @@
+Requirements
+------------
+
+This module requires Drupal 6 & nodequeue
+
+Installation
+------------
+
+1. Move this module into either the modules or sites/all/modules directory.
+2. Enable the module on administer >> site building >> modules.
+3. Create a nodequeue on administer >> content >> nodequeue.
+4. View or edit the nodequeue to view the blocks tab.
+5. On the blocks page select enable, the desired treatment, and save.
