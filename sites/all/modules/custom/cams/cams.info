@@ -1,0 +1,6 @@
+name = CAMS
+description = Provides integration with CAMS (Student Information System)
+package = AUP
+core = 7.x
+dependencies[] = aup_custom
+configure = admin/config/aup/cams

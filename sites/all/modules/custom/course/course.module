@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * @file
+ * Course
+ * Implements courses and a course catalog
+ */
+
+/**
+ * Implements hook_help().
+ */
+function course_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#course":
+      return '<p>' . t("Implements courses and a course catalog")
+      . '</p>';
+    break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function course_menu() {
+  $items = array();
+
+  $items['admin/config/aup/course'] = array(
+    'title' => 'Course',
+    'description' => 'Configuration for the Course module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('course_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'course.admin.inc',
+  );
+
+  // TEMP.
+  $items['delete/course-master'] = array(
+    'title' => 'Course Master Deletion',
+    'page callback' => 'course_master_delete',
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_CALLBACK,
+    'file' => 'course.cron.inc',
+  );
+  
+  // TEMP.
+  $items['delete/course'] = array(
+  		'title' => 'Course  Deletion',
+  		'page callback' => 'course_delete',
+  		'access arguments' => array('access administration pages'),
+  		'type' => MENU_CALLBACK,
+  		'file' => 'course.cron.inc',
+  );  
+
+  return $items;
+}
+
+/**
+ * Implements hook_cronapi().
+ */
+function course_cronapi($op, $function = NULL) {
+  switch ($op) {
+    case 'list':
+      $list = array(
+        'course_master_sync' => 'Course Master Synchronization with CAMS',
+        'course_sync' => 'Course Synchronization with CAMS',
+      );
+      return $list;
+
+    case 'rule':
+      switch ($function) {
+        case 'course_master_sync':
+          return '0 8 * * *';
+
+        case 'course_sync':
+          return '30 8 * * *';
+
+      }
+      break;
+
+    case 'execute':
+      switch ($function) {
+        case 'course_master_sync':
+          require_once drupal_get_path('module', 'course') . '/course.cron.inc';
+          course_master_sync_all();
+          break;
+
+        case 'course_sync':
+          require_once drupal_get_path('module', 'course') . '/course.cron.inc';
+          course_sync_all();
+          break;
+
+      }
+      break;
+
+    case 'settings':
+      switch ($function) {
+        case 'course_master_sync':
+        case 'course_sync':
+          return array('enabled' => FALSE);
+
+      }
+
+    case 'configure':
+      switch ($function) {
+        case 'course_master_sync':
+        case 'course_sync':
+          return 'admin/config/aup/course';
+
+      }
+  }
+}

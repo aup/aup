@@ -1,0 +1,6 @@
+name = Course
+description = Implements courses and a course catalog
+package = AUP
+core = 7.x
+dependencies[] = aup_custom
+dependencies[] = cams
