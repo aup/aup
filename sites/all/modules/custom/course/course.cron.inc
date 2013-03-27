@@ -6,222 +6,194 @@
  */
 
 /**
- * Synchronizes all Course Masters with CAMS.
+ * Synchronizes all Courses with CAMS.
  */
-function course_master_sync_all() {
-  $start_time = REQUEST_TIME;
-  $rc = WATCHDOG_INFO;
-  watchdog('course_master_sync', 'Task started');
+function course_sync() {
+  aup_custom_task_start();
 
   if (!cams_is_available()) {
-    $rc = WATCHDOG_ERROR;
-    $report[] = '[ERROR] CAMS is not available';
-  }
-  else {
-    $result = db_query("UPDATE {node} SET status=0 WHERE type='course_master'");
-    $num_course_masters = $result->rowCount();
-    $report[] = "[INFO] $num_course_masters  published course masters found in Drupal.";
-
-    $course_masters = cams_query('course_master', 'get');
-    $report[] = "[INFO] " . count($course_masters) . " active course masters found in CAMS.";
-
-    if ($course_masters) {
-      foreach ($course_masters as $course_master) {
-        $report = array_merge($report, course_master_sync($course_master));
-      }
-    }
-
-    $result = db_query("SELECT title FROM {node} WHERE type='course_master' AND status=0");
-    $unpublished = array();
-    while ($title = $result->fetchField()) {
-      $unpublished[] = $title;
-    }
-    $report[] = t("[INFO] @count unpublished course masters:<br/>!list", array(
-                  '@count' => (int) count($unpublished),
-                  '!list'  => implode('<br/>', $unpublished)));
-  }
-
-  // Report e-mail.
-  $id = 'course_master_sync_all_mail';
-  $subject = t('Course Master Synchronization Report');
-  $to = variable_get('course_master_sync_all_mail_to', '');
-  $body = implode('<br/>', $report);
-  if (!aup_send_report_email($id, $subject, $to, $body, $rc)) {
-    $rc = WATCHDOG_ERROR;
-    $report[] = t('[ERROR] Unable to send the report by e-mail');
+    $report[] = t('[ERROR] CAMS is not available');
+    return aup_custom_task_end($report, WATCHDOG_ERROR);
   }
   
-  $msg = t('Task finished @status:<br/>!report', array(
-             '@status' => ($rc == WATCHDOG_ERROR) ? 'with error(s)' :
-                          (($rc == WATCHDOG_WARNING) ? 'with warning(s)' :
-                          'successfully'),
-             '!report' => implode('<br/>', $report)));
-  watchdog('course_master_sync', $msg, array(), $rc);
-  drupal_set_message($msg);
+  if (!$active_terms = cams_query('term', 'get', 'active')) {
+    $report[] = t('[ERROR] No active term found in CAMS');
+    return aup_custom_task_end($report, WATCHDOG_ERROR);
+  }
+
+  $terms = array();
+  foreach ($active_terms as $term) {
+    $terms[] = $term->name;
+  }
+  $report[] = t('[INFO] Active terms in CAMS: @terms', array(
+                  '@terms' => implode(', ', $terms)));
+  
+  /*
+   * Course Master Synchronization
+   */
+  /*$report[] = '';
+  $report[] = '[INFO] COURSE MASTERS SYNCHRONIZATION';
+
+  // Unpublish all course masters
+  $count = db_query("UPDATE {node} SET status=0 WHERE type='course_master'")->rowCount();
+  $report[] = "[INFO] $count published course masters found in Drupal.";
+  
+  // Update active course masters in CAMS
+  if (!$course_masters = cams_query('course_master', 'get')) {
+    $report[] = t('[ERROR] No active course master found in CAMS');
+    return aup_custom_task_end($report, WATCHDOG_ERROR);
+  }
+  else {
+    $report[] = "[INFO] " . count($course_masters) . " active course masters found in CAMS.";
+    foreach ($course_masters as $course_master) {
+    _course_master_sync($course_master, $report, $rc);
+    }
+  }
+  
+  // Report remaining unpublished course masters
+  $query = db_query("SELECT title FROM {node} WHERE type='course_master' AND status=0");
+  $unpublished = array();
+  while ($title = $query->fetchField()) {
+  	$unpublished[] = $title;
+  }
+  $report[] = t("[INFO] @count unpublished course masters:<br/>!list", array(
+    '@count' => (int) count($unpublished),
+    '!list'  => implode('<br/>', $unpublished)));*/
+  
+  /*
+   * Course Synchronization
+   */
+  $report[] = '';
+  $report[] = '[INFO] COURSE OFFERS SYNCHRONIZATION';
+  
+  // Unpublish all course offers
+  $count = db_query("UPDATE {node} SET status=0 WHERE type='course'")->rowCount();
+  $report[] = "[INFO] $count published course offers found in Drupal.";
+  
+  // Update active course offers in CAMS
+  foreach ($active_terms as $term) {
+    $courses = cams_query('course', 'get_offers', $term->id);
+    $report[] = t("[INFO] @count active courses for @term found in CAMS.", array(
+                    '@count' => count($courses),
+                    '@term'  => $term->name));
+    if ($courses) {
+      foreach ($courses as $course) {
+        _course_offer_sync($course, $report, $rc);
+        //break;
+      }
+    }
+  }
+
+  // Report remaining unpublished course offers
+  $query = db_query("SELECT title FROM {node} WHERE type='course' AND status=0");
+  $unpublished = array();
+  while ($title = $query->fetchField()) {
+    $unpublished[] = $title;
+  }
+  $report[] = t("[INFO] @count unpublished course:<br/>!list", array(
+                '@count' => (int) count($unpublished),
+                '!list'  => implode('<br/>', $unpublished)));
+  
+  return aup_custom_task_end($report);
 }
 
 /**
  * Synchronizes a Course Master with CAMS.
- * 
+ *
  * @param object $course
  *   A course master retrieved from CAMS
+ *   
+ * @param array $report
+ *   Synchronization report
+ *   
+ * @param int $rc
+ *   WATCHDOG_* status      
  */
-function course_master_sync($course) {
-  if (!is_object($course)) {
-    return FALSE;
-  }
+function _course_master_sync($course, &$report, &$rc) {
+	if (!is_object($course)) {
+		$rc = WATCHDOG_ERROR;
+		return FALSE;
+	}
 
-  $report = array();
-  $result = db_query('SELECT entity_id FROM {field_data_field_cams_id} 
-                       WHERE field_cams_id_value = :id', array(
-                         ':id' => $course->cams_id));
-  if ($nid = $result->fetchField()) {
+	// Load the node if it already exists
+	$query = db_query("SELECT entity_id FROM {field_data_field_cams_id}
+                      WHERE bundle='course_master'
+                        AND field_cams_id_value = :id", array(
+                    ':id' => $course->camsID));
+	if ($nid = $query->fetchField()) {
     $node = node_load($nid);
   }
 
-  // @ignore sniffer_files_linelength_toolong
-  // DEBUG watchdog('debug', '<pre>Course: ' . print_r($course, TRUE) . '</pre>');
-  // DEBUG watchdog('debug', '<pre>Node: ' . print_r($node, TRUE) . '</pre>');
-  $node->type = 'course_master';
-  $node->uid = 0;
-  $node->status = 1;
-  $node->field_course_code['und'][0]['value'] = $course->code;
-  $node->field_course_name['und'][0]['value'] = $course->name;
-  $node->field_course_description['und'][0]['value'] = utf8_encode($course->description);
-  $node->field_course_type['und'][0]['value'] = $course->type;
-  $node->field_course_credits['und'][0]['value'] = $course->credits;
-  $node->field_course_canrepeat['und'][0]['value'] = ($course->canrepeat == 'Yes') ? 1 : 0;
-  $node->field_course_level['und'][0]['value'] = $course->level;
-  $node->field_course_prerequisites['und'][0]['value'] = $course->prerequisites;
-  $node->field_course_corequisites['und'][0]['value'] = $course->corequisites;
-  $node->field_cams_id['und'][0]['value'] = $course->cams_id;
-  $node->field_cams_last_update['und'][0]['value'] = REQUEST_TIME;
-  if ($equivalencies = cams_query('course_master', 'get_equivalencies', $course->cams_id)) {
-    $i = 0;
-    foreach ($equivalencies as $equivalency) {
-      if ($equivalent_eid = db_query('SELECT entity_id FROM {field_data_field_cams_id}
-                              WHERE field_cams_id_value = :id', array(
-                                ':id' => $equivalency))->fetchField()) {
-        $node->field_course_equivalencies['und'][$i++]['target_id'] = $equivalent_eid;
+	// @ignore sniffer_files_linelength_toolong
+	// DEBUG watchdog('debug', '<pre>Course: ' . print_r($course, TRUE) . '</pre>');
+	// DEBUG watchdog('debug', '<pre>Node: ' . print_r($node, TRUE) . '</pre>');
+	$node->type = 'course_master';
+	$node->uid = 0;
+	$node->status = 1;
+	$node->field_course_code[LANGUAGE_NONE][0]['value'] = $course->code;
+	$node->field_course_name[LANGUAGE_NONE][0]['value'] = $course->name;
+	$node->field_course_description[LANGUAGE_NONE][0]['value'] = utf8_encode($course->description);
+	$node->field_course_discipline[LANGUAGE_NONE][0]['value'] = $course->discipline;
+	$node->field_course_type[LANGUAGE_NONE][0]['value'] = $course->type;
+	$node->field_course_credits[LANGUAGE_NONE][0]['value'] = $course->credits;
+	$node->field_course_canrepeat[LANGUAGE_NONE][0]['value'] = ($course->canRepeat == 'Yes') ? 1 : 0;
+	$node->field_course_level[LANGUAGE_NONE][0]['value'] = $course->level;
+	$node->field_course_prerequisites[LANGUAGE_NONE][0]['value'] = $course->prerequisites;
+	$node->field_course_corequisites[LANGUAGE_NONE][0]['value'] = $course->corequisites;
+	$node->field_cams_id[LANGUAGE_NONE][0]['value'] = $course->camsID;
+	$node->field_cams_last_update[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
+	if ($equivalencies = cams_query('course_master', 'get_equivalencies', $course->camsID)) {
+		$i = 0;
+		foreach ($equivalencies as $equivalency) {
+      if ($equivalent_eid = db_query("
+            SELECT entity_id FROM {field_data_field_cams_id}
+             WHERE bundle='course_master'
+               AND field_cams_id_value = :id", array(
+            ':id' => $equivalency))->fetchField()) {
+        $node->field_course_equivalencies[LANGUAGE_NONE][$i++]['target_id'] = $equivalent_eid;
       }
-    }
-  }
+		}
+	}
 
-  if ($department_eid = db_query('SELECT entity_id FROM {field_data_field_department_code}
-  		WHERE field_department_code_value = :id', array(
-  				':id' => $course->department))->fetchField()) {
-  				$node->field_course_department['und'][0]['target_id'] = $department_eid;
-  }
-  else {
-  	$node_department->type = 'department';
-  	$node_department->uid = 0;
-  	$node_department->status = 1;
-  	$node_department->field_department_name['und'][0]['value'] = $course->department;
-  	$node_department->field_department_code['und'][0]['value'] = $course->department;
-  	node_save($node_department);
-  	$report[] = t('[INFO] Department @department created', array(
-  			'@department' => $course->department));
-  	$node->field_course_department['und'][0]['target_id'] = $node_department->nid;
-  }
-    
   node_save($node);
 
   if (!$nid) {
-  	$report[] = t('[INFO] Course Master !course created', array(
-  			'!course' => $node->title));
+  			$report[] = t('[INFO] Course Master !course created', array(
+  					'!course' => $node->title));
   }
-  
-  return $report;
+  return TRUE;
 }
 
 /**
- * Synchronizes all Courses with CAMS.
- */
-function course_sync_all() {
-  $start_time = REQUEST_TIME;
-  $rc = WATCHDOG_INFO;
-  watchdog('course_sync', 'Task started');
-
-  if (!cams_is_available()) {
-    $rc = WATCHDOG_ERROR;
-    $report[] = t('[ERROR] CAMS is not available');
-  }
-  elseif (!$active_terms = cams_query('term', 'get', 'active')) {
-    $rc = WATCHDOG_ERROR;
-    $report[] = t('[ERROR] No active term found in CAMS');
-  }
-  else {
-    $terms = array();
-    foreach ($active_terms as $term) {
-      $terms[] = $term->name;
-    }
-    $report[] = t('[INFO] Active terms in CAMS: @terms', array(
-                    '@terms' => implode(', ', $terms)));
-
-    $result = db_query("UPDATE {node} SET status=0 WHERE type='course'");
-    $num_courses = $result->rowCount();
-    $report[] = "[INFO] $num_courses published courses found in Drupal.";
-    
-    foreach ($active_terms as $term) {
-      $courses = cams_query('course', 'get', $term->id);
-      $report[] = t("[INFO] @count active courses for @term found in CAMS.", array(
-                      '@count' => count($courses),
-                      '@term'  => $term->name));
-      if ($courses) {
-        foreach ($courses as $course) {
-          $report = array_merge($report, course_sync($course));
-        }
-      }
-    }
-
-    $result = db_query("SELECT title FROM {node} WHERE type='course' AND status=0");
-    $unpublished = array();
-    while ($title = $result->fetchField()) {
-      $unpublished[] = $title;
-    }
-    $report[] = t("[INFO] @count unpublished courses:<br/>!list", array(
-                  '@count' => (int) count($unpublished),
-                  '!list'  => implode('<br/>', $unpublished)));
-  }
-
-  // Report e-mail.
-  $id = 'course_sync_all_mail';
-  $subject = t('Course Synchronization Report');
-  $to = variable_get('course_sync_all_mail_to', '');
-  $body = implode('<br/>', $report);
-  if (!aup_send_report_email($id, $subject, $to, $body, $rc)) {
-    $rc = WATCHDOG_ERROR;
-    $report[] = t('[ERROR] Unable to send the report by e-mail');
-  }
-
-  $msg = t('Task finished @status:<br/>!report', array(
-             '@status' => ($rc == WATCHDOG_ERROR) ? 'with error(s)' :
-                          (($rc == WATCHDOG_WARNING) ? 'with warning(s)' :
-                          'successfully'),
-                          '!report' => implode('<br/>', $report)));
-  watchdog('course_sync', $msg, array(), $rc);
-  drupal_set_message($msg);
-}
-
-/**
- * Synchronizes a Course with CAMS.
+ * Synchronizes a Course Offer with CAMS.
  *
  * @param object $course
- *   A course retrieved from CAMS
+ *   A course offer retrieved from CAMS
+ *   
+  * @param array $report
+ *   Synchronization report
+ *   
+ * @param int $rc
+ *   WATCHDOG_* status
  */
-function course_sync($course) {
+function _course_offer_sync($course, &$report, &$rc) {
 	if (!is_object($course)) {
 		return FALSE;
 	}
 
 	$report = array();
-	
-	$result = db_query('SELECT entity_id FROM {field_data_field_cams_id}
-			WHERE field_cams_id_value = :id', array(
-					':id' => $course->cams_id));
-	if ($nid = $result->fetchField()) {
-		$node = node_load($nid);
-	}
+
+  // Load the node if it already exists
+  $query = db_query("
+    SELECT entity_id
+  		FROM {field_data_field_cams_id}
+     WHERE bundle='course'
+       AND field_cams_id_value = :id", array(
+    ':id' => $course->camsID)
+  );
+  if ($nid = $query->fetchField()) {
+    $node = node_load($nid);
+  }
 
 	// @ignore sniffer_files_linelength_toolong
 	// DEBUG watchdog('debug', '<pre>Course: ' . print_r($course, TRUE) . '</pre>');
@@ -229,56 +201,144 @@ function course_sync($course) {
 	$node->type = 'course';
 	$node->uid = 0;
 	$node->status = 1;
-	$node->field_course_description['und'][0]['value'] = utf8_encode($course->description);
-	$node->field_course_code['und'][0]['value'] = $course->code;
-	$node->field_course_name['und'][0]['value'] = $course->name;
-	$node->field_course_section['und'][0]['value'] = $course->section;
-	$node->field_course_credits['und'][0]['value'] = $course->credits;
-	$node->field_course_type['und'][0]['value'] = $course->type;
-	$node->field_course_level['und'][0]['value'] = $course->level;
-	$node->field_course_term['und'][0]['value'] = $course->term;
-	$node->field_course_canrepeat['und'][0]['value'] = ($course->canrepeat == 'Yes') ? 1 : 0;
-	$node->field_course_notes['und'][0]['value'] = $course->notes;
-	$node->field_cams_id['und'][0]['value'] = $course->cams_id;
-	$node->field_cams_last_update['und'][0]['value'] = REQUEST_TIME;
+	$node->field_course_term[LANGUAGE_NONE][0]['value'] = $course->term;
+	$node->field_course_code[LANGUAGE_NONE][0]['value'] = $course->code;
+	$node->field_course_name[LANGUAGE_NONE][0]['value'] = $course->name;
+	$node->field_course_section[LANGUAGE_NONE][0]['value'] = $course->section;
+	$node->field_course_description[LANGUAGE_NONE][0]['value'] = utf8_encode($course->description);
+	$node->field_course_discipline[LANGUAGE_NONE][0]['value'] = $course->discipline;
+	$node->field_course_type[LANGUAGE_NONE][0]['value'] = $course->type;
+	$node->field_course_credits[LANGUAGE_NONE][0]['value'] = $course->credits;
+	$node->field_course_canrepeat[LANGUAGE_NONE][0]['value'] = ($course->canRepeat == 'Yes') ? 1 : 0;
+	$node->field_course_level[LANGUAGE_NONE][0]['value'] = $course->level;
+	$node->field_course_notes[LANGUAGE_NONE][0]['value'] = $course->notes;
+	$node->field_course_examdate[LANGUAGE_NONE][0]['value'] = $course->examDate;
+	$node->field_cams_id[LANGUAGE_NONE][0]['value'] = $course->camsID;
+	$node->field_cams_last_update[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
 
-	if ($department_eid = db_query('SELECT entity_id FROM {field_data_field_department_code}
-			WHERE field_department_code_value = :id', array(
-					':id' => $course->department))->fetchField()) {
-					$node->field_course_department['und'][0]['target_id'] = $department_eid;
-	}
-	else {
-  	$node_department->type = 'department';
-  	$node_department->uid = 0;
-  	$node_department->status = 1;
-  	$node_department->field_department_name['und'][0]['value'] = $course->department;
-  	$node_department->field_department_code['und'][0]['value'] = $course->department;
-  	node_save($node_department);
-  	$report[] = t('[INFO] Department @department created', array(
-  			'@department' => $course->department));
-  	$node->field_course_department['und'][0]['target_id'] = $node_department->nid;
-	}
-	
-	// TODO
-	$node->field_course_examdate['und'][0]['value'] = $course->examdate;
+  // Course Master
+  $query = db_query("SELECT entity_id
+                       FROM {field_data_field_cams_id}
+                      WHERE bundle = 'course_master'
+                        AND field_cams_id_value = :id", array(
+                    ':id' => $course->masterID));
+  if ($eid = $query->fetchField()) {
+    $node->field_course_course_master[LANGUAGE_NONE][0]['target_id'] = $eid;
+  }
+  else {
+    $report[] = t('[WARNING] Course Master @course_master not found', array(
+      '@course_master' => $course->masterID));
+  }
 
-	if ($crosslisted_eid = db_query('SELECT entity_id FROM {field_data_field_cams_id}
-			WHERE field_cams_id_value = :id', array(
-					':id' => $course->crosslisted))->fetchField()) {
-    $node->field_course_crosslisted['und'][0]['target_id'] = $crosslisted_eid;
-	}
+  // Cross listed courses
+  $query = db_query("SELECT entity_id
+                       FROM {field_data_field_cams_id}
+                      WHERE bundle = 'course'
+                        AND field_cams_id_value = :id", array(
+                    ':id' => $course->crosslisted));
+  if ($eid = $query->fetchField()) {
+    $node->field_course_crosslisted[LANGUAGE_NONE][0]['target_id'] = $eid;
+  }
 
+  // Professors
+  unset($node->field_course_professors);
+  if ($professors = cams_query('course', 'get_professors', $course->code, $course->termID)) {
+    $i = 0;
+    foreach ($professors as $professor) {
+      $query = db_query("SELECT uid FROM {users}
+                          WHERE name = :netid", array(
+                        ':netid' => $professor->netID));
+      if ($uid = $query->fetchField()) {
+        $node->field_course_professors[LANGUAGE_NONE][$i++]['target_id'] = $uid;
+      }
+      else {
+        $report[] = t('[WARNING] Professor @professor not found', array(
+          '@professor' => "$professor->firstName $professor->lastName ($professor->netID)"));
+      }
+    }
+  }
 
-	if ($master_eid = db_query('SELECT entity_id FROM {field_data_field_cams_id}
-			WHERE field_cams_id_value = :id', array(
-					':id' => $course->masterID))->fetchField()) {
-    $node->field_course_course_master['und'][0]['target_id'] = $master_eid;
-	}
-	else {
-		$report[] = t('[WARNING] Course Master @course_master not found', array(
-				'@course_master' => $course->masterID));
-	}
-	
+  // Students
+  unset($node->field_course_students);
+  if ($students = cams_query('course', 'get_students', $course->code, $course->termID)) {
+    $i = 0;
+    foreach ($students as $student) {
+      $query = db_query("SELECT uid FROM {users}
+                          WHERE name = :netid", array(
+                        ':netid' => $student->netID));
+      if ($uid = $query->fetchField()) {
+        $node->field_course_students[LANGUAGE_NONE][$i++]['target_id'] = $uid;
+      }
+      else {
+        $report[] = t('[WARNING] Student @student not found', array(
+          '@student' => $student->netID));
+      }
+    }
+  }
+
+  // Book List
+  //watchdog('debug', '<pre>'.print_r($node->field_course_books, true).'</pre>');
+  unset($node->field_course_books);
+  if ($books = cams_query('course', 'get_book_list', $course->code, $course->termID)) {
+    foreach ($books as $book) {
+      $values = array(
+        'field_name' => 'field_course_books',
+        'field_course_book_title' => array(
+          LANGUAGE_NONE => array(array('value' => $book->title)),
+        ),
+        'field_course_book_author' => array(
+          LANGUAGE_NONE => array(array('value' => $book->author)),
+        ),
+        'field_course_book_publisher' => array(
+          LANGUAGE_NONE => array(array('value' => $book->publisher)),
+        ),
+        'field_course_book_isbn' => array(
+          LANGUAGE_NONE => array(array('value' => $book->ISBN)),
+        ),
+      );
+      $entity = entity_create('field_collection_item', $values);
+      $entity->setHostEntity('node', $node);
+      $entity->save();
+    }
+  }
+
+  // Schedules
+  unset($node->field_course_schedule);
+  if ($schedules = cams_query('course', 'get_schedules', $course->code, $course->termID)) {
+  	foreach ($schedules as $schedule) {
+  		// DEBUG   		  		
+  		watchdog('debug', 'Schedule:<pre>' . print_r($schedule, TRUE) . '</pre>');
+  		/*if (!$room_eid = db_query('SELECT entity_id FROM {field_data_field_room_code}
+  				WHERE field_room_code_value = :id', array(
+  						':id' => $schedule->room))->fetchField()) {
+        $node_room = new stdClass();
+  			$node_room->type = 'room';
+  			$node_room->uid = 0;
+  			$node_room->status = 1;
+  			$node_room->field_room_code[LANGUAGE_NONE][0]['value'] = $schedule->room;
+  			node_save($node_room);
+  			$report[] = t('[INFO] Room @room created', array(
+  					'@room' => $schedule->room));
+  			$room_eid = $node_room->nid;
+  		}
+  		$values = array();
+      $values['field_name'] = 'field_course_schedule';
+      $values['field_course_schedule_room'][LANGUAGE_NONE][0]['target_id'] = $room_eid;
+      $i = 0;
+      foreach(str_split($schedule->OfferDays) as $offerDay) {
+      	if ($offerDay = strtoupper(cams_query('convert', 'camsday2phpday', $offerDay, FALSE))) {
+      		$values['field_course_schedule_days'][LANGUAGE_NONE][$i++]['value'] = $offerDay;
+      	}
+      }
+
+      // DEBUG
+      watchdog('debug', '<pre>' . print_r($values, TRUE) . '</pre>');
+      $entity = entity_create('field_collection_item', $values);
+      $entity->setHostEntity('node', $node);
+      $entity->save();*/
+  	}
+  }
+  
 	node_save($node);
 
 	if (!$nid) {
@@ -293,8 +353,8 @@ function course_sync($course) {
  * TEMP.
  */
 function course_master_delete() {
-  $result = db_query("SELECT nid FROM {node} WHERE type IN ('course_master')");
-  while ($nid = $result->fetchField()) {
+  $query = db_query("SELECT nid FROM {node} WHERE type IN ('course_master')");
+  while ($nid = $query->fetchField()) {
     node_delete($nid);
   }
   return 'OK';
@@ -304,8 +364,8 @@ function course_master_delete() {
  * TEMP.
  */
 function course_delete() {
-	$result = db_query("SELECT nid FROM {node} WHERE type IN ('course')");
-	while ($nid = $result->fetchField()) {
+	$query = db_query("SELECT nid FROM {node} WHERE type IN ('course')");
+	while ($nid = $query->fetchField()) {
 		node_delete($nid);
 	}
 	return 'OK';
