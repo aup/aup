@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file
+ * CAMS
+ * Provides integration with CAMS (Student Information System)
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function cams_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    // Ensure translations don't break at install time.
+    $t = get_t();
+
+    $host = variable_get('cams_server', '');
+    $db = variable_get('cams_database', '');
+    $user = variable_get('cams_username', '');
+
+    try {
+      if (!$connection = cams_is_available()) {
+        throw new Exception($t('No CAMS connection when checking requirements.'));
+      }
+    }
+    catch (Exception $e) {
+      watchdog('cams', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+    }
+
+    if ($connection) {
+      $severity = REQUIREMENT_OK;
+      // @ignore sniffer_semantics_functioncall_functionalias
+      $version = mssql_fetch_array(mssql_query('SELECT @@VERSION'));
+      $version = $version[0];
+      $value = $t('The CAMS server answered: %version', array('%version' => $version));
+    }
+    else {
+      $severity = REQUIREMENT_ERROR;
+      $value = $t('CAMS is unreacheable.');
+    }
+
+    $item_list = array(
+      // 'title' => t('Connection parameters'),
+      'items' => array(
+        $t('Host: %host', array('%host' => $host)),
+        $t('Database: %db', array('%db' => $db)),
+        $t('User: %user', array('%user' => $user))),
+    );
+
+    $requirements['cams'] = array(
+      'title' => $t('CAMS'),
+      'value' => $value,
+      'description' => theme('item_list', $item_list),
+      'severity' => $severity,
+    );
+  }
+
+  return $requirements;
+}

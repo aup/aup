@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * AUP Customization
+ * Various Drupal customizations
+ */
+
+/**
+ * Implements hook_help().
+ */
+function aup_custom_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#aup_custom":
+      return '<p>' . t("Various Drupal customizations")
+      . '</p>';
+    break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function aup_custom_menu() {
+  $items = array();
+
+  $items['admin/config/aup'] = array(
+    'title' => 'AUP',
+    'description' => 'Settings for modules developed by AUP.',
+    'position' => 'left',
+    'weight' => -15,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  return $items;
+}
+
+/**
+ * Send a customized report e-mails
+ * 
+ * @return bool
+ *   TRUE is the e-mail was properly sent, FALSE otherwise.
+ */
+function aup_send_report_email($id = '', $subject= '', $to = '', $body = '', $rc = WATCHDOG_INFO) {
+	if (!$id | !$subject | !$to | !$body) {
+		return FALSE;
+	}
+	
+	$site_name = variable_get('site_name', '');
+	$site_mail = variable_get('site_mail', '');
+	$from = "$site_name <$site_mail>";
+	
+	switch ($rc) {
+		case WATCHDOG_ERROR:
+			$subject = "[ERROR] $subject";
+			break;
+	
+		case WATCHDOG_WARNING:
+			$subject = "[WARNING] $subject";
+			break;
+			
+	}
+	
+	$message = array(
+			'id' => $id,
+			'to' => $to,
+			'subject' => $subject,
+			'body' => array($body),
+			'headers' => array(
+					'From' => $from,
+					'Sender' => $from,
+					'Return-Path' => $from,
+			),
+	);
+	$system = drupal_mail_system($id, '');
+	$message = $system->format($message);
+	
+	if (!$system->mail($message)) {
+    return FALSE;
+	}	
+	
+	return TRUE;	
+}

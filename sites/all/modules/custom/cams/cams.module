@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * @file
+ * CAMS
+ * Provides integration with CAMS (Student Information System)
+ */
+
+/**
+ * Implements hook_help().
+ */
+function cams_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#cams":
+      return '<p>' . t("Provides integration with CAMS (Student Information System)")
+      . '</p>';
+    break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function cams_menu() {
+  $items = array();
+
+  $items['admin/config/aup/cams'] = array(
+    'title' => 'CAMS',
+    'description' => 'Configuration for the CAMS module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cams_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'cams.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Check if connection to CAMS is available.
+ * 
+ * @return Boolean
+ *   TRUE if CAMS is available
+ *   FALSE otherwise   
+ */
+function cams_is_available() {
+  $server = variable_get('cams_server', NULL);
+  $database = variable_get('cams_database', NULL);
+  $username = variable_get('cams_username', NULL);
+  $password = variable_get('cams_password', NULL);
+
+  // @ignore sniffer_semantics_functioncall_functionalias
+  if (!@mssql_connect($server, $username, $password)) {
+    return FALSE;
+  }
+  // @ignore sniffer_semantics_functioncall_functionalias
+  return mssql_select_db($database);
+}
+
+/**
+ * Queries to the CAMS server.
+ *
+ * @param string $type 
+ *   Query Type (convert, course, professor, room, student, sync or term)
+ *   
+ * @param string $action
+ *   Query Action (get,...)
+ * 
+ * @param array $parameters
+ *   Optional array of parameters of the query
+ *
+ * @return Boolean
+ *   The result of the query or FALSE is the query went wrong.
+ */
+function cams_query($type = NULL, $action = NULL, $parameters = array()) {
+  if (!cams_is_available() || !$type || !$action) {
+    return FALSE;
+  }
+
+  $args = func_get_args();
+  $type = array_shift($args);
+  $action = array_shift($args);
+
+  module_load_include('inc', 'cams', "includes/cams.$type");
+
+  $function = 'cams_' . $type . '_' . $action;
+  // @ignore sniffer_files_linelength_toolong
+  // DEBUG. drupal_set_message(t('Calling @function', array('@function' => "$function(" . implode(', ', $args) . ')')));
+
+  $result = call_user_func_array($function, $args);
+  if ($result === FALSE) {
+    $error = t('Error executing @function(@args)', array(
+                 '@function' => $function,
+                 '@args'     => implode(', ', $args),
+             )
+    );
+    watchdog('cams_query', $error, array(), WATCHDOG_ERROR);
+    drupal_set_message(t("CAMS Query: @error", array('@error' => $error)), 'error');
+  }
+
+  return $result;
+}
