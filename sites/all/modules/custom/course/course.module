@@ -62,32 +62,23 @@ function course_cronapi($op, $function = NULL) {
   switch ($op) {
     case 'list':
       $list = array(
-        'course_master_sync' => 'Course Master Synchronization with CAMS',
         'course_sync' => 'Course Synchronization with CAMS',
       );
       return $list;
 
     case 'rule':
       switch ($function) {
-        case 'course_master_sync':
-          return '0 8 * * *';
-
         case 'course_sync':
-          return '30 8 * * *';
+          return '0 8 * * *';
 
       }
       break;
 
     case 'execute':
       switch ($function) {
-        case 'course_master_sync':
-          require_once drupal_get_path('module', 'course') . '/course.cron.inc';
-          course_master_sync_all();
-          break;
-
         case 'course_sync':
           require_once drupal_get_path('module', 'course') . '/course.cron.inc';
-          course_sync_all();
+          course_sync();
           break;
 
       }
@@ -95,7 +86,6 @@ function course_cronapi($op, $function = NULL) {
 
     case 'settings':
       switch ($function) {
-        case 'course_master_sync':
         case 'course_sync':
           return array('enabled' => FALSE);
 
@@ -103,7 +93,6 @@ function course_cronapi($op, $function = NULL) {
 
     case 'configure':
       switch ($function) {
-        case 'course_master_sync':
         case 'course_sync':
           return 'admin/config/aup/course';
 

@@ -39,20 +39,46 @@ function aup_custom_menu() {
 }
 
 /**
- * Send a customized report e-mails
- * 
+ * TODO
+ *
  * @return bool
- *   TRUE is the e-mail was properly sent, FALSE otherwise.
+ *   TRUE TODO
  */
-function aup_send_report_email($id = '', $subject= '', $to = '', $body = '', $rc = WATCHDOG_INFO) {
-	if (!$id | !$subject | !$to | !$body) {
+function aup_custom_task_start() {
+  $trace = debug_backtrace();
+  $caller = array_shift($trace);
+  $caller = array_shift($trace);
+  if (!$function = $caller['function']) {
+	  watchdog('aup_custom', 'Missing calling function', array(), WATCHDOG_ERROR);
+	  return FALSE;
+	}
+	watchdog($function, 'Task started');
+}
+
+/**
+ * TODO
+ *
+ * @return bool
+ *   TRUE TODO
+ */
+function aup_custom_task_end($report = array(), $rc = WATCHDOG_INFO) {
+	$trace = debug_backtrace();
+	$caller = array_shift($trace);
+	$caller = array_shift($trace);
+	if (!$function = $caller['function']) {
+		watchdog('aup_custom', 'Missing calling function', array(), WATCHDOG_ERROR);
 		return FALSE;
 	}
 	
+	// Report e-mail.
+	$id = $function . '_mail';
 	$site_name = variable_get('site_name', '');
 	$site_mail = variable_get('site_mail', '');
 	$from = "$site_name <$site_mail>";
-	
+	$subject =  variable_get($function . '_mail_subject', "Report of $function");
+	$to = variable_get($function . '_mail_to', $site_mail);
+	$body = implode('<br/>', $report);
+
 	switch ($rc) {
 		case WATCHDOG_ERROR:
 			$subject = "[ERROR] $subject";
@@ -61,7 +87,7 @@ function aup_send_report_email($id = '', $subject= '', $to = '', $body = '', $rc
 		case WATCHDOG_WARNING:
 			$subject = "[WARNING] $subject";
 			break;
-			
+				
 	}
 	
 	$message = array(
@@ -72,15 +98,24 @@ function aup_send_report_email($id = '', $subject= '', $to = '', $body = '', $rc
 			'headers' => array(
 					'From' => $from,
 					'Sender' => $from,
-					'Return-Path' => $from,
+					'Return-Path' => $site_mail,
 			),
 	);
 	$system = drupal_mail_system($id, '');
 	$message = $system->format($message);
 	
 	if (!$system->mail($message)) {
-    return FALSE;
-	}	
+		$rc = WATCHDOG_ERROR;
+		$report[] = t('[ERROR] Unable to send the report by e-mail');
+	}
 	
-	return TRUE;	
+	$msg = t('Task finished @status:<br/>!report', array(
+			'@status' => ($rc == WATCHDOG_ERROR) ? 'with error(s)' :
+			(($rc == WATCHDOG_WARNING) ? 'with warning(s)' :
+					'successfully'),
+			'!report' => implode('<br/>', $report)));
+	watchdog($function, $msg, array(), $rc);
+	drupal_set_message($msg);
+	
+	return ($rc == WATCHDOG_INFO ? TRUE : FALSE);
 }

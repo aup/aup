@@ -7,50 +7,50 @@
  */
 
 /**
- * Retrieves courses.
+ * Retrieves course offers of a give term.
  *
- * @param string $term
- *   TODO
+ * @param string $termID
+ *   Term ID of the courses (Format: YYYYMM)
  *   
  * @param bool $onlyDisplayInPortal
- *   TODO
+ *   Only retrieves the courses meant to be displayed on the CAMS portal
  *   
  * @return array
  *   An array of courses indexed by course code
  */
-function cams_course_get($term = NULL, $onlyDisplayInPortal = TRUE) {
-  if (!cams_is_available()) {
-  return FALSE;
-  
+function cams_course_get_offers($termID = NULL, $onlyDisplayInPortal = TRUE) {
+  if (!cams_is_available()) { 
+    return FALSE; 
   }
-  if (!$term) {
+  if (!$termID) { 
     $term = cams_query('term', 'get');
+    $termID = $term->id; 
   }
   
   $sql =  "
     SELECT CAMS_SROffer_View.Department+CAMS_SROffer_View.Course+CAMS_SROffer_View.Section AS code,
-           CAMS_SROffer_View.SROfferID AS cams_id, 
-           CAMS_SROffer_View.Department AS department,
+           CAMS_SROffer_View.SROfferID AS camsID, 
+           CAMS_SROffer_View.Department AS discipline,
            CAMS_SROffer_View.CourseType AS type,
            CAMS_SROffer_View.Section AS section,
            CAMS_SROffer_View.CourseName AS name,
            CAMS_SROffer_View.Credits AS credits,
            CAMS_SROffer_View.Grouping AS grouping,
            CAMS_SROffer_View.Notes AS notes,
-           CONVERT(VARCHAR(10), CAMS_SROffer_View.StartDate, 126) AS StartDate,
-           CONVERT(VARCHAR(10), CAMS_SROffer_View.EndDate, 126) AS EndDate,
-           CAMS_SROffer_View.CanRepeat AS canrepeat,
+           CONVERT(VARCHAR(10), CAMS_SROffer_View.StartDate, 120) AS startDate,
+           CONVERT(VARCHAR(10), CAMS_SROffer_View.EndDate, 120) AS endDate,
+           CAMS_SROffer_View.CanRepeat AS canRepeat,
            CAMS_SROffer_View.CourseDivision AS division,
            CAMS_SROffer_View.Status AS status,
            CAMS_SROffer_View.GPAGrouping AS level,
-           CAMS_SROffer_View.Semester AS termid,
+           CAMS_SROffer_View.Semester AS termID,
            CAMS_SROffer_View.TextTerm AS term,
-           CONVERT(VARCHAR(19), CAMS_SROffer_View.ExamDate, 126) AS examdate,
+           CONVERT(VARCHAR(19), CAMS_SROffer_View.ExamDate, 120) AS examDate,
            CAMS_SRMaster_View.CourseDescription AS description,
            CAMS_SROffer_View.CrossListedID AS crosslisted,
            CAMS_SROffer_View.SRMasterID AS masterID
       FROM CAMS_SROffer_View INNER JOIN CAMS_SRMaster_View ON CAMS_SROffer_View.SRMasterID = CAMS_SRMaster_View.SRMasterID
-     WHERE CAMS_SROffer_View.Semester = '$term' 
+     WHERE CAMS_SROffer_View.Semester = '$termID' 
        AND CAMS_SROffer_View.CourseType <> 'BIL'
        AND CAMS_SROffer_View.CourseType <> 'STACT'
        AND CAMS_SROffer_View.Status = 'Open'";
@@ -72,42 +72,197 @@ function cams_course_get($term = NULL, $onlyDisplayInPortal = TRUE) {
 }
 
 /**
- * TODO
+ * Retrieves schedules of a course offer
+ *
+ * @param string $CourseCode
+ *   Course Code (Example: AB1000C)
+ *
+ * @param string $termID
+ *   Term ID of the courses (Format: YYYYMM)
+ *   
+ * @return array
+ *   An array of schedules
  */
-function cams_course_get_schedules($courseName = NULL, $term = NULL, $onlyDisplayInPortal = TRUE) {
-  if (!cams_is_available() || !$courseName) { return FALSE; }
-  if (!$term) { $term = cams_query('term', 'get'); }
-  
-  $sql = "
+function cams_course_get_schedules($courseCode = NULL, $termID = NULL) {
+  if (!cams_is_available() || !$courseCode) {
+    return FALSE;
+  }
+  if (!$termID) {
+    $term = cams_query('term', 'get');
+    $termID = $term->id;
+  }
+
+  /*$sql = "
     SELECT DISTINCT CAMS_SROfferFacultyTeach_View.facultyName instructor,
-           lower(FacultyPortal.ActiveDirectoryIdentifier) AS netid,
+           lower(FacultyPortal.ActiveDirectoryIdentifier) AS netID,
            CAMS_SROfferSchedule_View.RoomName AS room,
            CAMS_SROfferSchedule_View.SROfferScheduleID AS scheduleID,
-           CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeFrom, 108) AS OfferTimeFrom,
-           CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeTo, 108) AS OfferTimeTo,
-           CAMS_SROfferSchedule_View.OfferDays
+           CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeFrom, 108) AS offerTimeFrom,
+           CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeTo, 108) AS offerTimeTo,
+           CAMS_SROfferSchedule_View.OfferDays AS offerDays
       FROM CAMS_SROffer_View INNER JOIN CAMS_SROfferSchedule_View
            ON CAMS_SROffer_View.SROfferID = CAMS_SROfferSchedule_View.SROfferID
-           INNER JOIN CAMS_SROfferFacultyTeach_View ON CAMS_SROfferFacultyTeach_View.SROfferID = CAMS_SROfferSchedule_View.SROfferID        
-           INNER JOIN FacultyPortal ON FacultyPortal.FacultyID = CAMS_SROfferFacultyTeach_View.FacultyID
+           LEFT JOIN CAMS_SROfferFacultyTeach_View ON CAMS_SROfferFacultyTeach_View.SROfferID = CAMS_SROfferSchedule_View.SROfferID        
+           LEFT JOIN FacultyPortal ON ISNULL(FacultyPortal.FacultyID, 0) = ISNULL(CAMS_SROfferFacultyTeach_View.FacultyID, 0)
            AND CAMS_SROffer_View.SemesterID = CAMS_SROfferSchedule_View.TermCalendarID
-     WHERE CAMS_SROffer_View.Semester = '$term'
-       AND CAMS_SROffer_View.Department+CAMS_SROffer_View.Course+CAMS_SROffer_View.Section = '$courseName'";  
+     WHERE CAMS_SROffer_View.Semester = '$termID'
+       AND CAMS_SROffer_View.Department+CAMS_SROffer_View.Course+CAMS_SROffer_View.Section = '$courseCode'";*/
+
+  $sql = "
+  SELECT DISTINCT
+  CAMS_SROfferSchedule_View.RoomName AS room,
+  CAMS_SROfferSchedule_View.SROfferScheduleID AS scheduleID,
+  CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeFrom, 108) AS offerTimeFrom,
+  CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeTo, 108) AS offerTimeTo,
+  CAMS_SROfferSchedule_View.OfferDays AS offerDays
+  FROM CAMS_SROffer_View INNER JOIN CAMS_SROfferSchedule_View
+  ON CAMS_SROffer_View.SROfferID = CAMS_SROfferSchedule_View.SROfferID
+  AND CAMS_SROffer_View.SemesterID = CAMS_SROfferSchedule_View.TermCalendarID
+  WHERE CAMS_SROffer_View.Semester = '$termID'
+  AND CAMS_SROffer_View.Department+CAMS_SROffer_View.Course+CAMS_SROffer_View.Section = '$courseCode'";
+
+  $query = mssql_query($sql);
   
-  if ($onlyDisplayInPortal) {
-  	$sql .= "
-  	   AND CAMS_SROffer_View.DisplayInPortal = 1";
+  $rs = array();
+  while ($line = mssql_fetch_object($query)) {
+    $rs[] = $line;
   }
   
-  $result = mssql_query($sql);
-  while ($schedule = mssql_fetch_object($result)) {
-    $schedules[$schedule->scheduleID][] = $schedule;
-  }
-  
-  return $schedules;
+  //watchdog('debug', '<pre>SCHEDULES'.print_r($rs, TRUE).'</pre>');
+  return array(); //$rs;
 }
 
-function cams_course_get_masters($term = NULL) {
+/**
+ * Retrieves the roster of a course offer
+ *
+ * @param string $CourseCode
+ *   Course Code (Example: AB1000C)
+ *
+ * @param string $termID
+ *   Term ID of the courses (Format: YYYYMM)
+ *
+ * @return array
+ *   An array of Student NetIDs
+ */
+function cams_course_get_students($courseCode = NULL, $termID = NULL) {
+	if (!cams_is_available() || !$courseCode) {
+		return FALSE;
+	}
+	if (!$termID) {
+		$term = cams_query('term', 'get'); $termID = $term->id;
+	}
+
+	$result = mssql_query("
+			SELECT 'a'+StudentID AS netID
+			FROM CAMS_StudentScheduleRpt_View ssr
+			INNER JOIN CAMS_SROffer_View o ON ssr.SROfferID = o.SROfferID
+			WHERE o.Semester = '$termID'
+			AND o.Department+o.Course+o.Section = '$courseCode'");
+
+	$rs = array();
+	while ($line = mssql_fetch_object($result)) {
+		$rs[] = $line->netID;
+	}
+
+	return $rs;
+}
+
+/**
+ * Retrieves the professors of a course offer
+ *
+ * @param string $CourseCode
+ *   Course Code (Example: AB1000C)
+ *
+ * @param string $termID
+ *   Term ID of the courses (Format: YYYYMM)
+ *
+ * @return array
+ *   An array of professors
+ */
+function cams_course_get_professors($courseCode = NULL, $termID = NULL) {
+	if (!cams_is_available() || !$courseCode) {
+		return FALSE;
+	}
+	if (!$termID) {
+		$term = cams_query('term', 'get'); $termID = $term->id;
+	}
+
+	$query = mssql_query("
+			SELECT DISTINCT LOWER(fp.PortalAlias) AS netID, LOWER(osf.FirstName) AS firstName, LOWER(osf.LastName) AS lastName
+			FROM CAMS_SROfferSchedule_Faculty_View osf 
+			     INNER JOIN FacultyPortal fp ON osf.FacultyID = fp.FacultyID
+			     INNER JOIN CAMS_SROffer_View o ON osf.SROfferID = o.SROfferID
+			WHERE o.Semester = '$termID'
+			AND o.Department+o.Course+o.Section = '$courseCode'");
+
+	$rs = array();
+	while ($line = mssql_fetch_object($query)) {
+		$line->firstName = ucwords($line->firstName);
+		$line->lastName = ucwords($line->lastName);
+		$rs[] = $line;
+	}
+
+	return $rs;
+}
+
+/*
+ * TODO
+*/
+function cams_course_get_book_list($courseCode = NULL, $termID = NULL) {
+	if (!cams_is_available() || !$courseCode) {
+		return FALSE;
+	}
+	if (!$termID) {
+		$term = cams_query('term', 'get'); $termID = $term->id;
+	}
+
+  $result = mssql_query("
+    SELECT ISBNNumber AS ISBN,
+           Publisher AS publisher,
+           BookTitle AS title,
+           BookCost AS cost,
+           Author AS author,
+           PublisherPhone AS phone
+      FROM CAMS_SROfferingBook_View ob
+           INNER JOIN CAMS_SROFFER_View o ON ob.SROfferID = o.SROfferID
+     WHERE o.Semester = '$termID'
+       AND o.Department+o.Course+o.Section = '$courseCode'");
+
+  $rs = array();
+  while ($line = mssql_fetch_object($result)) {
+    $rs[] = $line;
+  }
+
+  return $rs;
+}
+
+/*
+ * TODO
+*/
+function cams_course_get_fees($courseCode = NULL, $termID = NULL) {
+	if (!cams_is_available() || !$courseCode) {
+		return FALSE;
+	}
+	if (!$termID) {
+		$term = cams_query('term', 'get'); $termID = $term->id;
+	}
+
+  $result = mssql_query("
+    SELECT CourseFeesID AS ID, Transdoc, Amount, RefundType, FeeType, OptionalFee
+      FROM CAMS_CourseFees_View cf
+           INNER JOIN CAMS_SROFFER_View o ON cf.SROfferID = o.SROfferID
+     WHERE o.Semester = '$termID'
+       AND o.Department+o.Course+o.Section = '$courseCode'");
+
+  $rs = array();
+  while ($line = mssql_fetch_object($result)) {
+    $rs[] = $line;
+  }
+
+  return $rs;
+}
+
+/*function cams_course_get_masters($term = NULL) {
   if (!cams_is_available()) { return FALSE; }
   if (!$term) { $term = cams_query('term', 'get'); }
   $sql = "SELECT DISTINCT MajorDegree FROM CAMS_StudentProgram_View StuProgV 
@@ -123,9 +278,9 @@ function cams_course_get_masters($term = NULL) {
   }
   
   return $masters;
-}
+}*/
 
-function cams_course_get_majors($term = NULL) {
+/*function cams_course_get_majors($term = NULL) {
   if (!cams_is_available()) { return FALSE; }
   if (!$term) { $term = cams_query('term', 'get'); }
   $sql = "SELECT DISTINCT MajorDegree FROM CAMS_StudentProgram_View StuProgV 
@@ -141,9 +296,9 @@ function cams_course_get_majors($term = NULL) {
   }
   
   return $majors;
-}
+}*/
 
-function cams_course_get_minors($term = NULL) {
+/*function cams_course_get_minors($term = NULL) {
   if (!cams_is_available()) { return FALSE; }
   if (!$term) { $term = cams_query('term', 'get'); }
   $sql = "SELECT DISTINCT MinorDegree FROM CAMS_StudentProgram_View StuProgV 
@@ -159,12 +314,12 @@ function cams_course_get_minors($term = NULL) {
   }
   
   return $minors;
-}
+}*/
 
 /*
  * TODO
  */
-function cams_course_get_by_room($room, $termID = NULL) {
+/*function cams_course_get_by_room($room, $termID = NULL) {
   if (!cams_is_available() || !$room) { return FALSE; }
   if (!$termID) { $termID = cams_query('term', 'get'); }
 
@@ -189,91 +344,7 @@ function cams_course_get_by_room($room, $termID = NULL) {
 
   return $rs;
   
-}
-
-/*
- * TODO
- */
-function cams_course_get_students($camsID = NULL) {
-  if (!$camsID) {
-    return FALSE;
-  }
-
-  $result = mssql_query("
-      SELECT 'a'+StudentID AS netid
-      FROM CAMS_StudentScheduleRpt_View
-      WHERE SROfferID = $camsID");
-
-  $rs = array();
-  while ($line = mssql_fetch_object($result)) {
-    $rs[] = $line->netid;
-  }
-  
-  return $rs;
-}
-
-/*
- * TODO
- */
-function cams_course_get_professors($camsID = NULL) {
-  if (!$camsID) {
-    return FALSE;
-  }
-
-  $result = mssql_query("
-      SELECT DISTINCT fp.PortalAlias AS netid
-      FROM CAMS_SROfferSchedule_Faculty_View osf INNER JOIN FacultyPortal fp ON osf.FacultyID = fp.FacultyID 
-      WHERE SROfferID = $camsID");
-
-  $rs = array();
-  while ($line = mssql_fetch_object($result)) {
-    $rs[] = $line->netid;
-  }
-
-  return $rs;
-}
-
-/*
-* TODO
-*/
-function cams_course_get_book_list($camsID = NULL) {
-	if (!$camsID) {
-		return FALSE;
-	}
-
-	$result = mssql_query("
-      SELECT ISBNNumber, Publisher, BookTitle, BookCost, Author, PublisherPhone
-      FROM CAMS_SROfferingBook_View 
-      WHERE SROfferID = $camsID");
-
-	$rs = array();
-	while ($line = mssql_fetch_object($result)) {
-		$rs[] = $line;
-	}
-
-	return $rs;
-}
-
-/*
-* TODO
-*/
-function cams_course_get_fees($camsID = NULL) {
-	if (!$camsID) {
-		return FALSE;
-	}
-
-	$result = mssql_query("
-      SELECT Transdoc, Amount, RefundType, FeeType, OptionalFee
-      FROM CAMS_CourseFees_View 
-      WHERE SROfferID = $camsID");
-
-	$rs = array();
-	while ($line = mssql_fetch_object($result)) {
-		$rs[] = $line;
-	}
-
-	return $rs;
-}
+}*/
 
 /*
  * TODO
@@ -459,12 +530,3 @@ function _cams_course_sync($course) {
   
   return $msg;
 }
-
-function cams_course_delete() {
-  $rs = db_query("SELECT nid FROM {node} WHERE type IN ('course', 'course_schedule')");
-  while ($nid = db_result($rs)) {
-    node_delete($nid);
-  }
-  return 'OK';
-}
-  

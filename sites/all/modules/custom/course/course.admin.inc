@@ -16,21 +16,21 @@ function course_settings_form($form, &$form_state) {
     '#title' => t('Notifications'),
   );
 
-  $form['notification']['course_master_sync_all_mail_to'] = array(
+  $form['notification']['course_sync_mail_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject of the course synchronization script notification'),
+    '#default_value' => variable_get('course_sync_mail_subject', ''),
+    '#required' => TRUE,
+  );
+  
+  $form['notification']['course_sync_mail_to'] = array(
     '#type' => 'textarea',
-    '#title' => t('Notifications recipients for course master synchronization scripts'),
-    '#default_value' => variable_get('course_master_sync_all_mail_to', ''),
+    '#title' => t('Recipients of the course synchronization script notification'),
+    '#default_value' => variable_get('course_sync_mail_to', ''),
     '#description' => t('One e-mail per line.'),
     '#required' => TRUE,
   );
 
-  $form['notification']['course_sync_all_mail_to'] = array(
-  		'#type' => 'textarea',
-  		'#title' => t('Notifications recipients for course synchronization scripts'),
-  		'#default_value' => variable_get('course_sync_all_mail_to', ''),
-  		'#description' => t('One e-mail per line.'),
-  		'#required' => TRUE,
-  );
   
   return system_settings_form($form);
 }
