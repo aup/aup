@@ -45,7 +45,7 @@ function aup_implementation_menu() {
 	$items = array();
 	
 	$items['admin/config/mstoner/news-events'] = array(
-		'title' => 'Home',
+		'title' => 'News And Events',
 		'page callback' => 'drupal_get_form',
 		'page arguments' => array('news_events_administration'),
 		'access arguments' => array('administer news events'),

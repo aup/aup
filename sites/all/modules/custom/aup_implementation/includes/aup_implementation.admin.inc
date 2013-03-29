@@ -3,7 +3,7 @@
 /**
  * Helper: Home administration page callback
  */
-function aup_implementation_administration($form_state) {
+function news_events_administration($form_state) {
 
 	$nqr = new NodequeueQueues();
 	
@@ -181,7 +181,7 @@ function aup_implementation_administration($form_state) {
 	
 }
 
-function aup_implementation_administration_submit($form, &$form_state) {
+function news_events_administration_submit($form, &$form_state) {
 
 	$slideshow_qid = variable_get('news_events_slideshow_qid', 0);
 
