@@ -3,6 +3,7 @@
 # MODULE BOOTSTRAP
 require_once(drupal_get_path('module', 'aup_implementation').'/includes/aup_implementation.helper.inc');
 require_once('includes/aup_implementation.admin.inc');
+require_once('includes/aup_implementation.theme.inc');
 
 /**
  * Implementation of hook_theme
