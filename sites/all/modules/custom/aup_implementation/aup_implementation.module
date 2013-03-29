@@ -1,0 +1,58 @@
+<?php 
+
+# MODULE BOOTSTRAP
+require_once(drupal_get_path('module', 'aup_implementation').'/includes/aup_implementation.helper.inc');
+require_once('includes/aup_implementation.admin.inc');
+
+/**
+ * Implementation of hook_theme
+ */
+function aup_implemenation_theme($existing, $type, $theme, $path) {
+
+	$theme = array();
+	$path = drupal_get_path('module', 'aup_implementation') .'/theme';
+
+	$theme['news_events_slideshow'] = array(
+		'arguments' => array('nodes' => null),
+		'template' => 'news-events-slideshow',
+		'path' => $path,
+	);
+
+	return $theme;
+	
+}
+
+/**
+ * Implementation of hook_permission
+ */
+function aup_implementation_permission() {
+	
+	$perms = array();
+	  
+	$perms['administer news events'] = array(
+	    'title' => t('Administer the News Events Settings'),
+	  );
+	  
+	return $perms;
+	
+}
+
+/**
+ * Implementation of hook_menu
+ */
+function aup_implementation_menu() {
+	
+	$items = array();
+	
+	$items['admin/config/mstoner/news-events'] = array(
+		'title' => 'Home',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('news_events_administration'),
+		'access arguments' => array('administer news events'),
+		'type' => MENU_NORMAL_ITEM,
+		'weight' => -49
+	);
+	
+	return $items;
+	
+}
