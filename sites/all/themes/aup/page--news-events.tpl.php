@@ -1,3 +1,9 @@
+<?php 
+	/*
+	 * Page for News & Events
+	*/
+?>
+
 <div class="outer">
 	<div class="outerBg">
     	<?php include('_includes/header.php'); ?>
@@ -10,13 +16,11 @@
             <div class="page-content">
             	<div class="surround">
                     <div class="mainContent bodyCopy noPad">
-                    
-                    	
-                    	
+
                     	<!-- Begin Title -->
                         <div class="container inner">
                             <div class="pageTitle">
-                                <?php if($title): echo '<h1>'.$title.'</h1>'; endif ?>
+                                <h1>Featured Stories</h1>
                             </div>
                         </div>
                         <!-- End Title -->
@@ -69,30 +73,6 @@
                                     <?php if ($tabs): echo render($tabs); endif; ?>
 	                       	 		<?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
                             		<?php echo render($page['content']); ?>
-                            		
-                            		<?php /*
-                                    <ul class="feed">
-                                        <li>
-                                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                        </li>
-                                        <li>
-                                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                        </li>
-                                        <li>
-                                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                        </li>
-                                        <li>
-                                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                        </li>
-                                        <li>
-                                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                        </li>
-                                    </ul> */ ?>
                                     <div class="more">
                                     	<a href="#">View more news stories</a>
                                     </div>
@@ -101,40 +81,7 @@
                                     <div class="feedTitle">
                                         <h3>Events <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
                                     </div>
-                                    <?php echo render($page['news_events_col']); ?>
-                                    <?php /*
-                                    <ul class="feed">
-                                        <li>
-                                        	<div class="date">
-                                                <span>October</span>
-                                                <em>22</em>
-                                            </div>
-                                            <div class="info">
-                                            	<h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                            					<p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                        	<div class="date">
-                                                <span>October</span>
-                                                <em>22</em>
-                                            </div>
-                                            <div class="info">
-                                            	<h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                            					<p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                        	<div class="date">
-                                                <span>October</span>
-                                                <em>22</em>
-                                            </div>
-                                            <div class="info">
-                                            	<h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                            					<p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                                            </div>
-                                        </li>
-                                    </ul> */ ?>
+                                    <?php echo views_embed_view('news_events', 'block_1'); ?>
                                     <div class="more">
                                     	<a href="#">View full calendar</a>
                                     </div>

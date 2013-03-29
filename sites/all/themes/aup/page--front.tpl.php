@@ -107,30 +107,13 @@
 	            </div>
 	    		<div class="fullWidth news">
 	    			
-	    			
-	    			<?php //echo views_embed_view('news_events_listings', 'block_1'); ?>
-	            	
-	            	
 	            	<div class="feedTitle">
 	                	<h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
 	                    <div class="more">
 	                    	<a href="#">View more</a>
 	                    </div>
 	                </div>
-	                <ul class="feed">
-	                    <li>
-	                        <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-	                        <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-	                    </li>
-	                    <li class="wideCol">
-	                        <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-	                        <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-	                    </li>
-	                    <li>
-	                        <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-	                        <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-	                    </li>
-	                </ul>
+	                <?php echo views_embed_view('news_events', 'block_3'); ?>
 	            </div>
 	    		<div class="fullWidth events">
 	            	<div class="feedTitle">
@@ -139,32 +122,7 @@
 	                    	<a href="#">View more</a>
 	                    </div>
 	                </div>
-	                <ul class="feed">
-	                    <li>
-	                    	<div class="date">
-	                        	<span>October</span>
-	                            <em>22</em>
-	                        </div>
-	                        <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-	                        <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-	                    </li>
-	                    <li class="wideCol">
-	                    	<div class="date">
-	                        	<span>October</span>
-	                            <em>22</em>
-	                        </div>
-	                        <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-	                        <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-	                    </li>
-	                    <li>
-	                    	<div class="date">
-	                        	<span>October</span>
-	                            <em>22</em>
-	                        </div>
-	                        <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-	                        <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-	                    </li>
-	                </ul>
+	                <?php echo views_embed_view('news_events', 'block_2'); ?>
 	            </div>
 	    		<div class="fullWidth social">
 	                <ul class="feed">

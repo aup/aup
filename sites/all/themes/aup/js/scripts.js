@@ -159,3 +159,17 @@ $(document).ready(function() {
 	}
 });
 })(jQuery);
+
+/** JS From Bret **/ 
+
+(function ($) {
+
+	$(document).ready(function() {
+	
+		// Add classes to columns
+		$('.front .events li').eq(1).addClass('wideCol');
+		$('.front .news li').eq(1).addClass('wideCol');
+		
+	});
+	
+})(jQuery);
