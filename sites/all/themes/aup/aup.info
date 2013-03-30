@@ -35,6 +35,8 @@ regions[footer]  = Footer
 
 regions[top_links]  = Top Links
 
+regions[banner]  = Banners
+
 regions[homepage_left_spif]   = Homepage Left (SPIF)
 regions[homepage_middle_spif] = Homepage Middle (SPIF)
 regions[homepage_right_spif]  = Homepage Right (SPIF)
