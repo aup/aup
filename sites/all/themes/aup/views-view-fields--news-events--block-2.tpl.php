@@ -17,5 +17,7 @@
         <em><?php echo $pieces[1]; ?></em>
      </div>
      <h4><a href="<?php echo $fields['path']->content; ?>"><?php echo $fields['title']->content; ?></a> <span><?php echo $fields['field_event_time']->content; ?></span></h4>
-     <p><?php echo $fields['body']->content; ?></p>
+     <div class="event-desc">
+	     <?php echo $fields['body']->content; ?>
+     </div>
  </li>

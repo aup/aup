@@ -15,3 +15,15 @@
 	list-style-image: none !important;
 	list-style-type: none !important;
 }
+
+.banner h2 {
+	display: none;
+}
+
+.banner .field-label {
+	display: none;	
+}
+
+.node-type-gateway .events .event-desc {
+	display: none;
+}

@@ -40,7 +40,7 @@
                     <div class="container">
                     	<div class="statement">
                         	<div class="text">
-                            	<h3>Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas sed diam eget risus varius.</h3>
+                            	<?php echo render($page['content']); ?>
                             </div>
                             <div class="info">
                             	<div class="button">
@@ -52,6 +52,9 @@
                     </div>
                     <div class="container">
                     	<div class="cols4">
+                    	
+                    	
+                    	
                             <div class="col">
                                 <h4>Why support AUP?</h4>
                                 <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/support2.jpg" alt=""/></a>
@@ -84,6 +87,8 @@
                                     <p>The training I received in and Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in lacus eu justo hendrerit iaculis. Donec tempus tortor ut velit hendrerit in adipiscing enim laoreet.</p>
                                 </div>
                             </div>
+                            
+                            
                         </div>
                     </div>
                 </div>

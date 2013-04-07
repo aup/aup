@@ -167,8 +167,8 @@ $(document).ready(function() {
 	$(document).ready(function() {
 	
 		// Add classes to columns
-		$('.front .events li').eq(1).addClass('wideCol');
-		$('.front .news li').eq(1).addClass('wideCol');
+		$('.events li').eq(1).addClass('wideCol');
+		$('.news li').eq(1).addClass('wideCol');
 		
 	});
 	

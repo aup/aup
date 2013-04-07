@@ -12,7 +12,9 @@
                     <div class="container">
                     	<div class="admissionLead">
                         	<div class="text">
-                            	<h3>Vestibulum id ligula porta felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas sed diam eget risus varius.</h3>
+                            	<?php if ($tabs): echo render($tabs); endif; ?>
+	                    		<?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
+		                        <?php echo render($page['content']); ?>
                             </div>
                             <div class="info">
                             	<ul>

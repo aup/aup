@@ -1,6 +1,6 @@
 <div class="header">
     <div class="banner">
-        <img src="<?php echo base_path().path_to_theme(); ?>/images/banner1.jpg" alt=""/>
+    	<?php if ($page['banner']): print render($page['banner']); endif; ?>
     </div>
     <div class="audience">
 		<?php print render($page['top_links']);?>

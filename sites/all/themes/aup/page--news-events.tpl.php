@@ -29,6 +29,12 @@
 			            	<?php if ($messages): echo $messages; endif; ?>
 	            		</div>
                         
+                        <!-- Start of Slide Show -->
+						<?php //if($news_events_slideshow): ?>
+						 	<?php //echo $news_events_slideshow; ?> 
+						<?php //endif; ?>
+						<!-- End of Slide Show --
+        				                
                         <!-- Begin Slider -->
                         <div class="container inner">
                             <div class="contentCarousel">

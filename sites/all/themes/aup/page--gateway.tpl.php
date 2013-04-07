@@ -13,111 +13,9 @@
                 </div>
                 <div class="gateway">
                 	<div class="main">
-    					<ul>
-                        	<li>
-                            	<h2>Heading 01</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        	<li>
-                            	<h2>Heading 02</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        	<li>
-                            	<h2>Heading 03</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03, which is a bit longer</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-    					<ul>
-                        	<li>
-                            	<h2>Heading 04</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        	<li>
-                            	<h2>Heading 05</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        	<li>
-                            	<h2>Heading 06</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-    					<ul>
-                        	<li>
-                            	<h2>Heading 07</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        	<li>
-                            	<h2>Heading 08</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        	<li>
-                            	<h2>Heading 09</h2>
-                                <ul>
-                                	<li><a href="#">Link 01</a></li>
-                                	<li><a href="#">Link 02</a></li>
-                                	<li><a href="#">Link 03</a></li>
-                                	<li><a href="#">Link 04</a></li>
-                                	<li><a href="#">Link 05</a></li>
-                                	<li><a href="#">Link 06</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+    					<?php if ($tabs): echo render($tabs); endif; ?>
+	                    <?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
+                        <?php echo render($page['content']); ?>
                     </div>
                     <div class="side">
                     	<h3>Campus Announcements</h3>
@@ -164,20 +62,7 @@
                         	<a href="#">View more</a>
                         </div>
                     </div>
-                    <ul class="feed">
-                        <li>
-                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                        </li>
-                        <li class="wideCol">
-                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                        </li>
-                        <li>
-                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
-                        </li>
-                    </ul>
+                    <?php echo views_embed_view('news_events', 'block_3'); ?>
                 </div>
     			<div class="fullWidth events">
                 	<div class="feedTitle">
@@ -186,29 +71,7 @@
                         	<a href="#">View more</a>
                         </div>
                     </div>
-                    <ul class="feed">
-                        <li>
-                        	<div class="date">
-                            	<span>October</span>
-                                <em>22</em>
-                            </div>
-                            <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                        </li>
-                        <li class="wideCol">
-                        	<div class="date">
-                            	<span>October</span>
-                                <em>22</em>
-                            </div>
-                            <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                        </li>
-                        <li>
-                        	<div class="date">
-                            	<span>October</span>
-                                <em>22</em>
-                            </div>
-                            <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                        </li>
-                    </ul>
+                    <?php echo views_embed_view('news_events', 'block_2'); ?>
                 </div>
             </div>
             <!-- End of Content -->
