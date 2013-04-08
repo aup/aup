@@ -18,6 +18,18 @@ function aup_implementation_theme($existing, $type, $theme, $path) {
 		'template' => 'news-events-slideshow',
 		'path' => $path,
 	);
+	
+	$theme['aup_support_slideshow_treatment'] = array(
+		'arguments' => array('queue' => null),
+		'template' => 'aup-support-slideshow-treatment',
+		'path' => $path,
+	);
+	
+	$theme['support_slideshow'] = array(
+		'arguments' => array('nodes' => null),
+		'template' => 'support-slideshow',
+		'path' => $path,
+	);
 
 	return $theme;
 	
@@ -55,5 +67,21 @@ function aup_implementation_menu() {
 	);
 	
 	return $items;
+	
+}
+
+/**
+ * Implementation of hook_nodequeue_block_treatments()
+ */
+function aup_implementation_nodequeue_block_treatments() {
+	
+	$treatments = array();
+	
+	$treatments['support_slideshow_treatment'] = array(
+		'name' => t('Support Page Slideshow'),
+		'theme_hook' => 'aup_support_slideshow_treatment',
+	);
+	
+	return $treatments;
 	
 }

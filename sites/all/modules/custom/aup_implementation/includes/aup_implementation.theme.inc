@@ -20,3 +20,10 @@ function aup_implementation_preprocess_page(&$variables) {
 	}
 	
 }
+
+function aup_implementation_preprocess_aup_support_slideshow_treatment(&$variables) {
+
+	$slideshow_nodes = new NodequeueNodes($variables['qid']);
+	
+	$variables['slideshow'] = theme('support_slideshow', array('nodes' => $slideshow_nodes->getNodes()));
+}
