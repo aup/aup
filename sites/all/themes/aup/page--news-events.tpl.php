@@ -34,40 +34,7 @@
 						 	<?php echo $news_events_slideshow; ?> 
 						<?php endif; ?>
 						<!-- End of Slide Show --
-        				                
-                        <!-- Begin Slider -->
-                        <div class="container inner">
-                            <div class="contentCarousel">
-                            	<ul class="bxslider">
-                                	<li>
-                                    	<div class="media">
-                                        	<a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/news1.jpg" alt="" /></a>
-                                        </div>
-                                        <div class="text">
-                                        	<h3>Vestibulum ipsum fringilla</h3>
-                                            <p>Nullam risus turpis, tincidunt fringilla aliquam quis, semper sit amet lorem. Donec nec arcu adipiscing libero mattis vehicula ornare eu tellus. Quisque cursus iaculis ultrices.</p>
-                                            <div class="more">
-                                            	<a href="#">Read more</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                	<li>
-                                    	<div class="media">
-                                        	<a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/news1.jpg" alt="" /></a>
-                                        </div>
-                                        <div class="text">
-                                        	<h3>Vestibulum ipsum fringilla</h3>
-                                            <p>Nullam risus turpis, tincidunt fringilla aliquam quis, semper sit amet lorem. Donec nec arcu adipiscing libero mattis vehicula ornare eu tellus. Quisque cursus iaculis ultrices.</p>
-                                            <div class="more">
-                                            	<a href="#">Read more</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- End Slider -->
-                        
+						
                         <!-- Begin News Column -->
                         <div class="newsevents">
                             <div class="newseventsWrap">
@@ -100,7 +67,8 @@
                     <!-- Begin Left Column -->
                     <div class="leftColumn">
                         <div class="secondaryNav">
-                            <ul>
+                        	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
+                            <!--<ul>
                                 <li><a href="#">Link Number 01</a></li>
                                 <li><a href="#">Link Number 02</a></li>
                                 <li>
@@ -123,7 +91,7 @@
                                 <li><a href="#">Link Number 05</a></li>
                                 <li><a href="#">Link Number 06</a></li>
                             </ul>
-                        </div>
+                        </div>-->
                         <div class="relatedLinks">
                             <div class="wrap">
                                 <h4>Related Links</h4>
