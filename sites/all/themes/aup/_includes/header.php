@@ -26,14 +26,7 @@
             <div class="mobileShow mobileSearchButton"><a href="#"><span>Search</span></a></div>
         </div>
     	<div class="topic">
-        	<ul>
-            	<li><a href="/aup/about">About</a></li>
-            	<li><a href="#">Academics</a></li>
-            	<li><a href="/aup/admissions">Admissions</a></li>
-            	<li><a href="#">Student Life</a></li>
-            	<li><a href="/aup/news-events">News &amp; Events</a></li>
-            	<li><a href="/aup/support">Support AUP</a></li>
-            </ul>
+	    	<?php if($primary_navigation): echo $primary_navigation; endif; ?>
         </div>
         <div class="utility">
         	<ul>

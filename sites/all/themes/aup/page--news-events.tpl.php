@@ -30,9 +30,9 @@
 	            		</div>
                         
                         <!-- Start of Slide Show -->
-						<?php //if($news_events_slideshow): ?>
-						 	<?php //echo $news_events_slideshow; ?> 
-						<?php //endif; ?>
+						<?php if($news_events_slideshow): ?>
+						 	<?php echo $news_events_slideshow; ?> 
+						<?php endif; ?>
 						<!-- End of Slide Show --
         				                
                         <!-- Begin Slider -->

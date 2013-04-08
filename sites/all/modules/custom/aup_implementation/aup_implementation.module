@@ -8,7 +8,7 @@ require_once('includes/aup_implementation.theme.inc');
 /**
  * Implementation of hook_theme
  */
-function aup_implemenation_theme($existing, $type, $theme, $path) {
+function aup_implementation_theme($existing, $type, $theme, $path) {
 
 	$theme = array();
 	$path = drupal_get_path('module', 'aup_implementation') .'/theme';

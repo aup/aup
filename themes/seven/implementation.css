@@ -1,0 +1,13 @@
+.field-type-taxonomy-term-reference .form-type-select select.form-select {
+	width: 100%;
+	height: 400px;
+}
+
+.form-item-conditions-plugins-menu-values select.form-select {
+	width: 100%;
+	height: 400px;
+}
+
+#context-blockform .context-blockform-selector {
+	height: 50em;
+}

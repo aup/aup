@@ -30,6 +30,8 @@
                     </div>
                     <div class="leftColumn">
                         <div class="secondaryNav">
+                        	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
+<!--
                             <ul>
                                 <li><a href="#">Link Number 01</a></li>
                                 <li><a href="#">Link Number 02</a></li>
@@ -53,6 +55,7 @@
                                 <li><a href="#">Link Number 05</a></li>
                                 <li><a href="#">Link Number 06</a></li>
                             </ul>
+-->
                         </div>
                         <div class="relatedLinks">
                             <div class="wrap">

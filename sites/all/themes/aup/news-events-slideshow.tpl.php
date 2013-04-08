@@ -1,1 +1,1 @@
-test news slideshow
+<?php print_r($nodes); ?>
