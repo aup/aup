@@ -1,0 +1,16 @@
+229,234c229,236
+<         $row = array();
+<         $events = $tmp[LANGUAGE_NONE];
+<         $row['title'] = $title;
+<         $row['color'] = $color;
+<         $row['events'] = $events;
+<         $rows[] = $row;
+---
+>         if ($tmp != array()) {
+>           $row = array();
+>           $events = $tmp[LANGUAGE_NONE];
+>           $row['title'] = $title;
+>           $row['color'] = $color;
+>           $row['events'] = $events;
+>           $rows[] = $row;
+>         }

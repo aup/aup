@@ -1,0 +1,5 @@
+name = Active Directory
+description = Provides integration with Active Directory
+package = AUP
+core = 7.x
+configure = admin/config/aup/active-directory

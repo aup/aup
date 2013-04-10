@@ -92,26 +92,10 @@ function cams_course_get_schedules($courseCode = NULL, $termID = NULL) {
     $termID = $term->id;
   }
 
-  /*$sql = "
-    SELECT DISTINCT CAMS_SROfferFacultyTeach_View.facultyName instructor,
-           lower(FacultyPortal.ActiveDirectoryIdentifier) AS netID,
-           CAMS_SROfferSchedule_View.RoomName AS room,
-           CAMS_SROfferSchedule_View.SROfferScheduleID AS scheduleID,
-           CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeFrom, 108) AS offerTimeFrom,
-           CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeTo, 108) AS offerTimeTo,
-           CAMS_SROfferSchedule_View.OfferDays AS offerDays
-      FROM CAMS_SROffer_View INNER JOIN CAMS_SROfferSchedule_View
-           ON CAMS_SROffer_View.SROfferID = CAMS_SROfferSchedule_View.SROfferID
-           LEFT JOIN CAMS_SROfferFacultyTeach_View ON CAMS_SROfferFacultyTeach_View.SROfferID = CAMS_SROfferSchedule_View.SROfferID        
-           LEFT JOIN FacultyPortal ON ISNULL(FacultyPortal.FacultyID, 0) = ISNULL(CAMS_SROfferFacultyTeach_View.FacultyID, 0)
-           AND CAMS_SROffer_View.SemesterID = CAMS_SROfferSchedule_View.TermCalendarID
-     WHERE CAMS_SROffer_View.Semester = '$termID'
-       AND CAMS_SROffer_View.Department+CAMS_SROffer_View.Course+CAMS_SROffer_View.Section = '$courseCode'";*/
-
   $sql = "
   SELECT DISTINCT
   CAMS_SROfferSchedule_View.RoomName AS room,
-  CAMS_SROfferSchedule_View.SROfferScheduleID AS scheduleID,
+  --CAMS_SROfferSchedule_View.SROfferScheduleID AS scheduleID,
   CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeFrom, 108) AS offerTimeFrom,
   CONVERT(VARCHAR(8), CAMS_SROfferSchedule_View.OfferTimeTo, 108) AS offerTimeTo,
   CAMS_SROfferSchedule_View.OfferDays AS offerDays
@@ -125,11 +109,13 @@ function cams_course_get_schedules($courseCode = NULL, $termID = NULL) {
   
   $rs = array();
   while ($line = mssql_fetch_object($query)) {
-    $rs[] = $line;
+    if (!in_array($line->offerDays, array('NULL', 'N\A', ''))) {
+      $rs[$line->offerDays] = $line;
+    }
   }
   
-  //watchdog('debug', '<pre>SCHEDULES'.print_r($rs, TRUE).'</pre>');
-  return array(); //$rs;
+  // DEBUG watchdog('debug', '<pre>SCHEDULES'.print_r($rs, TRUE).'</pre>');
+  return $rs;
 }
 
 /**
