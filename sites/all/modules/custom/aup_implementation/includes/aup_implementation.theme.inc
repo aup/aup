@@ -27,3 +27,10 @@ function aup_implementation_preprocess_aup_support_slideshow_treatment(&$variabl
 	
 	$variables['slideshow'] = theme('support_slideshow', array('nodes' => $slideshow_nodes->getNodes()));
 }
+
+function aup_implementation_preprocess_aup_admissions_features_treatment(&$variables) {
+
+	$features_nodes = new NodequeueNodes($variables['qid']);
+	
+	$variables['features'] = theme('admissions_features', array('nodes' => $features_nodes->getNodes()));
+}

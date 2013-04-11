@@ -25,9 +25,21 @@ function aup_implementation_theme($existing, $type, $theme, $path) {
 		'path' => $path,
 	);
 	
+	$theme['aup_admissions_features_treatment'] = array(
+		'arguments' => array('queue' => null),
+		'template' => 'aup-features-treatment',
+		'path' => $path,
+	);
+	
 	$theme['support_slideshow'] = array(
 		'arguments' => array('nodes' => null),
 		'template' => 'support-slideshow',
+		'path' => $path,
+	);
+	
+	$theme['admissions_features'] = array(
+		'arguments' => array('nodes' => null),
+		'template' => 'admissions-features',
 		'path' => $path,
 	);
 
@@ -80,6 +92,11 @@ function aup_implementation_nodequeue_block_treatments() {
 	$treatments['support_slideshow_treatment'] = array(
 		'name' => t('Support Page Slideshow'),
 		'theme_hook' => 'aup_support_slideshow_treatment',
+	);
+	
+	$treatments['admissions_features_treatment'] = array(
+		'name' => t('Admissions Page Features'),
+		'theme_hook' => 'aup_admissions_features_treatment',
 	);
 	
 	return $treatments;

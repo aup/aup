@@ -6,3 +6,4 @@ package = "mStoner"
 
 dependencies[] = mstoner
 dependencies[] = nodequeue
+dependencies[] = nodequeue_block
