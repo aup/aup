@@ -1,3 +1,9 @@
+<?php 
+	/*
+	 * Page template for the Admissions Page
+	*/
+?>
+
 <div class="outer">
 	<div class="outerBg">
     	<?php include('_includes/header.php'); ?>
@@ -7,7 +13,7 @@
             	<?php echo $breadcrumb; ?>
             </div>
             <!-- Start of Content -->
-            <div class="content">
+            <div class="page-content">
             	<div class="surround">
                     <div class="container">
                     	<div class="admissionLead">

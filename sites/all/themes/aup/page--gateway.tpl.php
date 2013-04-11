@@ -8,52 +8,13 @@
             </div>
             <!-- Start of Content -->
             <div class="content">
-                <div class="pageTitle leftMargin">
+                <!--<div class="pageTitle leftMargin">
                     <h1>Page Title Header</h1>
-                </div>
+                </div>-->
                 <div class="gateway">
-                	<div class="main">
-    					<?php if ($tabs): echo render($tabs); endif; ?>
-	                    <?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
-                        <?php echo render($page['content']); ?>
-                    </div>
-                    <div class="side">
-                    	<h3>Campus Announcements</h3>
-                        <ul class="announcements">
-                        	<li>
-                            	<h4>Campus Hours at AUP</h4>
-                                <h5>Building &amp; Production Room Hours for Winter Break</h5>
-                                <p>6:30 - 8:30 PM</p>
-                                <h5>Early Closings</h5>
-                                <p>Monday, Dec 24 at 12:00 Noon</p>
-                                <p>Monday, Dec 31 at 3:00 PM</p>
-                                <br/>
-                                <p>Building Closed:</p>
-                                <ul>
-                                	<li>Tuesday, Dec 25</li>
-                                    <li>Tuesday, Jan 1</li>
-                                    <li>Saturdays &amp; Sundays from Dec 15 - Jan 6</li>
-                                </ul>
-                            </li>
-                            <li>
-                            	<h4>Library Hours</h4>
-                                <p>6:30 - 8:30 PM</p>
-                                <h5>Everyday</h5>
-                                <p>Early Closings</p>
-                                <p>Monday, Dec 24 at 12:00 Noon</p>
-                                <p>Monday, Dec 31 at 3:00 PM</p>
-                            </li>
-                            <li>
-                            	<h4>AUP Cafe</h4>
-                                <p>The cafe will be closed during holiday hours.</p>
-                                <h4>Winter Break</h4>
-                                <p>6:30 - 8:30 PM</p>
-                                <h4>Early Closings</h4>
-                                <p>Monday, Dec 24 at 12:00 Noon</p>
-                                <p>Monday, Dec 31 at 3:00 PM</p>
-                            </li>
-                        </ul>
-                    </div>
+                	<?php if ($tabs): echo render($tabs); endif; ?>
+	                <?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
+	                <?php echo render($page['content']); ?>
     			</div>
                 <div class="fullWidth news">
                 	<div class="feedTitle">

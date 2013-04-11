@@ -5,7 +5,7 @@
     		<?php foreach($nodes as $node): ?>
         	<li>
             	<div class="media">
-                	<a href="#">
+                	<a href="<?php echo $node->field_news_slide_read_more[LANGUAGE_NONE][0]['value']; ?>">
                 		<?php
 		        		    $field = field_get_items('node', $node, 'field_news_slide_image');
 		        		    print render(field_view_value('node', $node, 'field_news_slide_image', $field[0], array('settings' => array('image_style' => 'news_slideshow'))));

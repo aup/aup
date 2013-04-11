@@ -37,6 +37,8 @@ regions[top_links]  = Top Links
 
 regions[banner]  = Banners
 
+regions[support_slideshow]  = Support Slideshow
+
 regions[homepage_left_spif]   = Homepage Left (SPIF)
 regions[homepage_middle_spif] = Homepage Middle (SPIF)
 regions[homepage_right_spif]  = Homepage Right (SPIF)
@@ -45,3 +47,9 @@ regions[left_column]  = Left Column
 regions[right_column] = Right Column
 
 regions[news_events_col]  = News & Events Column
+
+regions[support_gift]    = Support Gift
+regions[support_spif_1]  = Support SPIF 1
+regions[support_spif_2]  = Support SPIF 2
+regions[support_spif_3]  = Support SPIF 3
+regions[support_spif_4]  = Support SPIF 4

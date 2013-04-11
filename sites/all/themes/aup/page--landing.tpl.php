@@ -1,4 +1,10 @@
-<div class="outer">
+<?php 
+	/*
+	 * Page template for Support (aka Giving or Landing)
+	*/
+?>
+
+<div class="outer page-landing">
 	<div class="outerBg">
     	<?php include('_includes/header.php'); ?>
         <!-- Start of wrapper -->
@@ -6,89 +12,42 @@
         	<div class="breadcrumb">
             	<?php echo $breadcrumb; ?>
             </div>
+            
             <!-- Start of Content -->
-            <div class="content">
+            <div class="content">            	
             	<div class="surround">
-                    <div class="supportCarousel container">
-                        <ul class="bxslider">
-                            <li>
-                                <div class="media">
-                                    <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/giving1.jpg" alt="" /></a>
-                                </div>
-                                <div class="text">
-                                    <h3>Vestibulum ipsum fringilla</h3>
-                                    <p>Nullam risus turpis, tincidunt fringilla aliquam quis, semper sit amet lorem. Donec nec arcu adipiscing libero mattis vehicula ornare eu tellus. Quisque cursus iaculis ultrices.</p>
-                                    <div class="more">
-                                        <a href="#">Read more</a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="media">
-                                    <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/giving1.jpg" alt="" /></a>
-                                </div>
-                                <div class="text">
-                                    <h3>Vestibulum ipsum fringilla</h3>
-                                    <p>Nullam risus turpis, tincidunt fringilla aliquam quis, semper sit amet lorem. Donec nec arcu adipiscing libero mattis vehicula ornare eu tellus. Quisque cursus iaculis ultrices.</p>
-                                    <div class="more">
-                                        <a href="#">Read more</a>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+            	
+            		<!-- Start Slideshow -->
+            		<?php if ($page['support_slideshow']): print render($page['support_slideshow']); endif; ?>
+            		<!-- End Slideshow -->	
+            		
                     <div class="container">
+
                     	<div class="statement">
                         	<div class="text">
                             	<?php echo render($page['content']); ?>
                             </div>
                             <div class="info">
-                            	<div class="button">
-                                	<a href="#">Make a Gift</a>
-                                </div>
-                                <p>For more information about giving opportunities at AUP, <a href="#"><strong>contact the Office of Outreach &amp; Advancement.</strong></a></p>
+                            	<!-- Start Gift SPIF -->
+                    			<?php if ($page['support_gift']): print render($page['support_gift']); endif; ?>
+                    			<!-- End Gift SPIF -->
                             </div>
                         </div>
                     </div>
                     <div class="container">
                     	<div class="cols4">
-                    	
-                    	
-                    	
                             <div class="col">
-                                <h4>Why support AUP?</h4>
-                                <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/support2.jpg" alt=""/></a>
-                                <div>
-                                    <h5><a href="#">Headline Copy</a></h5>
-                                    <p>The training I received in and Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in lacus eu justo hendrerit iaculis. Donec tempus tortor ut velit hendrerit in adipiscing enim laoreet.</p>
-                                </div>
+                            	<?php if ($page['support_spif_1']): print render($page['support_spif_1']); endif; ?>
                             </div>
                             <div class="col">
-                                <h4>Why support AUP?</h4>
-                                <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/support2.jpg" alt=""/></a>
-                                <div>
-                                    <h5><a href="#">Headline Copy</a></h5>
-                                    <p>The training I received in and Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in lacus eu justo hendrerit iaculis. Donec tempus tortor ut velit hendrerit in adipiscing enim laoreet.</p>
-                                </div>
+                               <?php if ($page['support_spif_2']): print render($page['support_spif_2']); endif; ?>
                             </div>
                             <div class="col">
-                                <h4>Why support AUP?</h4>
-                                <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/support2.jpg" alt=""/></a>
-                                <div>
-                                    <h5><a href="#">Headline Copy</a></h5>
-                                    <p>The training I received in and Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in lacus eu justo hendrerit iaculis. Donec tempus tortor ut velit hendrerit in adipiscing enim laoreet.</p>
-                                </div>
+                               <?php if ($page['support_spif_3']): print render($page['support_spif_3']); endif; ?>
                             </div>
                             <div class="col noMargin">
-                                <h4>Why support AUP?</h4>
-                                <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/support2.jpg" alt=""/></a>
-                                <div>
-                                    <h5><a href="#">Headline Copy</a></h5>
-                                    <p>The training I received in and Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in lacus eu justo hendrerit iaculis. Donec tempus tortor ut velit hendrerit in adipiscing enim laoreet.</p>
-                                </div>
+                            	<?php if ($page['support_spif_4']): print render($page['support_spif_4']); endif; ?>
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,9 @@
+<?php 
+	/*
+	 * Home Page Template
+	*/
+?>
+
 <div class="outer">
 	<div class="outerBg">
 		<div class="header homeHeader">

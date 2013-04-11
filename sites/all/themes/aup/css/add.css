@@ -27,3 +27,20 @@
 .node-type-gateway .events .event-desc {
 	display: none;
 }
+
+.region-support-slideshow h2,
+.region-support-gift h2,
+.page-landing .cols4 .col h2 {
+	display: none;
+}
+
+.page-landing .cols4 .col .region,
+.page-landing .cols4 .col .block,
+.page-landing .cols4 .col .block .content {
+	padding: 0px;
+	width: 100%; 
+}
+
+.relatedLinks {
+	display: none;
+}

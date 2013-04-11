@@ -7,4 +7,3 @@
 </a></p>
 <h4><a href="<?php echo base_path().drupal_lookup_path('alias', 'node/'.$node->field_feature_reference[LANGUAGE_NONE][0]['entity']->nid); ?>"><?php echo $title; ?></a></h4>
 <p><?php print $node->body['und'][0]['value']; ?></p>
-

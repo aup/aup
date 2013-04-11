@@ -1,6 +1,6 @@
 <?php 
 	/*
-	 * Page template for the Featured Page
+	 * Page template for the News Page
 	*/
 ?>
 
@@ -16,7 +16,7 @@
             <div class="page-content">
             	<div class="surround">
                     <div class="mainContent bodyCopy">
-                    	<div class="container inner">
+                        <div class="container inner">
 			            	<?php if ($messages): echo $messages; endif; ?>
 	            		</div>
                         <div class="container inner">
