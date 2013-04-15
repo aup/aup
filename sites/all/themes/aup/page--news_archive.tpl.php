@@ -1,6 +1,6 @@
 <?php 
 	/*
-	 * Page for News & Events
+	 * Page for News Archive
 	*/
 ?>
 
@@ -16,49 +16,33 @@
             <div class="page-content">
             	<div class="surround">
                     <div class="mainContent bodyCopy noPad">
-
-                    	<!-- Begin Title -->
-                        <div class="container inner">
-                            <div class="pageTitle">
-                                <h1>Featured Stories</h1>
-                            </div>
-                        </div>
-                        <!-- End Title -->
                         
                         <div class="container inner">
-			            	<?php if ($messages): echo $messages; endif; ?>
+			            	<?php //if ($messages): echo $messages; endif; ?>
 	            		</div>
-                        
-                        <!-- Start of Slide Show -->
-						<?php if($news_events_slideshow): ?>
-						 	<?php echo $news_events_slideshow; ?> 
-						<?php endif; ?>
-						<!-- End of Slide Show -->
 						
                         <!-- Begin News Column -->
                         <div class="newsevents">
                             <div class="newseventsWrap">
                                 <div class="newsColumn">
                                     <div class="feedTitle">
-                                        <h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
+                                        <h3>News Archive<a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
                                     </div>
                                     
                                     <?php if ($tabs): echo render($tabs); endif; ?>
 	                       	 		<?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
                             		<?php echo render($page['content']); ?>
-                                    <div class="more">
-                                    	<a href="/aup/news-archive">View more news stories</a>
-                                    </div>
+                            		
                                 </div>
+                                
                                 <div class="eventsColumn">
                                     <div class="feedTitle">
-                                        <h3>Events <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
+                                        <h3>Archives By Year</h3>
                                     </div>
-                                    <?php echo views_embed_view('news_events', 'block_1'); ?>
-                                    <div class="more">
-                                    	<a href="#">View full calendar</a>
-                                    </div>
+                                    <?php echo views_embed_view('news_events', 'block_4'); ?>
+                                   
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -1,3 +1,14 @@
+<?php  
+// Hide Scroller arrows if needed
+$count = count($nodes);
+if ($count <= 1):
+?>
+	<style type="text/css">
+		.bx-controls { display: none; }
+	</style>
+<?php endif; ?>
+
+
 <!-- Begin Slider -->
 <div class="container inner">
     <div class="contentCarousel">

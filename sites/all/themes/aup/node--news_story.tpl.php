@@ -4,15 +4,14 @@
 	*/
 ?>
 
-
+<h4>
    <div class="date-in-parts">
        <span class="day"><?php  echo date("j", $node->created); ?></span>
        <span class="month"><?php echo date("M", $node->created); ?></span>
        <span class="year"><?php echo date("Y", $node->created); ?></span>
-    </div><!--//date-in-parts -->
+    </div>
+</h4>
         
-
-
 <div class="container inner">
 	
 	<?php $field = field_get_items('node', $node, 'field_news_inline_image'); ?>

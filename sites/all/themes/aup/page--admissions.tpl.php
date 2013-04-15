@@ -23,52 +23,18 @@
 		                        <?php echo render($page['content']); ?>
                             </div>
                             <div class="info">
-                            	<ul>
-                                	<li><a href="#">Apply Now</a></li>
-                                    <li><a href="#">Visit</a></li>
-                                    <li><a href="#">Tuition &amp; Financial Aid</a></li>
-                                    <li class="last"><a href="#">Admissions Blog</a></li>
-                                </ul>
+                            	<?php if ($page['admissions_menu']): print render($page['admissions_menu']); endif; ?>
                             </div>
                         </div>
                     </div>
                     <ul class="admissionPods">
-                        <li>
-                            <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/ad1.jpg" alt="" /></a>
-                            <div class="caption">
-                                <h4><a href="#">Undergraduate Admissions</a></h4>
-                                <p>Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Nullam quis risus eget urna mollis ornare..</p>
-                                <p class="more"><a href="#">More Information</a></p>
-                            </div>
-                        </li>
-                        <li class="alt">
-                            <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/ad1.jpg" alt="" /></a>
-                            <div class="caption">
-                                <h4><a href="#">Undergraduate Admissions</a></h4>
-                                <p>Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Nullam quis risus eget urna mollis ornare..</p>
-                                <p class="more"><a href="#">More Information</a></p>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/ad1.jpg" alt="" /></a>
-                            <div class="caption">
-                                <h4><a href="#">Undergraduate Admissions</a></h4>
-                                <p>Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Nullam quis risus eget urna mollis ornare..</p>
-                                <p class="more"><a href="#">More Information</a></p>
-                            </div>
-                        </li>
-                        <li class="alt">
-                            <a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/ad1.jpg" alt="" /></a>
-                            <div class="caption">
-                                <h4><a href="#">Undergraduate Admissions</a></h4>
-                                <p>Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Nullam quis risus eget urna mollis ornare..</p>
-                                <p class="more"><a href="#">More Information</a></p>
-                            </div>
-                        </li>
+                    	<?php if ($page['admissions_features_1']): print render($page['admissions_features_1']); endif; ?>
+                    	<?php if ($page['admissions_features_2']): print render($page['admissions_features_2']); endif; ?>
+                    	<?php if ($page['admissions_features_3']): print render($page['admissions_features_3']); endif; ?>
                     </ul>
                 </div>
-                <div class="studentInfo">
-                	<a href="#">Admitted Student Information</a>
+                <div class="admissions-bar-destination">
+                	<!-- JS puts info here -->
                 </div>
             </div>
             <!-- End of Content -->

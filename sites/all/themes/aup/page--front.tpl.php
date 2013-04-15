@@ -109,7 +109,7 @@
 	            	<div class="feedTitle">
 	                	<h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
 	                    <div class="more">
-	                    	<a href="#">View more</a>
+	                    	<a href="/aup/news-events">View more</a>
 	                    </div>
 	                </div>
 	                <?php echo views_embed_view('news_events', 'block_3'); ?>
@@ -118,7 +118,7 @@
 	            	<div class="feedTitle">
 	                	<h3>Events <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
 	                    <div class="more">
-	                    	<a href="#">View more</a>
+	                    	<a href="/aup/news-events">View more</a>
 	                    </div>
 	                </div>
 	                <?php echo views_embed_view('news_events', 'block_2'); ?>

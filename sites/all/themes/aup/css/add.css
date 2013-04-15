@@ -2,6 +2,8 @@
 	display: none;
 }
 
+.topic ul a.active {background:#b11917;}
+
 .audience .content {
 	float: none;
 	width: auto;
@@ -44,3 +46,34 @@
 .relatedLinks {
 	display: none;
 }
+
+.region-admissions-menu ul li.leaf {
+	list-style-type: none;
+	list-style-image: none;
+}
+
+.admissionPods h2 {
+	display: none;
+}
+
+/* Archives ======= */
+
+.clear {
+	clear: both;
+}
+
+.post-pager {
+	margin-top: 12px;
+}
+
+.post-pager li {
+	border: none !important;
+	margin-left: 3px !important;
+}
+
+/* Search Form ====== */
+
+#search-block-form #edit-search-block-form--2 { float:left;width:80%;height:17px;font-size:1.4em;color:#919191;font-family:'proxima-nova', Arial, Helvetica, sans-serif;border:none;margin:2px 0 0 5px;}
+
+#search-block-form #edit-submit,
+#search-block-form #edit-submit--2 { position:absolute;width:25px;height:25px;right:4px;top:0;border:none;background:url('../images/btnSiteSearch.png') no-repeat 0 0;cursor:pointer; text-indent: -999em;}
