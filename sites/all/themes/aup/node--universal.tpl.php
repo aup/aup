@@ -136,7 +136,7 @@
 	
 <?php endif; ?>
 
-<?php if($node->field_related_links[LANGUAGE_NONE]): ?>
+<?php if($node->field_related_links[LANGUAGE_NONE][0]['value']): ?>
 
 	<script type="text/javascript">
 	//<![CDATA[

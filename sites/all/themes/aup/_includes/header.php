@@ -29,10 +29,11 @@
 	    	<?php if($primary_navigation): echo $primary_navigation; endif; ?>
         </div>
         <div class="utility">
-        	<ul>
+        	<?php if ($page['search_menu']): print render($page['search_menu']); endif; ?>
+        	<!--<ul>
             	<li><a href="#">Contact Us</a></li>
                 <li class="last"><a href="#">Visit AUP</a></li>
-            </ul>
+            </ul>-->
             <div class="siteSearch">
 				<?php if ($page['header_search']): print render($page['header_search']); endif; ?>
             </div>

@@ -55,6 +55,7 @@ regions[support_spif_3]  = Support SPIF 3
 regions[support_spif_4]  = Support SPIF 4
 
 regions[admissions_menu]  = Admission Menu
+regions[search_menu]      = Search Menu
 
 regions[admissions_features_1]  = Admission Feature 1
 regions[admissions_features_2]  = Admission Feature 2

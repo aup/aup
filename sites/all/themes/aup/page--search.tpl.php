@@ -40,26 +40,7 @@
                         </div>
                     </div>
             	</div>
-            	
-            	<div class="fullWidth news">
-                	<div class="feedTitle">
-                    	<h3>News</h3>
-                        <div class="more">
-                        	<a href="#">View more</a>
-                        </div>
-                    </div>
-                    <?php echo views_embed_view('news_events', 'block_3'); ?>
-                </div>
-    			<div class="fullWidth events">
-                	<div class="feedTitle">
-                    	<h3>Events</h3>
-                        <div class="more">
-                        	<a href="#">View more</a>
-                        </div>
-                    </div>
-                    <?php echo views_embed_view('news_events', 'block_2'); ?>
-                </div>
-            	
+            	            	
             </div>
             <!-- End of Content -->
             <!-- Start of footer -->
