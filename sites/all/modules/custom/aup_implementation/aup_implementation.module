@@ -31,6 +31,12 @@ function aup_implementation_theme($existing, $type, $theme, $path) {
 		'path' => $path,
 	);
 	
+	$theme['aup_right_column_accordion_treatment'] = array(
+		'arguments' => array('queue' => null),
+		'template' => 'aup-right-column-accordion-treatment',
+		'path' => $path,
+	);
+	
 	$theme['support_slideshow'] = array(
 		'arguments' => array('nodes' => null),
 		'template' => 'support-slideshow',
@@ -40,6 +46,12 @@ function aup_implementation_theme($existing, $type, $theme, $path) {
 	$theme['admissions_features'] = array(
 		'arguments' => array('nodes' => null),
 		'template' => 'admissions-features',
+		'path' => $path,
+	);
+	
+	$theme['right_column_accordion'] = array(
+		'arguments' => array('nodes' => null),
+		'template' => 'right-column-accordion',
 		'path' => $path,
 	);
 
@@ -97,6 +109,11 @@ function aup_implementation_nodequeue_block_treatments() {
 	$treatments['admissions_features_treatment'] = array(
 		'name' => t('Admissions Page Features'),
 		'theme_hook' => 'aup_admissions_features_treatment',
+	);
+	
+	$treatments['right_column_accordion_treatment'] = array(
+		'name' => t('Right Column Accordion (SPIF'),
+		'theme_hook' => 'aup_right_column_accordion_treatment',
 	);
 	
 	return $treatments;

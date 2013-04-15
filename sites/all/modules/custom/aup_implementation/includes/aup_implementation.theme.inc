@@ -34,3 +34,10 @@ function aup_implementation_preprocess_aup_admissions_features_treatment(&$varia
 	
 	$variables['features'] = theme('admissions_features', array('nodes' => $features_nodes->getNodes()));
 }
+
+function aup_implementation_preprocess_aup_right_column_accordion_treatment(&$variables) {
+
+	$nodes = new NodequeueNodes($variables['qid']);
+	
+	$variables['accordion'] = theme('right_column_accordion', array('nodes' => $nodes->getNodes()));
+}
