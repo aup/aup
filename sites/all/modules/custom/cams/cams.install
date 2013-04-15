@@ -34,25 +34,33 @@ function cams_requirements($phase) {
       // @ignore sniffer_semantics_functioncall_functionalias
       $version = mssql_fetch_array(mssql_query('SELECT @@VERSION'));
       $version = $version[0];
-      $value = $t('The CAMS server answered: %version', array('%version' => $version));
+      $value = $t('CAMS is accessible.');
     }
     else {
       $severity = REQUIREMENT_ERROR;
       $value = $t('CAMS is unreacheable.');
     }
 
-    $item_list = array(
-      // 'title' => t('Connection parameters'),
-      'items' => array(
-        $t('Host: %host', array('%host' => $host)),
-        $t('Database: %db', array('%db' => $db)),
-        $t('User: %user', array('%user' => $user))),
+    $params = array(
+      $t('Host: %host', array('%host' => $host)),
+      $t('Database: %db', array('%db' => $db)),
+      $t('User: %user', array('%user' => $user)),
+    );
+    
+    $description = theme('item_list', 
+      array('items' =>
+        array(
+          $t('Connection parameters: !params',
+            array('!params' => implode(' | ', $params))),
+          $t('Version: %version', array('%version' => $version)),
+        )
+      )
     );
 
     $requirements['cams'] = array(
       'title' => $t('CAMS'),
       'value' => $value,
-      'description' => theme('item_list', $item_list),
+      'description' => $description,
       'severity' => $severity,
     );
   }

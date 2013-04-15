@@ -45,17 +45,33 @@ function cams_menu() {
  *   FALSE otherwise   
  */
 function cams_is_available() {
-  $server = variable_get('cams_server', NULL);
-  $database = variable_get('cams_database', NULL);
-  $username = variable_get('cams_username', NULL);
-  $password = variable_get('cams_password', NULL);
+  global $cams;
 
-  // @ignore sniffer_semantics_functioncall_functionalias
-  if (!@mssql_connect($server, $username, $password)) {
-    return FALSE;
+  if (!$cams) {
+    try {
+drupal_set_message('NEW CAMS');
+      $server = variable_get('cams_server', NULL);
+      $database = variable_get('cams_database', NULL);
+      $username = variable_get('cams_username', NULL);
+      $password = variable_get('cams_password', NULL);
+
+      // @ignore sniffer_semantics_functioncall_functionalias
+      if (!mssql_connect($server, $username, $password)) {
+        return FALSE;
+      }
+      // @ignore sniffer_semantics_functioncall_functionalias
+      $cams = mssql_select_db($database);
+    }
+    catch (adLDAPException $e) {
+      $message = t('Connection to Active Directory failed: @error',
+        array('@error' => $e));
+      watchdog('active_directory', $message, array(), WATCHDOG_ERROR);
+      drupal_set_message($message, 'error');
+      return FALSE;
+    }
   }
-  // @ignore sniffer_semantics_functioncall_functionalias
-  return mssql_select_db($database);
+
+  return $cams;
 }
 
 /**
