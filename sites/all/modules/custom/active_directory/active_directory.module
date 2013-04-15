@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file
+ * Active Directory
+ * Provides integration with Active Directory
+ */
+
+define('ADLDAP_PATH', 'sites/all/libraries/adLDAP/src/adLDAP.php');
+
+/**
+ * Implements hook_help().
+ */
+function active_directory_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#cams":
+      return '<p>' . t("Provides integration with Active Directory")
+      . '</p>';
+    break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function active_directory_menu() {
+  $items = array();
+
+  $items['admin/config/aup/active-directory'] = array(
+    'title' => 'Active Directory',
+    'description' => 'Configuration for the Active Directory module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('active_directory_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'active_directory.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Check if connection to Active Directory is available.
+ * 
+ * @return Boolean
+ *   TRUE if Active Directory is available
+ *   FALSE otherwise   
+ */
+function active_directory_is_available() {
+  global $ad;
+  
+  if (!file_exists(ADLDAP_PATH)) {
+  	$message = t('adLDAP library not found at @path',
+  			array('@path' => ADLDAP_PATH));
+  	watchdog('active_directory', $message, array(), WATCHDOG_ERROR);
+  	drupal_set_message($message, 'error');
+  	return FALSE;
+  }
+  require_once(ADLDAP_PATH);
+
+  if (!$ad) {
+  	try {
+drupal_set_message('NEW AD');
+  		$options = array(
+  				'account_suffix' => '@'.variable_get('active_directory_account_suffix', NULL),
+  				'base_dn' => variable_get('active_directory_basedn', NULL),
+  				'domain_controllers' => explode("\n", variable_get('active_directory_dc', '')),
+  				'admin_username' => variable_get('active_directory_bind_user', NULL),
+  				'admin_password' => variable_get('active_directory_bind_password', NULL),
+  				'real_primarygroup' => false,
+  				'use_ssl' => true,
+  				'ad_port' => 636,
+  				'recursive_groups' => true,
+  		);
+  		$ad = new adLDAP($options);
+  	}
+  	catch (adLDAPException $e) {
+  		$message = t('Connection to Active Directory failed: @error',
+  				array('@error' => $e));
+  		watchdog('active_directory', $message, array(), WATCHDOG_ERROR);
+  		drupal_set_message($message, 'error');
+  		return FALSE;
+  	}
+  }
+  
+  return $ad;
+}

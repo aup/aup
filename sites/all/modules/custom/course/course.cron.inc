@@ -9,6 +9,7 @@
  * Synchronizes all Courses with CAMS.
  */
 function course_sync() {
+  $rc = WATCHDOG_INFO;
   aup_custom_task_start();
 
   if (!cams_is_available()) {
@@ -16,7 +17,7 @@ function course_sync() {
     return aup_custom_task_end($report, WATCHDOG_ERROR);
   }
   
-  if (!$active_terms = cams_query('term', 'get', 'active')) {
+  if (!$active_terms = cams_query('term', 'get', 'future')) {
     $report[] = t('[ERROR] No active term found in CAMS');
     return aup_custom_task_end($report, WATCHDOG_ERROR);
   }
@@ -31,7 +32,7 @@ function course_sync() {
   /*
    * Course Master Synchronization
    */
-  /*$report[] = '';
+  $report[] = '';
   $report[] = '[INFO] COURSE MASTERS SYNCHRONIZATION';
 
   // Unpublish all course masters
@@ -58,8 +59,8 @@ function course_sync() {
   }
   $report[] = t("[INFO] @count unpublished course masters:<br/>!list", array(
     '@count' => (int) count($unpublished),
-    '!list'  => implode('<br/>', $unpublished)));*/
-  
+    '!list'  => implode('<br/>', $unpublished)));
+
   /*
    * Course Synchronization
    */
@@ -90,11 +91,11 @@ function course_sync() {
   while ($title = $query->fetchField()) {
     $unpublished[] = $title;
   }
-  $report[] = t("[INFO] @count unpublished course:<br/>!list", array(
+  $report[] = t("[INFO] @count unpublished courses:<br/>!list", array(
                 '@count' => (int) count($unpublished),
                 '!list'  => implode('<br/>', $unpublished)));
-  
-  return aup_custom_task_end($report);
+
+  return aup_custom_task_end($report, $rc);
 }
 
 /**
@@ -178,10 +179,9 @@ function _course_master_sync($course, &$report, &$rc) {
  */
 function _course_offer_sync($course, &$report, &$rc) {
 	if (!is_object($course)) {
+		$rc = WATCHDOG_ERROR;
 		return FALSE;
 	}
-
-	$report = array();
 
   // Load the node if it already exists
   $query = db_query("
@@ -212,6 +212,8 @@ function _course_offer_sync($course, &$report, &$rc) {
 	$node->field_course_canrepeat[LANGUAGE_NONE][0]['value'] = ($course->canRepeat == 'Yes') ? 1 : 0;
 	$node->field_course_level[LANGUAGE_NONE][0]['value'] = $course->level;
 	$node->field_course_notes[LANGUAGE_NONE][0]['value'] = $course->notes;
+	$node->field_course_startdate[LANGUAGE_NONE][0]['value'] = $course->startDate;
+	$node->field_course_enddate[LANGUAGE_NONE][0]['value'] = $course->endDate;
 	$node->field_course_examdate[LANGUAGE_NONE][0]['value'] = $course->examDate;
 	$node->field_cams_id[LANGUAGE_NONE][0]['value'] = $course->camsID;
 	$node->field_cams_last_update[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
@@ -226,6 +228,7 @@ function _course_offer_sync($course, &$report, &$rc) {
     $node->field_course_course_master[LANGUAGE_NONE][0]['target_id'] = $eid;
   }
   else {
+    $rc = WATCHDOG_WARNING;
     $report[] = t('[WARNING] Course Master @course_master not found', array(
       '@course_master' => $course->masterID));
   }
@@ -252,6 +255,7 @@ function _course_offer_sync($course, &$report, &$rc) {
         $node->field_course_professors[LANGUAGE_NONE][$i++]['target_id'] = $uid;
       }
       else {
+        $rc = WATCHDOG_WARNING;
         $report[] = t('[WARNING] Professor @professor not found', array(
           '@professor' => "$professor->firstName $professor->lastName ($professor->netID)"));
       }
@@ -262,16 +266,17 @@ function _course_offer_sync($course, &$report, &$rc) {
   unset($node->field_course_students);
   if ($students = cams_query('course', 'get_students', $course->code, $course->termID)) {
     $i = 0;
-    foreach ($students as $student) {
+    foreach ($students as $netID) {
       $query = db_query("SELECT uid FROM {users}
                           WHERE name = :netid", array(
-                        ':netid' => $student->netID));
+                        ':netid' => $netID));
       if ($uid = $query->fetchField()) {
         $node->field_course_students[LANGUAGE_NONE][$i++]['target_id'] = $uid;
       }
       else {
-        $report[] = t('[WARNING] Student @student not found', array(
-          '@student' => $student->netID));
+        $rc = WATCHDOG_WARNING;
+        $report[] = t('[WARNING] Student @netID not found', array(
+          '@netID' => $netID));
       }
     }
   }
@@ -303,41 +308,104 @@ function _course_offer_sync($course, &$report, &$rc) {
   }
 
   // Schedules
+  unset($node->field_timetable);
   unset($node->field_course_schedule);
+  $i = 0;
   if ($schedules = cams_query('course', 'get_schedules', $course->code, $course->termID)) {
-  	foreach ($schedules as $schedule) {
-  		// DEBUG   		  		
-  		watchdog('debug', 'Schedule:<pre>' . print_r($schedule, TRUE) . '</pre>');
-  		/*if (!$room_eid = db_query('SELECT entity_id FROM {field_data_field_room_code}
-  				WHERE field_room_code_value = :id', array(
-  						':id' => $schedule->room))->fetchField()) {
-        $node_room = new stdClass();
-  			$node_room->type = 'room';
-  			$node_room->uid = 0;
-  			$node_room->status = 1;
-  			$node_room->field_room_code[LANGUAGE_NONE][0]['value'] = $schedule->room;
-  			node_save($node_room);
-  			$report[] = t('[INFO] Room @room created', array(
-  					'@room' => $schedule->room));
-  			$room_eid = $node_room->nid;
-  		}
-  		$values = array();
-      $values['field_name'] = 'field_course_schedule';
-      $values['field_course_schedule_room'][LANGUAGE_NONE][0]['target_id'] = $room_eid;
-      $i = 0;
-      foreach(str_split($schedule->OfferDays) as $offerDay) {
-      	if ($offerDay = strtoupper(cams_query('convert', 'camsday2phpday', $offerDay, FALSE))) {
-      		$values['field_course_schedule_days'][LANGUAGE_NONE][$i++]['value'] = $offerDay;
-      	}
-      }
+    // DEBUG watchdog('debug', $course->code . ' Schedules:<pre>' . print_r($schedules, TRUE) . '</pre>');
+    foreach ($schedules as $schedule) {
+      foreach(str_split($schedule->offerDays) as $camsDay) {
+        if (!$day = strtoupper(cams_query('convert', 'camsday2phpday', $camsDay, FALSE))) {
+          $rc = WATCHDOG_WARNING;
+          $report[] = t('[WARNING] Day (@day) unknown for @course', array(
+                        '@day'    => $camsDay,
+                        '@course' => "$course->name ($course->code)"));
+          $day = 'UN';
+        }
+        $query = db_query('SELECT entity_id FROM {field_data_field_room_code}
+                            WHERE field_room_code_value = :id', array(
+                          ':id' => $schedule->room));
+        if (!$room_eid = $query->fetchField()) {
+          $node_room = new stdClass();
+          $node_room->type = 'room';
+          $node_room->uid = 0;
+          $node_room->status = 1;
+          $node_room->field_room_code[LANGUAGE_NONE][0]['value'] = $schedule->room;
+          node_save($node_room);
+          $report[] = t('[INFO] Room @room created', array(
+                        '@room' => $schedule->room));
+          $room_eid = $node_room->nid;
+        }
 
-      // DEBUG
-      watchdog('debug', '<pre>' . print_r($values, TRUE) . '</pre>');
-      $entity = entity_create('field_collection_item', $values);
-      $entity->setHostEntity('node', $node);
-      $entity->save();*/
-  	}
+        // Timetable.
+        $start_time = substr($schedule->offerTimeFrom, 0, 5);
+        $end_time = substr($schedule->offerTimeTo, 0, 5);
+//watchdog('debug', "$i day = $camsDay -> " . cams_query('convert', 'camsday2daynb', $camsDay));
+        if ($day != 'UN') {
+          $node->field_timetable[LANGUAGE_NONE][$i++] = array(
+            'day'          => cams_query('convert', 'camsday2daynb', $camsDay),
+            'start_minute' => cams_query('convert', 'camstime2minutes', $start_time),
+            'end_minute'   => cams_query('convert', 'camstime2minutes', $end_time),
+            'description'  => $schedule->room,
+          );
+        }
+
+        // Course Schedule Field Collection.
+        $values = array();
+        $values['field_name'] = 'field_course_schedule';
+
+        // Room.
+        $values['field_course_schedule_room'][LANGUAGE_NONE][0]['target_id'] = $room_eid;
+
+        // Days.
+        $days = array();
+        $values['field_course_schedule_day'][LANGUAGE_NONE][0]['value'] = $day;
+        $days[] = $day;
+
+        // Start and End Offer Times.
+        $values['field_course_schedule_starttime'][LANGUAGE_NONE][0]['value'] = $start_time;
+        $values['field_course_schedule_endtime'][LANGUAGE_NONE][0]['value'] = $end_time;
+
+	      /*// Repeating date.
+	      $startDate = $course->startDate . ' ' . $schedule->offerTimeFrom;
+	      $endDate = $course->endDate . ' ' . $schedule->offerTimeTo;
+	
+	      // Compute the real start day.
+	      // DEBUG drupal_set_message($startDate);
+	      $startDate = new DateObject($startDate);
+	      // DEBUG drupal_set_message(cams_query('convert', 'camsday2phpday', $schedule->offerDays[0], TRUE));
+	      $startDate->modify('+1 ' . cams_query('convert', 'camsday2phpday', $schedule->offerDays[0], TRUE));
+	      // DEBUG drupal_set_message("$startDate -> $endDate");
+	      $course->realStartDate = $startDate->format('Y-m-d'); //substr($startDate, 0, 10);
+	
+	      $until = str_replace('-', '', $course->endDate);
+	      $rrule = 'RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY='.implode(',', $days).';UNTIL='.$until.'T215959Z;WKST=MO';
+	  
+	      // DEBUG drupal_set_message('<pre>' . print_r(date_repeat_calc($rrule, $startDate, $endDate), TRUE) . '</pre>');return TRUE;
+	      $repeats = array(
+	        'start' => date_repeat_calc($rrule, $course->realStartDate.' '.$schedule->offerTimeFrom, $course->endDate.' '.$schedule->offerTimeFrom),
+	        'end' => date_repeat_calc($rrule, $course->realStartDate.' '.$schedule->offerTimeTo, $course->endDate.' '.$schedule->offerTimeTo),
+	      );
+	
+	      for ($i = 0 ; $i < count($repeats['start']) ; $i++) {
+	        $values['field_date'][LANGUAGE_NONE][$i] = array(
+	          'value' => $repeats['start'][$i],
+	          'value2' => $repeats['end'][$i],
+	          'rrule' => $rrule,
+	        );
+	      }*/
+        
+        // DEBUG watchdog('debug', 'Values:<pre>' . print_r($values, TRUE) . '</pre>');
+        $entity = entity_create('field_collection_item', $values);
+        $entity->setHostEntity('node', $node);
+        $entity->save();
+      }
+    }
   }
+
+  // DEBUG watchdog('debug', 'timetable:<pre>' . print_r($node->field_timetable[LANGUAGE_NONE], TRUE) . '</pre>');
+  
+  // DEBUG  watchdog('debug', 'Scheduling:<pre>' . print_r($node->field_date[LANGUAGE_NONE], TRUE) . '</pre>');
   
 	node_save($node);
 
@@ -345,8 +413,7 @@ function _course_offer_sync($course, &$report, &$rc) {
 	  $report[] = t('[INFO] Course !course created', array(
 			'!course' => $node->title));
 	}
-	
-	return $report;
+	return TRUE;
 }
 
 /**

@@ -43,6 +43,7 @@ function cams_term_get($type = 'current') {
       $sql = mssql_query("
                 SELECT Term AS id, TextTerm AS name FROM TermCalendar
                  WHERE ActiveFlag = 1
+                   AND DisplayInStudentPortal = 1 and DisplayInFacultyPortal = 1
               ORDER BY Term");
       $result = array();
       while ($line = mssql_fetch_object($sql)) {
@@ -52,34 +53,34 @@ function cams_term_get($type = 'current') {
       }
       break;
 
-	case 'current':
-	  $result = variable_get('cams_current_term', NULL);
-	  break;
+  case 'current':
+    $result = variable_get('cams_current_term', NULL);
+    break;
 
-    case 'past':
-  	  $currentTerm = variable_get('cams_current_term', NULL);
-  	  $sql = mssql_query("
-  	    SELECT Term AS id, TextTerm AS name FROM TermCalendar
-  	    WHERE Term < $currentTerm AND ActiveFlag = 1
-  	    ORDER BY Term");
-  	  $result = array();
-  	  while ($line = mssql_fetch_object($sql)) {
-  		$result[] = $line;
-  	  }
-      break;
-	  		  
-	case 'future':
-	  $currentTerm = variable_get('cams_current_term', NULL);
-	  $sql = mssql_query("
-	    SELECT Term AS id, TextTerm AS name FROM TermCalendar
-	    WHERE Term >= $currentTerm AND ActiveFlag = 1
-              AND DisplayInStudentPortal = 1 and DisplayInFacultyPortal = 1
-	    ORDER BY Term");
-	  $result = array();
-	    while ($line = mssql_fetch_object($sql)) {
-	      $result[] = $line;
-	    }
-	    break;	 
+  case 'past':
+    $currentTerm = variable_get('cams_current_term', NULL);
+    $sql = mssql_query("
+      SELECT Term AS id, TextTerm AS name FROM TermCalendar
+      WHERE Term < $currentTerm AND ActiveFlag = 1
+      ORDER BY Term");
+    $result = array();
+    while ($line = mssql_fetch_object($sql)) {
+      $result[] = $line;
+    }
+  break;
+
+  case 'future':
+  $currentTerm = variable_get('cams_current_term', NULL);
+  $sql = mssql_query("
+    SELECT Term AS id, TextTerm AS name FROM TermCalendar
+    WHERE Term >= $currentTerm AND ActiveFlag = 1
+             AND DisplayInStudentPortal = 1 and DisplayInFacultyPortal = 1
+    ORDER BY Term");
+  $result = array();
+    while ($line = mssql_fetch_object($sql)) {
+      $result[] = $line;
+    }
+    break;	 
 
     case 'future_summer':
     	$currentTerm = variable_get('cams_current_term', NULL);

@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Active Directory
+ * Provides integration with Active Directory
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function active_directory_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    // Ensure translations don't break at install time.
+    $t = get_t();
+
+    if (!file_exists(ADLDAP_PATH)) {
+      $message = t('adLDAP library not found at @path',
+        array('@path' => ADLDAP_PATH));
+      $requirements['active_directory'] = array(
+        'title' => $t('Active Directory'),
+        'value' => $message,
+        'description' => '',
+        'severity' => REQUIREMENT_ERROR,
+      );
+      return $requirements;
+    }
+    
+    $host = variable_get('active_directory_dc', '');
+    $basedn = variable_get('active_directory_basedn', '');
+    $suffix = variable_get('active_directory_account_suffix', '');
+    $user = variable_get('active_directory_bind_user', '');
+    //$pwd = variable_get('active_directory_bind_password', '');
+
+    try {
+      if (!$connection = active_directory_is_available()) {
+        throw new Exception($t('No Active Directory connection when checking requirements.'));
+      }
+    }
+    catch (Exception $e) {
+      watchdog('active_directory', nl2br(check_plain($e->getMessage())), NULL, WATCHDOG_ERROR);
+    }
+
+    $value = $connection ? $t('The Active Directory is accessible.') : $t('The Active Directory is unreacheable.');
+    $severity = $connection ? REQUIREMENT_OK : REQUIREMENT_ERROR;
+    
+    $params = array($t('Host(s): %host', array('%host' => $host)),
+      $t('Base DN: %basedn', array('%basedn' => $basedn)),
+      $t('Suffix: %suffix', array('%suffix' => $suffix)),
+      $t('User: %user', array('%user' => $user)),
+      //$t('Password: %pwd', array('%pwd' => $pwd)),
+    );
+    
+    $description = theme('item_list',
+    		array('items' =>
+    				array(
+    						$t('Connection parameters: !params',
+    								array('!params' => implode(' | ', $params))),
+    				)
+    		)
+    );
+    
+    $requirements['active_directory'] = array(
+      'title' => $t('Active Directory'),
+      'value' => $value,
+      'description' => $description,
+      'severity' => $severity,
+    );
+  }
+  
+  return $requirements;
+}
