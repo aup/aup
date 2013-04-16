@@ -54,6 +54,10 @@ regions[support_spif_2]  = Support SPIF 2
 regions[support_spif_3]  = Support SPIF 3
 regions[support_spif_4]  = Support SPIF 4
 
+regions[universal_spif_1]  = Universal SPIF 1
+regions[universal_spif_2]  = Universal SPIF 2
+regions[universal_spif_3]  = Universal SPIF 3
+
 regions[admissions_menu]  = Admission Menu
 regions[search_menu]      = Search Menu
 

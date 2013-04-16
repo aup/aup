@@ -68,39 +68,6 @@
                     <div class="leftColumn">
                         <div class="secondaryNav">
                         	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
-                            <!--<ul>
-                                <li><a href="#">Link Number 01</a></li>
-                                <li><a href="#">Link Number 02</a></li>
-                                <li>
-                                    <a href="#">Link Number 03</a>
-                                    <ul>
-                                        <li>
-                                            <a class="selected" href="#">Sub Link Long Number 01</a>
-                                            <ul>
-                                                <li><a href="#">Child Link 01</a></li>
-                                                <li><a href="#">Child Link 02</a></li>
-                                                <li><a href="#">Child Link 03</a></li>
-                                                <li><a href="#">Child Link 04</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Sub Link 03</a></li>
-                                        <li><a href="#">Sub Link 03</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Link Number 04</a></li>
-                                <li><a href="#">Link Number 05</a></li>
-                                <li><a href="#">Link Number 06</a></li>
-                            </ul>
-                        </div>-->
-                        <div class="relatedLinks">
-                            <div class="wrap">
-                                <h4>Related Links</h4>
-                                <ul>
-                                    <li><a href="#">Link Number One</a></li>
-                                    <li><a href="#">Link Number Two</a></li>
-                                    <li><a href="#">Link Number Three</a></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <!-- Begin Left Column -->

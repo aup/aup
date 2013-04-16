@@ -31,14 +31,15 @@
                         <?php echo render($page['content']); ?>
                         
                     </div>
+                    
+                    <!-- Begin Left Column -->
                     <div class="leftColumn">
-                        <div class="relatedLinks noNav">
-                            <div class="wrap">
-                                <h4>Related Links</h4>
-                                <div class="move-related-links"></div>
-                            </div>
+                        <div class="secondaryNav">
+                        	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
                         </div>
                     </div>
+                    <!-- Begin Left Column -->
+                    
                 </div>
                 <div class="tabSection gatewayFeature">
                 	<div class="tabSurround">

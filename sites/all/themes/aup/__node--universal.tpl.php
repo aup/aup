@@ -29,6 +29,11 @@
          	
          	<!-- Start Right Sidebar -->
          	<div class="side">
+         	
+         		++++++++
+         		<?php if($page['universal_spif_1']): echo render($page['universal_spif_1']); endif; ?>
+         		=======
+         	
 				<div class="pod accordionPod">
 					<div class="podWrap">
 				    	<div class="accordion accordion1">
