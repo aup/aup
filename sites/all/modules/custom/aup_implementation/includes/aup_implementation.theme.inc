@@ -41,3 +41,10 @@ function aup_implementation_preprocess_aup_right_column_accordion_treatment(&$va
 	
 	$variables['accordion'] = theme('right_column_accordion', array('nodes' => $nodes->getNodes()));
 }
+
+function aup_implementation_preprocess_aup_tabbed_feature_treatment(&$variables) {
+
+	$nodes = new NodequeueNodes($variables['qid']);
+	
+	$variables['features'] = theme('tabbed_features', array('nodes' => $nodes->getNodes()));
+}

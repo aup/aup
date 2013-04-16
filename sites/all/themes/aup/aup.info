@@ -66,3 +66,7 @@ regions[search_menu]      = Search Menu
 regions[admissions_features_1]  = Admission Feature 1
 regions[admissions_features_2]  = Admission Feature 2
 regions[admissions_features_3]  = Admission Feature 3
+
+regions[tabbed_features_1] = Tabbed Feature 1
+regions[tabbed_features_2] = Tabbed Feature 2
+regions[tabbed_features_3] = Tabbed Feature 3

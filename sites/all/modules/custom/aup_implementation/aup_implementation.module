@@ -37,6 +37,12 @@ function aup_implementation_theme($existing, $type, $theme, $path) {
 		'path' => $path,
 	);
 	
+	$theme['aup_tabbed_feature_treatment'] = array(
+		'arguments' => array('queue' => null),
+		'template' => 'aup-tabbed-feature-treatment',
+		'path' => $path,
+	);
+	
 	$theme['support_slideshow'] = array(
 		'arguments' => array('nodes' => null),
 		'template' => 'support-slideshow',
@@ -52,6 +58,12 @@ function aup_implementation_theme($existing, $type, $theme, $path) {
 	$theme['right_column_accordion'] = array(
 		'arguments' => array('nodes' => null),
 		'template' => 'right-column-accordion',
+		'path' => $path,
+	);
+	
+	$theme['tabbed_features'] = array(
+		'arguments' => array('nodes' => null),
+		'template' => 'tabbed-features',
 		'path' => $path,
 	);
 
@@ -114,6 +126,11 @@ function aup_implementation_nodequeue_block_treatments() {
 	$treatments['right_column_accordion_treatment'] = array(
 		'name' => t('Right Column Accordion (SPIF)'),
 		'theme_hook' => 'aup_right_column_accordion_treatment',
+	);
+	
+	$treatments['tabbed_feature_treatment'] = array(
+		'name' => t('Tabbed Features (SPIF)'),
+		'theme_hook' => 'aup_tabbed_feature_treatment',
 	);
 	
 	return $treatments;
