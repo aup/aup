@@ -112,7 +112,7 @@ function aup_implementation_nodequeue_block_treatments() {
 	);
 	
 	$treatments['right_column_accordion_treatment'] = array(
-		'name' => t('Right Column Accordion (SPIF'),
+		'name' => t('Right Column Accordion (SPIF)'),
 		'theme_hook' => 'aup_right_column_accordion_treatment',
 	);
 	

@@ -42,9 +42,7 @@
                                     <div class="feedTitle">
                                         <h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
                                     </div>
-                                    
-                                    <?php if ($tabs): echo render($tabs); endif; ?>
-	                       	 		<?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
+
                             		<?php echo render($page['content']); ?>
                                     <div class="more">
                                     	<a href="/aup/news-archive">View more news stories</a>

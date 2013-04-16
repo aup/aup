@@ -28,6 +28,11 @@
                             </div>
                         </div>
                         
+                        <div class="container inner">
+			            	<?php if ($messages): echo $messages; endif; ?>
+			            	<?php if ($tabs): echo render($tabs); endif; ?>
+	                        <?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
+	            		</div>
                         <?php echo render($page['content']); ?>
                         
                     </div>
