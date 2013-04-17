@@ -33,19 +33,7 @@
 	            </div>
 	            <div class="utility">
 	            	<?php if ($page['search_menu']): print render($page['search_menu']); endif; ?>
-	            	<!--<ul>
-	                	<li><a href="#">Contact Us</a></li>
-	                    <li class="last"><a href="#">Visit AUP</a></li>
-	                </ul>-->
 	                <div class="siteSearch">
-	                	<!--<form method="post" action="#">
-	                    	<fieldset>
-	                         	<legend>Search</legend>
-	                            <label for="txtSiteSearch">Search</label>
-	                            <input type="text" class="txtSiteSearch" id="txtSiteSearch" value="Search" />
-	                            <input type="submit" class="btnSiteSubmit" value="" />
-	                        </fieldset>
-	                    </form>-->
 	                    <?php if ($page['header_search']): print render($page['header_search']); endif; ?>
 	                </div>
 	            </div>
@@ -64,16 +52,7 @@
 	                
 	                </div>
 	                <div class="topic">
-	                    <ul>
-	                        <li><a href="#">About</a></li>
-	                        <li><a href="#">Academics</a></li>
-	                        <li><a href="#">Admissions</a></li>
-	                        <li><a href="#">Student Life</a></li>
-	                        <li><a href="#">News &amp; Events</a></li>
-	                        <li><a href="#">Support AUP</a></li>
-	                        <li><a href="#">Contact Us</a></li>
-	                        <li><a href="#">Visit AUP</a></li>
-	                    </ul>
+	                    <?php if($primary_navigation): echo $primary_navigation; endif; ?>
 	                </div>
 	                <div class="infomenulist">
 	                	
@@ -108,7 +87,7 @@
 	    		<div class="fullWidth news">
 	    			
 	            	<div class="feedTitle">
-	                	<h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
+	                	<h3>News <a href="/aup/news-feed" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
 	                    <div class="more">
 	                    	<a href="/aup/news-events">View more</a>
 	                    </div>
@@ -117,7 +96,7 @@
 	            </div>
 	    		<div class="fullWidth events">
 	            	<div class="feedTitle">
-	                	<h3>Events <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
+	                	<h3>Events <a href="/aup/events-feed" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
 	                    <div class="more">
 	                    	<a href="/aup/news-events">View more</a>
 	                    </div>
@@ -163,21 +142,7 @@
 	        </div>
 	        <!-- End of Content -->
 	        <!-- Start of footer -->
-	        <div class="footer">
-	    		<h6>&copy; 2013 THE AMERICAN UNIVERSITY OF PARIS</h6>
-	            <ul>
-	            	<li><a href="#">Maps &amp; Directories</a></li>
-	            	<li><a href="#">Site A to Z</a></li>
-	            	<li><a href="#">MyAUP</a></li>
-	            	<li class="last"><a href="#">Employment Opportunities</a></li>
-	            </ul>
-	            <ul class="icons">
-	            	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/facebook20.png" alt=""/></a></li>
-	            	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/twitter20.png" alt=""/></a></li>
-	            	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/youtube20.png" alt=""/></a></li>
-	            	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss20.png" alt=""/></a></li>
-	            </ul>
-	        </div>
+	        <?php include('_includes/footer.php'); ?>
 	        <!-- End of Footer -->
 	    </div>
 	    <!-- End of wrapper -->

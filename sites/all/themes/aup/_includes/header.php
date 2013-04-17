@@ -52,16 +52,7 @@
         </div>
         <div class="ddContainer">
             <div class="topic">
-                <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Academics</a></li>
-                    <li><a href="#">Admissions</a></li>
-                    <li><a href="#">Student Life</a></li>
-                    <li><a href="#">News &amp; Events</a></li>
-                    <li><a href="#">Support AUP</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Visit AUP</a></li>
-                </ul>
+                <?php if($primary_navigation): echo $primary_navigation; endif; ?>
             </div>
             <div class="infomenulist">
             	

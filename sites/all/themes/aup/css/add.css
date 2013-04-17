@@ -126,3 +126,11 @@
 .leftColumn ul.menu li {
 	margin: 0px;
 }
+
+/* Right Column ======= */
+
+/* Footer ======== */
+
+.footer ul.menu {
+	text-align: center !important;
+}

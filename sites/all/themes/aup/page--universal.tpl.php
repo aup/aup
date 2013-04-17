@@ -62,13 +62,9 @@
 										<?php if($page['universal_spif_2']): echo render($page['universal_spif_2']); endif; ?>
 										<?php if($page['universal_spif_3']): echo render($page['universal_spif_3']); endif; ?>
 										<!-- End SPIF Region -->
-										    										
-										<div class="pod podRichtext">
-											<div class="podWrap">
-										    	<img src="images/inlineImage.jpg" alt="" />
-												<p><strong>Inline Image Caption:</strong> Proin blandit sollicitudin tempus. In turpis augue, tempus non mollis ac, feugiat sed quam. Tincidunt consectetur.  <a href="#">read more</a></p>
-										    </div>
-										</div>
+
+										
+										
 										<div class="pod last">
 											<div class="podWrap">
 										   	<div class="podSocial">
@@ -135,22 +131,6 @@
 							</div>
 							
 						<?php endif; ?>
-						
-					
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
 
                     </div>
                     <div class="leftColumn">
@@ -196,21 +176,7 @@
             </div>
             <!-- End of Content -->
             <!-- Start of footer -->
-            <div class="footer">
-    			<h6>&copy; 2013 THE AMERICAN UNIVERSITY OF PARIS</h6>
-                <ul>
-                	<li><a href="#">Maps &amp; Directories</a></li>
-                	<li><a href="#">Site A to Z</a></li>
-                	<li><a href="#">MyAUP</a></li>
-                	<li class="last"><a href="#">Employment Opportunities</a></li>
-                </ul>
-                <ul class="icons">
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/facebook20.png" alt=""/></a></li>
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/twitter20.png" alt=""/></a></li>
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/youtube20.png" alt=""/></a></li>
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss20.png" alt=""/></a></li>
-                </ul>
-            </div>
+            <?php include('_includes/footer.php'); ?>
             <!-- End of Footer -->
         </div>
         <!-- End of wrapper -->

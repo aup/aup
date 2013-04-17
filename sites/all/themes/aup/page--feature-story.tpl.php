@@ -36,162 +36,62 @@
                         
                     </div>
                     <div class="leftColumn">
-                        <div class="relatedLinks noNav">
-                            <div class="wrap">
-                                <h4>Related Links</h4>
-                                <div class="move-related-links"></div>
-                            </div>
+                        <div class="secondaryNav">
+                        	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
                         </div>
                     </div>
                 </div>
-                <div class="tabSection gatewayFeature">
+                
+                <!-- Begin Tabs -->
+                <div class="tabSection gatewayFeature">                
                 	<div class="tabSurround">
                         <h4>More from</h4>
                         <ul class="gTabs doubleLineTabs">
-                            <li class="tab-1 selected">
-                                <a href="#">Students <em>of</em> The World</a>
-                            </li>
-                            <li class="tab-2">
-                                <a href="#">STUDIES <em>for</em> The World</a>
-                            </li>
-                            <li class="tab-3 last">
-                                <a href="#">Success <em>in</em> The World</a>
-                            </li>
+                        	<?php if($page['tabbed_features_1']): ?>
+                            	<li class="tab-1 selected">
+                            	    <a href="#">Students <em>of</em> The World</a>
+                            	</li>
+                            <?php endif; ?>
+                            <?php if($page['tabbed_features_2']): ?>
+                            	<li class="tab-2">
+                            	    <a href="#">STUDIES <em>for</em> The World</a>
+                            	</li>
+                            <?php endif; ?>
+                            <?php if($page['tabbed_features_3']): ?>
+                            	<li class="tab-3 last">
+                            	    <a href="#">Success <em>in</em> The World</a>
+                            	</li>
+                            <?php endif; ?>
                         </ul>
                     </div>
+
                     <div class="gContent">
+                    	<?php if($page['tabbed_features_1']): ?>
                         <div class="gInner1 gInner selected">
-                            <ul class="feed bxslider mobileHide">
-                                <li>
-                                	<div class="columns3">
-                                        <div class="col">
-                                            <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                            <h4><a href="#">Success in the World 01</a></h4>
-                                            <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                        </div>
-                                        <div class="col">
-                                            <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                            <h4><a href="#">Success in the World 02</a></h4>
-                                            <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                        </div>
-                                        <div class="col">
-                                            <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                            <h4><a href="#">Success in the World 03</a></h4>
-                                            <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                	<div class="columns3">
-                                        <div class="col">
-                                            <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                            <h4><a href="#">Success in the World 04</a></h4>
-                                            <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                        </div>
-                                        <div class="col">
-                                            <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                            <h4><a href="#">Success in the World 05</a></h4>
-                                            <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                        </div>
-                                        <div class="col">
-                                            <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                            <h4><a href="#">Success in the World 06</a></h4>
-                                            <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="feed mobileShow">
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 01</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li class="wideCol">
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 02</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 03</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 04</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 05</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 06</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                            </ul>
+                        	<?php echo render($page['tabbed_features_1']); ?>
                         </div>
-                        <div class="gInner2 gInner">
-                            <ul class="feed">
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 01</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li class="wideCol">
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo2.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 02</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo1.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 03</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="gInner3 gInner">
-                            <ul class="feed">
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 01</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li class="wideCol">
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo2.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 02</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                                <li>
-                                    <p><a href="#"><img alt="" src="<?php echo base_path().path_to_theme(); ?>/images/promo3.jpg"></a></p>
-                                    <h4><a href="#">Success in the World 03</a></h4>
-                                    <p>Morbi dignissim hendrerit dui a tristique. Cras dictum magna vitae velit facilisis rutrum. Aliquam sollicitudin dignissim metus, nec consequat tellus bibendum id.</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <?php endif; ?>
+                        
+                        <?php if($page['tabbed_features_2']): ?>
+	                        <div class="gInner2 gInner">
+    	                    	<?php echo render($page['tabbed_features_2']); ?>
+        	                </div>
+                        <?php endif; ?>
+                        
+                        <?php if($page['tabbed_features_3']): ?>
+                        	<div class="gInner3 gInner">
+                        		<?php echo render($page['tabbed_features_3']); ?>
+                        	</div>
+                        <?php endif; ?>
+                    </div> 
                 </div>
+                <!-- End Tabs -->
+
+                
             </div>
             <!-- End of Content -->
             <!-- Start of footer -->
-            <div class="footer">
-    			<h6>&copy; 2013 THE AMERICAN UNIVERSITY OF PARIS</h6>
-                <ul>
-                	<li><a href="#">Maps &amp; Directories</a></li>
-                	<li><a href="#">Site A to Z</a></li>
-                	<li><a href="#">MyAUP</a></li>
-                	<li class="last"><a href="#">Employment Opportunities</a></li>
-                </ul>
-                <ul class="icons">
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/facebook20.png" alt=""/></a></li>
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/twitter20.png" alt=""/></a></li>
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/youtube20.png" alt=""/></a></li>
-                	<li><a href="#"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss20.png" alt=""/></a></li>
-                </ul>
-            </div>
+            <?php include('_includes/footer.php'); ?>
             <!-- End of Footer -->
         </div>
         <!-- End of wrapper -->

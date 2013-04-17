@@ -1,6 +1,6 @@
 <?php 
 	/*
-	 * Page template for the Events Page
+	 * Page template for the Events View
 	*/
 ?>
 
@@ -18,33 +18,23 @@
                     <div class="mainContent bodyCopy">
                         <div class="container inner">
 			            	<?php if ($messages): echo $messages; endif; ?>
-	            		</div>
-                        <div class="container inner">
-                            <div class="pageTitle">
-                               	<?php if($title): echo '<h1>'.$title.'</h1>'; endif ?>
-                                <div class="share">
-                                    <a href="#">Share This</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container inner">
-			            	<?php if ($messages): echo $messages; endif; ?>
 			            	<?php if ($tabs): echo render($tabs); endif; ?>
 	                        <?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
 	            		</div>
-                        <?php echo render($page['content']); ?>
+	            		<div class="newsevents">
+	            			<ul class="feed">
+                        		<?php echo render($page['content']); ?>
+                        	</ul>
+                        </div>
+                        
                     </div>
-                    
-                    <!-- Begin Left Column -->
                     <div class="leftColumn">
                         <div class="secondaryNav">
                         	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
                         </div>
                     </div>
-                    <!-- Begin Left Column -->
-                    
                 </div>
-           
+
             </div>
             <!-- End of Content -->
             <!-- Start of footer -->

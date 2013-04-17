@@ -33,7 +33,8 @@ regions[header]  = Header
 regions[content] = Content
 regions[footer]  = Footer
 
-regions[top_links]  = Top Links
+regions[top_links]     = Top Links
+regions[footer_links]  = Footer Links
 
 regions[banner]  = Banners
 
