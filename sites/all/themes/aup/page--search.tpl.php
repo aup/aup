@@ -20,9 +20,6 @@
                         <div class="container inner">
                             <div class="pageTitle">
                                 <?php if($title): echo '<h1>'.$title.'</h1>'; endif ?>
-                                <div class="share">
-                                    <a href="#">Share This</a>
-                                </div>
                             </div>
                         </div>
                         <div class="container inner">

@@ -192,13 +192,13 @@
 .contentCarousel .bx-wrapper .bx-next:hover{background-position:-34px -34px;}
 
 
-.contentCarousel .text h3{float:left;width:100%;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#236a9c;text-transform:uppercase;font-size:2.4em;margin:0;padding:0 0 6px;line-height:1.2em;}
-.contentCarousel .text h3 em{font-family:'Libre Baskerville', serif, "Times New Roman", Times, serif;text-transform:none;font-size:0.8em;font-weight:normal;}
-.contentCarousel .text h4{font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#1f1d1d;font-size:2.1em;}
+{float:left;width:100%;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#236a9c;text-transform:uppercase;font-size:2.4em;margin:0;padding:0 0 6px;line-height:1.2em;-webkit-font-smoothing: antialiased !important;text-shadow:#ffffff 0px 0px 2px;}
+.contentCarousel .text h3 em{font-family:'Libre Baskerville', serif, "Times New Roman", Times, serif;text-transform:none;font-size:0.8em;font-weight:normal;-webkit-font-smoothing: antialiased !important;text-shadow:#ffffff 0px 0px 2px;}
+.contentCarousel .text h4{font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#1f1d1d;font-size:2.1em;-webkit-font-smoothing: antialiased !important;text-shadow:#ffffff 0px 0px 2px;}
 .contentCarousel .text h4 span{font-size:0.9em;display:block;padding:0 0 6px;}
 .contentCarousel .text p{font-size:1.4em;display:block;}
 .contentCarousel .more{float:none;position:absolute;bottom:4px;left:57%;}
-.contentCarousel .more a{color:#b31917;font-size:1.4em;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;text-transform:uppercase;font-weight:600;}
+.contentCarousel .more a{color:#b31917;font-size:1.8em;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;text-transform:uppercase;font-weight:normal;letter-spacing:0.08em;-webkit-font-smoothing: antialiased !important;text-shadow:#ffffff 0px 0px 2px;}
 
 
 .supportCarousel{float:left;width:100%;margin:0;position:relative;}
@@ -207,19 +207,19 @@
 .supportCarousel .text{float:right;width:23%;padding:60px 0 0;}
 .bodyCopy .supportCarousel li{font-size:1em;position:relative;padding:0 0 4px;overflow:hidden;}
 .supportCarousel .bx-wrapper .bx-controls-direction a{bottom:auto;top:26px;}
-.supportCarousel .bx-wrapper .bx-prev{left:auto;right:20%;background-image:url('../images/contentArrows.png');}
-.supportCarousel .bx-wrapper .bx-next{left:auto;right:13%;background-image:url('../images/contentArrows.png');}
+.supportCarousel .bx-wrapper .bx-prev{left:auto;right:51px;background-image:url('../images/contentArrows.png');}
+.supportCarousel .bx-wrapper .bx-next{left:auto;right:11px;background-image:url('../images/contentArrows.png');}
 .supportCarousel .bx-wrapper .bx-prev:hover{background-position:0 -34px;}
 .supportCarousel .bx-wrapper .bx-next:hover{background-position:-34px -34px;}
 
 
-.supportCarousel .text h3{float:left;width:100%;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#236a9c;text-transform:uppercase;font-size:2.4em;margin:0;padding:0 0 6px;line-height:1.2em;}
-.supportCarousel .text h3 em{font-family:'Libre Baskerville', serif, "Times New Roman", Times, serif;text-transform:none;font-size:0.8em;font-weight:normal;}
-.supportCarousel .text h4{font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#1f1d1d;font-size:2.1em;}
+.supportCarousel .text h3{float:left;width:100%;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#236a9c;text-transform:uppercase;font-size:2.4em;margin:0;padding:0 0 6px;line-height:1.2em;-webkit-font-smoothing: antialiased !important;}
+.supportCarousel .text h3 em{font-family:'Libre Baskerville', serif, "Times New Roman", Times, serif;text-transform:none;font-size:0.8em;font-weight:normal;-webkit-font-smoothing: antialiased !important;}
+.supportCarousel .text h4{font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;color:#1f1d1d;font-size:2.1em;-webkit-font-smoothing: antialiased !important;}
 .supportCarousel .text h4 span{font-size:0.9em;display:block;padding:0 0 6px;}
 .supportCarousel .text p{font-size:1.4em;display:block;}
 .supportCarousel .more{float:left;}
-.supportCarousel .more a{color:#b31917;font-size:1.4em;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;text-transform:uppercase;font-weight:600;}
+.supportCarousel .more a{color:#b31917;font-size:1.8em;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;text-transform:uppercase;font-weight:normal;letter-spacing:0.08em;}
 
 .homeCarousel .bx-wrapper .bx-prev:hover, .gInner .bx-wrapper .bx-prev:hover {background: url('../images/carouselArrows.png') no-repeat 0 -34px;}
 .homeCarousel .bx-wrapper .bx-next:hover, .gInner .bx-wrapper .bx-next:hover {background: url('../images/carouselArrows.png') no-repeat -34px -34px;}

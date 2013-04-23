@@ -1,3 +1,5 @@
 <div class="pod podRichtext">
-	<?php print $node->body['und'][0]['value']; ?>
+	<?php if(!empty($node->body)) :?>
+		<?php print $node->body[LANGUAGE_NONE][0]['value']; ?>
+	<?php endif; ?>
 </div>

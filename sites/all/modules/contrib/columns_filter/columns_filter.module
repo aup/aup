@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Columns input filter: use <!--column--> to create a column break.
+ * Must be placed after the HTML filter and above the line break converter filter:
+ *  - HTML filter
+ *  - Columns filter
+ *  - Line break converter
+ * You are strongly advised to override this module's CSS to provide a gutter:
+ * this is not cleanly possible with percentage widths.
+ */
+
+/**
+ * Implements hook_filter_info().
+ */
+function columns_filter_filter_info() {
+  $filters['columns_filter'] = array(
+    'title' => t('Separate content into columns'),
+    'prepare callback' => 'columns_filter_filter_prepare',
+    'process callback' => 'columns_filter_filter_process',
+    'tips callback'  => 'columns_filter_filter_tips'
+  );
+  return $filters;
+}
+
+/**
+ * Prepare callback for columns_filter_filter_info().
+ *
+ * To prevent the HTML filter from killing or escaping the column marker text, we replace it with
+ * something non-HTMLish in the prepare operation.
+ *
+ * @see hook_filter_FILTER_prepare()
+ */
+function columns_filter_filter_prepare($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $column_marker = '<!--column-->';
+  return str_replace($column_marker, '####COLUMN_FILTER_COLUMN####', $text);
+}
+
+/**
+ * Process callback for columns_filter_filter_info().
+ *
+ * Split the text into DIVs with content-column class.
+ *
+ * @see hook_filter_FILTER_process()
+ */
+function columns_filter_filter_process($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $column_marker = '####COLUMN_FILTER_COLUMN####';
+
+  $pieces = explode($column_marker, $text);
+  $columns = count($pieces);
+
+  // Only one column.
+  if ($columns < 2) {
+    return theme('columns_filter_single_column', array('text' => $text));
+  }
+
+  return theme('columns_filter_columns', array('cols' => $pieces));
+}
+
+/**
+ * Tips callback for columns_filter_filter_info().
+ *
+ * @see hook_filter_FILTER_tips()
+ */
+function columns_filter_filter_tips($filter, $format, $long) {
+  return t("&lt;!--column--> creates a column break.");
+}
+
+/**
+ * Implements hook_theme().
+ */
+function columns_filter_theme($existing, $type, $theme, $path) {
+  return array(
+    'columns_filter_single_column' => array(
+      'variables' => array('text' => ''),
+    ),
+    'columns_filter_columns' => array(
+      'variables' => array('cols' => array()),
+    ),
+  );
+}
+
+/**
+ * Return HTML for single column.
+ */
+function theme_columns_filter_single_column($variables) {
+  $text = $variables['text'];
+  return $text;
+}
+
+/**
+ * Return HTML for multiple columns.
+ */
+function theme_columns_filter_columns($variables) {
+  $columns = $variables['cols'];
+  // We're only providing CSS for up to 4 columns. You're on your own beyond that.
+  // And you probably should do stuff in your theme CSS anyway with gutters.
+  $count = count($columns);
+  $processed_text = '';
+
+  foreach ($columns as $i => $col) {
+    $attributes = array(
+      'class' => "content-column content-column-$count",
+    );
+
+    // Add first and last classes.
+    if ($i == 0) {
+      $attributes['class'] .= ' content-column-first';
+    }
+    if ($i == $count - 1) {
+      $attributes['class'] .= ' content-column-last';
+    }
+
+    $processed_text .= '<div' . drupal_attributes($attributes) . '>' . trim($col) . "</div>";
+  }
+
+  return $processed_text;
+}
+
+/**
+ * Implements hook_wysiwyg_include_directory().
+ *
+ * @param string $type
+ *   Contains either "plugins" or "editors"?
+ * @return string
+ *   The function returns the include directory "plugins". This directory must only
+ *   contain wysiwyg api integration files.
+ */
+function columns_filter_wysiwyg_include_directory($type) {
+  if ($type == 'plugins') {
+    return $type;
+  }
+}

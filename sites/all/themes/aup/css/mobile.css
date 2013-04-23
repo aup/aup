@@ -5,9 +5,11 @@ body{min-width:320px;}
 .wrapper {padding:0;width: 100%;}
 .page-content .leftColumn{width:100%;padding:0 0 50px;}
 .noNav{margin:0;}
+.content{box-shadow:none;}
 .page-content .mainContent{float:left;width:93.75%;padding:0 3.125%;}
 .page-content .mainContent .inner{width:100%;padding:0 0 20px;}
 .bodyCopy p{padding:0 0 14px;}
+.leftColumn .secondaryNav{display:none;}
 
 .mobileSearchButton{float:right;width:38px;height:38px;margin:0 14px 0 0;}
 .mobileSearchButton a{float:left;width:38px;height:38px;background:url('../images/magnify.png') no-repeat 0 0;}
@@ -15,12 +17,12 @@ body{min-width:320px;}
 .mobileSearchButton a span{display:none;}
 
 .mobileSiteSearch{float:left;width:100%;height:auto;background:#fff;position:relative;border-top:7px solid #fff;border-bottom:7px solid #fff;display:none;}
-.mobileSiteSearch form{float:left;width:100%;height:25px;border-top:2px solid #ccc;border-bottom:2px solid #ccc;}
+.mobileSiteSearch form{float:left;width:100%;height:34px;border-top:2px solid #ccc;border-bottom:2px solid #ccc;}
 .mobileSiteSearch form fieldset{float:left;width:100%;height:25px;}
 .mobileSiteSearch form legend{display:none;}
 .mobileSiteSearch form label{display:none;}
-.mobileSiteSearch form .txtSiteSearch{float:left;width:80%;height:17px;font-size:1.4em;color:#919191;font-family:'proxima-nova', Arial, Helvetica, sans-serif;border:none;margin:2px 0 0 5px;}
-.mobileSiteSearch form .btnSiteSubmit{position:absolute;width:25px;height:29px;right:4px;top:0;border:none;background:url('../images/btnSiteSearch.png') no-repeat 0 center;cursor:pointer;}
+.mobileSiteSearch form .txtSiteSearch{float:left;width:80%;height:17px;font-size:1.4em;color:#919191;font-family:'proxima-nova', Arial, Helvetica, sans-serif;border:none;margin:7px 0 7px 5px;}
+.mobileSiteSearch form .btnSiteSubmit{position:absolute;width:30px;height:30px;right:10px;top:4px;border:none;background:url('../images/btnSiteSearchMobile.png') no-repeat 0 center;cursor:pointer;}
 
 .header{background:none repeat scroll 0 0 #1F1D1D;float:left;width:100%;overflow:hidden;}
 .header .banner{display:none;}
@@ -34,18 +36,20 @@ body{min-width:320px;}
 .header .logo a{float:left;margin:0 0 0 -8px;}
 .header .logo img{float:left;width:160px;margin:0;}
 /*.leftColumn .secondaryNav{display:none;}*/
+.breadcrumb{display:none;}
 .breadcrumb ul{width:93.75%;margin:0 0 0 3.125%;}
 .breadcrumb ul li a{font-size:1.2em;}
 
 .mobileHeader{float:left;width:100%;}
-.mobileHeader .tabs{float:left;width:100%;}
+.mobileHeader .tabs{float:left;width:100%;background:#fff;}
 .mobileHeader .blockBg{background:#bdbdbd;}
-.mobileHeader .tabs div{float:left;width:29%;padding:0;margin:0;border:none;}
+.mobileHeader .tabs div{float:left;width:50%;padding:0;margin:0;border:none;}
+.mobileHeader .blockBg div{width:29%;}
 .mobileHeader .tabs div.search{float:right;}
 .mobileHeader .tabs div.menu a{float:left;width:88.75%;padding:0 3% 0 8.25%;height:36px;background:#fff;line-height:36px;font-size:1.6em;background:url('../images/iconMenu.png') no-repeat 90% center #fff;}
 .mobileHeader .tabs div.search a{float:right;width:88.75%;padding:0 6.25% 0 5%;height:36px;background:url('../images/iconMenu3.png') no-repeat 90% center #3084b6;line-height:36px;font-size:1.6em;color:#fff;}
 .mobileHeader .tabs div.infomenu{width:42%;}
-.mobileHeader .tabs div.infomenu a{float:left;width:88.75%;padding:0 3% 0 8.25%;height:36px;line-height:36px;font-size:1.6em;background:url('../images/iconMenu2.png') no-repeat 90% center #bdbdbd;color:#424242;}
+.mobileHeader .tabs div.infomenu a{float:left;width:92.75%;padding:0 3% 0 4.25%;height:36px;line-height:36px;font-size:1.6em;background:url('../images/iconMenu2.png') no-repeat 97% center #bdbdbd;color:#424242;}
 
 .ddContainer{float:left;width:100%;border-top:5px solid #fff;border-bottom:5px solid #fff;background:#fff;}
 .ddContainer div{float:left;width:100%;border-top:2px solid #ccc;border-bottom:2px solid #ccc;}
@@ -75,7 +79,7 @@ body{min-width:320px;}
 .pageTitle {padding: 15px 30% 3px 0;width:70%;}
 .homeHeader{position:relative;}
 /*.homeCarousel .text{display:none;}*/
-.homeCarousel .caption h2{font-size:2.2em;}
+.homeCarousel .caption h2{font-size:2.8em;}
 
 .homeCarousel .caption .text{margin:0;right:6%;width:90%;text-align:right;font-size:5em;color:#fff;top:-63%;bottom:auto;text-transform:uppercase;text-shadow:2px 2px 2px #222;font-weight:bold;font-family:'franklin-gothic-ext-comp-urw',Arial,Helvetica,sans-serif;}
 
@@ -144,6 +148,9 @@ body{min-width:320px;}
 .admissionPods{float:left;width:95.75%;padding:0 2.125%;}
 .admissionPods li, .admissionPods li.alt{width:100%;margin:0;}
 
+.admissionPods li img{width:30%;}
+.admissionPods li .caption{width:67.5%;}
+
 .admissionLead{}
 .admissionLead .text{float:left;width: 95.75%;padding: 16px 2.125%;}
 .admissionLead .text h3{font-size:1.8em;line-height:1.3em;}
@@ -190,7 +197,8 @@ body{min-width:320px;}
 .cols4 .col img{float:none;margin:0;}
 .cols4 .col div{float:left;width:90%;padding:14px 6%;text-align:left;}
 
-
+.admissionPods li img {width: 45.66%;}
+.admissionPods li .caption {width: 50%;}
 
 }
 @media only screen and (max-width: 500px){
@@ -217,4 +225,5 @@ body{min-width:320px;}
 
 @media only screen and (max-width: 400px){
 	.cols4 .col img{float:none;margin:0;width:100%;}
+	.homeCarousel .caption h2{font-size:2.2em;}
 }

@@ -6,7 +6,7 @@
 
 <?php print $node->body[LANGUAGE_NONE][0]['value']; ?>
 
-<?php if($node->field_bottom_bar_text[LANGUAGE_NONE][0]['value']): ?>
+<?php if(!empty($node->field_bottom_bar_text)): ?>
 	<script type="text/javascript">
 	//<![CDATA[
 		jQuery(document).ready(function(){
@@ -16,8 +16,16 @@
 	</script>
 						
 	<div class="admissions-bottom-source">
-		 <div class="studentInfo">            
-			<a href="<?php print $node->field_bottom_bar_link[LANGUAGE_NONE][0]['value']; ?>"><?php print $node->field_bottom_bar_text[LANGUAGE_NONE][0]['value']; ?></a>          	
+		 <div class="studentInfo">
+		 	<?php if(!empty($node->field_bottom_bar_link)): ?>            
+				<a href="<?php print $node->field_bottom_bar_link[LANGUAGE_NONE][0]['value']; ?>">
+			<?php endif; ?>
+				<?php if(!empty($node->field_bottom_bar_text)): ?>
+					<?php print $node->field_bottom_bar_text[LANGUAGE_NONE][0]['value']; ?>
+				<?php endif; ?>
+			<?php if(!empty($node->field_bottom_bar_link)): ?> 
+				</a>     
+		    <?php endif; ?> 	
 		</div>
 	</div>
 <?php endif; ?>

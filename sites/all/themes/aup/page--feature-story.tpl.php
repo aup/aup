@@ -16,15 +16,14 @@
             <div class="page-content">
             	<div class="surround">
                     <div class="mainContent bodyCopy">
-                    	<div class="container inner">
-			            	<?php if ($messages): echo $messages; endif; ?>
-	            		</div>
                         <div class="container inner">
                             <div class="pageTitle">
                                	<?php if($title): echo '<h1>'.$title.'</h1>'; endif ?>
-                                <div class="share">
-                                    <a href="#">Share This</a>
-                                </div>
+                               	<?php if($page['add_this']): ?>
+                               		<div class="share">
+	                               		<?php echo render($page['add_this']);?> 
+	                               	</div>
+                               	<?php endif; ?>
                             </div>
                         </div>
                         <div class="container inner">
@@ -39,6 +38,18 @@
                         <div class="secondaryNav">
                         	<?php if($page['left_column']): echo render($page['left_column']); endif; ?>
                         </div>
+                        <?php if(!empty($node->field_related_link)): ?>
+                        <div class="relatedLinks">
+                            <div class="wrap">
+                                <h4>Related Links</h4>
+                                <ul>
+    	                            <?php foreach($node->field_related_link[LANGUAGE_NONE] as $link): ?>
+										<li><?php echo l($link['title'], $link['url']);?></li>
+									<?php endforeach; ?>
+								</ul>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
@@ -68,19 +79,19 @@
                     <div class="gContent">
                     	<?php if($page['tabbed_features_1']): ?>
                         <div class="gInner1 gInner selected">
-                        	<?php echo render($page['tabbed_features_1']); ?>
+                        	<?php echo render($page['tabbed_features_2']); ?>
                         </div>
                         <?php endif; ?>
                         
                         <?php if($page['tabbed_features_2']): ?>
 	                        <div class="gInner2 gInner">
-    	                    	<?php echo render($page['tabbed_features_2']); ?>
+    	                    	<?php echo render($page['tabbed_features_3']); ?>
         	                </div>
                         <?php endif; ?>
                         
                         <?php if($page['tabbed_features_3']): ?>
                         	<div class="gInner3 gInner">
-                        		<?php echo render($page['tabbed_features_3']); ?>
+                        		<?php echo render($page['tabbed_features_1']); ?>
                         	</div>
                         <?php endif; ?>
                     </div> 

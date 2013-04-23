@@ -14,14 +14,7 @@
 	        <div class="main">
 	        	<div class="mobileShow">
 	                <div class="mobileSiteSearch">
-	                    <form method="post" action="#">
-	                        <fieldset>
-	                            <legend>Search</legend>
-	                            <label for="txtSiteSearch">Search</label>
-	                            <input type="text" class="txtSiteSearch" id="txtSiteSearch" value="Search" />
-	                            <input type="submit" class="btnSiteSubmit" value="" />
-	                        </fieldset>
-	                    </form>
+	                   <?php if ($page['header_search']): print render($page['header_search']); endif; ?>
 	                </div>
 	            </div>
 	            <div class="logo">

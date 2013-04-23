@@ -71,3 +71,9 @@ regions[admissions_features_3]  = Admission Feature 3
 regions[tabbed_features_1] = Tabbed Feature 1
 regions[tabbed_features_2] = Tabbed Feature 2
 regions[tabbed_features_3] = Tabbed Feature 3
+
+regions[giving_1]  = Giving 1
+regions[giving_2]  = Giving 2
+regions[giving_3]  = Giving 3
+
+regions[add_this]  = Add This

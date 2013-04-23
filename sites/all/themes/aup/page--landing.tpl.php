@@ -14,7 +14,7 @@
             </div>
             
             <!-- Start of Content -->
-            <div class="content">            	
+            <div class="page-content">            	
             	<div class="surround">
             	
             		<!-- Start Slideshow -->
@@ -27,11 +27,17 @@
                         	<div class="text">
                             	<?php echo render($page['content']); ?>
                             </div>
-                            <div class="info">
-                            	<!-- Start Gift SPIF -->
-                    			<?php if ($page['support_gift']): print render($page['support_gift']); endif; ?>
-                    			<!-- End Gift SPIF -->
-                            </div>
+                            <!-- Start Gift SPIF -->
+                    		<?php if ($page['support_gift']): ?>
+                    		    <div class="info">
+	                    	    	<?php print render($page['support_gift']); ?>
+                    		    </div>
+                    		<?php else: ?>
+                    			<style type="text-css">
+                    		    	.statement .text { width:100%; }
+                    		    </style>
+                    		<?php endif; ?>
+                    		<!-- End Gift SPIF -->                        
                         </div>
                     </div>
                     <div class="container">
@@ -51,31 +57,26 @@
                         </div>
                     </div>
                 </div>
+                
     			<div class="fullWidth mix">
                     <ul class="feed">
                         <li class="newsSingle">
                             <div class="feedTitle">
-                                <h3>News <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
+                                <h3>News <a href="/aup/news-feed" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
                                 <div class="more">
-                                    <a href="#">View more</a>
+                                    <a href="/aup/news-events">View more</a>
                                 </div>
                             </div>
-                            <h4><a href="#">A Variety of Fellow Students</a> <span>October 25</span></h4>
-                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
+                            <?php if ($page['giving_1']): print render($page['giving_1']); endif; ?>
                         </li>
                         <li class="eventSingle">
                             <div class="feedTitle">
-                                <h3>Events <a href="#" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
+                                <h3>Events <a href="/aup/events-feed" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
                                 <div class="more">
-                                    <a href="#">View more</a>
+                                    <a href="/aup/news-events">View more</a>
                                 </div>
                             </div>
-                        	<div class="date">
-                            	<span>October</span>
-                                <em>22</em>
-                            </div>
-                            <h4><a href="#">Women's Leadership for the 21st Century</a> <span>6.30 - 8.30 PM</span></h4>
-                            <p>Join Celeste Schenck, President of The American University of Paris, for a thought-provoking discussion about the increasing fit between women's...</p>
+                            <?php if ($page['giving_2']): print render($page['giving_2']); endif; ?>
                         </li>
                         <li class="fbSingle">
                              <h5>
@@ -88,6 +89,7 @@
                     </ul>
                 </div>
             </div>
+            
             <!-- End of Content -->
             <!-- Start of footer -->
             <?php include('_includes/footer.php'); ?>

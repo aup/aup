@@ -22,9 +22,11 @@
                         <div class="container inner">
                             <div class="pageTitle">
                                	<?php if($title): echo '<h1>'.$title.'</h1>'; endif ?>
-                                <div class="share">
-                                    <a href="#">Share This</a>
-                                </div>
+                                <?php if($page['add_this']): ?>
+                               		<div class="share">
+	                               		<?php echo render($page['add_this']);?> 
+	                               	</div>
+                               	<?php endif; ?>
                             </div>
                         </div>
                         <div class="container inner">

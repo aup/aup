@@ -19,8 +19,20 @@
 				   	<?php if(!empty($node->field_slide_caption_text_mobile)): ?>
 					   	<div class="text mobileShow"><?php echo $node->field_slide_caption_text_mobile[LANGUAGE_NONE][0]['value']; ?></div>
 				   	<?php endif; ?>
-				       <h2><?php echo $node->field_slide_text[LANGUAGE_NONE][0]['value']; ?></h2>
-				       <div class="more"><a href="<?php echo $node->field_button_url[LANGUAGE_NONE][0]['value']; ?>"><?php echo $node->field_button_text[LANGUAGE_NONE][0]['value']; ?></a></div>
+						<?php if(!empty($node->field_slide_text)): ?>
+				       		<h2><?php echo $node->field_slide_text[LANGUAGE_NONE][0]['value']; ?></h2>
+				       	<?php endif; ?>
+				       	<div class="more">
+				       	<?php if(!empty($node->field_button_url)): ?>
+				       	<a href="<?php echo $node->field_button_url[LANGUAGE_NONE][0]['value']; ?>">
+				       	<?php endif; ?>
+				       			<?php if(!empty($node->field_button_text)): ?>
+				       				<?php echo $node->field_button_text[LANGUAGE_NONE][0]['value']; ?>
+				       			<?php endif; ?>
+				       	<?php if(!empty($node->field_button_url)): ?>
+				       	</a>
+				       	<?php endif; ?>
+				       	</div>
 				   </div>
 				</li>
 			<?php endforeach; ?>

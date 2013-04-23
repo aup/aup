@@ -29,7 +29,9 @@
                     </div>
                     <ul class="admissionPods">
                     	<?php if ($page['admissions_features_1']): print render($page['admissions_features_1']); endif; ?>
+                    	<div class="clear"></div>
                     	<?php if ($page['admissions_features_2']): print render($page['admissions_features_2']); endif; ?>
+                    	<div class="clear"></div>
                     	<?php if ($page['admissions_features_3']): print render($page['admissions_features_3']); endif; ?>
                     </ul>
                 </div>
