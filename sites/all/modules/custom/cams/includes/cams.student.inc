@@ -13,7 +13,7 @@
 /*
  * TODO
  */
-function cams_student_get($filterCriteria='status', $filterValue = 'Student', $termID = NULL) {
+function cams_student_get($filterCriteria='type', $filterValue = 'Student', $termID = NULL) {
 	if (!cams_is_available())
     return FALSE;
 	
@@ -24,19 +24,19 @@ function cams_student_get($filterCriteria='status', $filterValue = 'Student', $t
     return FALSE;
   
   switch ($filterCriteria) {
-    case 'status':
-      $sql = "SELECT DISTINCT '$filterValue' AS status, StuStaV.StudentId AS id, StuStaV.FirstName AS firstName, StuStaV.LastName AS lastName, StuV.BoxNumber AS mailbox
+    case 'type':
+      $sql = "SELECT DISTINCT '$filterValue' AS type, StuStaV.StudentId AS id, StuStaV.FirstName AS firstName, StuStaV.LastName AS lastName, StuV.BoxNumber AS mailbox
 		      FROM CAMS_Student_View StuV INNER JOIN CAMS_StudentStatus_View StuStaV ON StuStaV.StudentID = StuV.StudentID
 			  INNER JOIN CAMS_SRAcademic_View StuRegV on StuStaV.StudentUID = StuRegV.StudentUID and StuStaV.TermCalendarID = StuRegV.TermCalendarID";
       
       switch ($filterValue) {	  
-        case 'Student':
+        case 'Current Student':
           $sql .= " WHERE StuStaV.Term = '$termID'"; // Registered in the current semester   
 
           break;
 		  
         case 'Applicant':
-          $sql = "SELECT DISTINCT '$filterValue' AS status, StudentID AS id, LastName AS lastName, FirstName AS firstName, TYPE, ProspectStatus
+          $sql = "SELECT DISTINCT '$filterValue' AS type, StudentID AS id, LastName AS lastName, FirstName AS firstName, TYPE, ProspectStatus
                       FROM CAMS_Student_View StuV 
                           WHERE (SELECT TC.Term FROM TermCalendar TC WHERE TC.TermCalendarID = StuV.ExpectedTermID) >= '$termID'
                           AND ProspectStatus IN ('Admitted', 'Conditional Admit', 'Probation Admit')
@@ -321,12 +321,9 @@ function cams_student_get_degrees($netID = NULL, $type = 'major') {
  * TODO
  */
 function cams_student_get_email($netID = NULL, $type = 'Current', $offset = 1) {
-  if (!cams_is_available())
+  if (!cams_is_available() || !$netID)
     return FALSE;
 
-  if (!$netID)
-    return FALSE;
-    
   $stuID = substr($netID, 1);
   $type = strtolower($type);
   $sql = "SELECT email$offset AS email 
@@ -345,10 +342,7 @@ function cams_student_get_email($netID = NULL, $type = 'Current', $offset = 1) {
  * TODO
 */
 function cams_student_get_address($netID = NULL, $type = 'Current') {
-  if (!cams_is_available())
-    return FALSE;
-
-  if (!$netID)
+  if (!cams_is_available() || !$netID)
     return FALSE;
 
   $stuID = substr($netID, 1);

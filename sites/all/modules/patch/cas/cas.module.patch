@@ -1,0 +1,4 @@
+926c926
+<       if (user_access('administer users') && $form['#user_category'] == 'account') {
+---
+>       if (user_access('administer users')) {

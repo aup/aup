@@ -44,7 +44,6 @@ class field_timetable_style_plugin extends views_plugin_style {
 
     // Build a list of all fields.
     foreach ($this->display->handler->get_handlers('field') as $field => $handler) {
-
       $title_fields[$field] .= ($handler->label() != '') ? $field. ' (' . $handler->label() . ')' : $field;
       $color_field[$field] .= ($handler->label() != '') ? $field. ' (' . $handler->label() . ')' : $field;
       
@@ -62,7 +61,7 @@ class field_timetable_style_plugin extends views_plugin_style {
     if (empty($timetable_fields)) {
       $options[''] = t('No timetable fields');
     }
-
+    
     // Title field.
     $form['settings']['timetable_field'] = array(
       '#type' => 'select',
