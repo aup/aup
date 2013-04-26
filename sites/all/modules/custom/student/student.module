@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * Student
+ * Enhancements related to Students
+ */
+
+/**
+ * Implements hook_help().
+ */
+function student_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#student":
+      return '<p>' . t("Enhancements related to Students") . '</p>';
+    break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function student_menu() {
+	$items = array();
+
+	$items['admin/config/aup/student'] = array(
+			'title' => 'Student',
+			'description' => 'Configuration for the Student module',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('student_settings_form'),
+			'access arguments' => array('access administration pages'),
+			'type' => MENU_NORMAL_ITEM,
+			'file' => 'student.admin.inc',
+	);
+
+	return $items;
+}
+
+/**
+ * Implements hook_cronapi().
+ */
+function student_cronapi($op, $function = NULL) {
+  switch ($op) {
+    case 'list':
+      $list = array(
+        'student_sync' => 'Student Account Synchronization with CAMS',
+      );
+      return $list;
+
+    case 'rule':
+      switch ($function) {
+        case 'student_sync':
+          return '0 8 * * *';
+
+      }
+      break;
+
+    case 'execute':
+      switch ($function) {
+        case 'student_sync':
+          require_once drupal_get_path('module', 'student') . '/student.cron.inc';
+          student_sync();
+          break;
+
+      }
+      break;
+
+    case 'settings':
+      switch ($function) {
+        case 'student_sync':
+          return array('enabled' => FALSE);
+
+      }
+
+    case 'configure':
+      switch ($function) {
+        case 'student_sync':
+          return 'admin/config/aup/student';
+
+      }
+  }
+}

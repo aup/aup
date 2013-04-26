@@ -35,18 +35,18 @@ function course_menu() {
   );
 
   // TEMP.
-  $items['delete/course-master'] = array(
-    'title' => 'Course Master Deletion',
-    'page callback' => 'course_master_delete',
+  $items['delete/course'] = array(
+    'title' => 'Course Deletion',
+    'page callback' => 'course_delete',
     'access arguments' => array('access administration pages'),
     'type' => MENU_CALLBACK,
     'file' => 'course.cron.inc',
   );
   
   // TEMP.
-  $items['delete/course'] = array(
-  		'title' => 'Course  Deletion',
-  		'page callback' => 'course_delete',
+  $items['delete/course-offering'] = array(
+  		'title' => 'Course Offering Deletion',
+  		'page callback' => 'course_offering_delete',
   		'access arguments' => array('access administration pages'),
   		'type' => MENU_CALLBACK,
   		'file' => 'course.cron.inc',
