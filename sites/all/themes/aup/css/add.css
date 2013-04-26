@@ -56,6 +56,11 @@
 	display: none;
 }
 
+.region-horizontal-news-feed h2,
+.region-horizontal-events-feed h2 {
+
+}
+
 /* Archives ======= */
 
 .clear {
@@ -165,18 +170,65 @@
 
 /* Featured Tabs ======= */
 
-/*
-.gatewayFeature .bx-viewport {
-	min-height: 300px !important;
-}
 
-.gatewayFeature .bxslider li {
-	width: 799px !important;
-}
-*/
 
 /* Mobile Site Search ======= */
 
 .mobileShow .mobileSiteSearch #block-user-login {
 	display: none !important;
+}
+
+/* Content Area ======== */
+
+/*
+.page-content .mainContent {
+	padding-right: 15px !important;
+}
+
+.page-content .mainContent .inner { 
+	padding-right: 0px !important;
+}
+*/
+
+/* Tabbed Sliders ======== */
+
+.gContent .gInner {
+	display: block;
+}
+
+.gContent .selected {
+	display: block !important;
+}
+
+/* Gateway Page ======== */
+.gateway .side ul.announcements li {
+	background: none;
+}
+
+/* Wysiwyg Styles ======== */
+
+.column-row {
+	clear: both;
+	padding-bottom: 23px;
+}
+
+.column-2 {
+	float: left;
+	width: 46%;
+	padding: 0 4% 0 0;
+}
+
+.column-3 {
+	float: left;
+	width: 29%;
+	padding: 0 4.3% 0 0;
+}
+
+.quote {
+	float: left;
+	width: 100%;
+	border-top: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
+	padding: 2px 0;
+	background: #f6f6f6;
 }

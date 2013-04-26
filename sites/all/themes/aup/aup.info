@@ -77,3 +77,12 @@ regions[giving_2]  = Giving 2
 regions[giving_3]  = Giving 3
 
 regions[add_this]  = Add This
+
+regions[horizontal_news_feed]    = Horizontal News Feed
+regions[horizontal_events_feed]  = Horizontal Events Feed
+
+regions[twitter_block]   = Twitter Block
+regions[facebook_block]  = Facebook Block
+regions[youtube_block]   = Youtube Block
+regions[twitter_tab]     = Twitter Tab
+regions[facebook_tab]    = Facebook Tab

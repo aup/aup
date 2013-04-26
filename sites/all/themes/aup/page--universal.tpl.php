@@ -35,9 +35,7 @@
 						         
 						         	<!-- Start Main Col -->
 						         	<div class="mainContent">
-						         		<?php if(!empty($node->body)):?>
-								         	<?php print $node->body[LANGUAGE_NONE][0]['value']; ?>
-							         	<?php endif; ?>
+								    	<?php print $node->body[LANGUAGE_NONE][0]['value']; ?>
 						         	</div>
 						         	<!-- End Main Col -->
 						         	
@@ -102,21 +100,15 @@
 										        </div>
 										    </div>
 										</div>
-										
 						         	<!-- End Right Sidebar -->
-						         	
 						         </div>
 							</div>
 							
 						<?php else: ?>
-						
 							<!-- One Columns ======= -->
 							<div class="container inner">
-								<?php if(!empty(node->body)):?>
-									<?php print $node->body[LANGUAGE_NONE][0]['value']; ?>
-								<?php endif; ?>
+								<?php print $node->body[LANGUAGE_NONE][0]['value']; ?>
 							</div>
-							
 						<?php endif; ?>
 
                     </div>
@@ -141,33 +133,12 @@
                     </div>
             	</div>
             	
-            	<?php if(isset($node->field_display_news_feed[LANGUAGE_NONE][0]['value'])):?>
-            		<?php if ($node->field_display_news_feed[LANGUAGE_NONE][0]['value'] == 0): ?>	
-            			<div class="fullWidth news">
-                			<div class="feedTitle">
-                		    	<h3>News</h3>
-                		        <div class="more">
-                		        	<a href="/aup/news-events">View more</a>
-                		        </div>
-                		    </div>
-                		    <?php echo views_embed_view('news_events', 'block_3'); ?>
-                		</div>
-                	<?php endif; ?>
-                <?php endif; ?>
-                
-                <?php if(isset($node->field_display_events_feed[LANGUAGE_NONE][0]['value'])):?>
-                	<?php if ($node->field_display_events_feed[LANGUAGE_NONE][0]['value'] == 0): ?>
-    					<div class="fullWidth events">
-                			<div class="feedTitle">
-                		    	<h3>Events</h3>
-                		        <div class="more">
-                		        	<a href="/aup/events">View more</a>
-                		        </div>
-                		    </div>
-                		    <?php echo views_embed_view('news_events', 'block_2'); ?>
-                		</div>
-                	<?php endif; ?>
-                <?php endif; ?>
+            	<!-- BEGIN NEWS FEED -->
+	    		<?php if ($page['horizontal_news_feed']): print render($page['horizontal_news_feed']); endif; ?>
+	    		<!-- END NEWS FEED -->
+	    		<!-- BEGIN EVENTS FEED -->
+    			<?php if ($page['horizontal_events_feed']): print render($page['horizontal_events_feed']); endif; ?>
+    			<!-- END EVENTS FEED -->
             	
             </div>
             <!-- End of Content -->
@@ -178,4 +149,3 @@
         <!-- End of wrapper -->
     </div>
 </div>
-

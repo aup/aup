@@ -77,28 +77,18 @@
 	                    </li>
 	                </ul>
 	            </div>
-	    		<div class="fullWidth news">
-	    			
-	            	<div class="feedTitle">
-	                	<h3>News <a href="/aup/news-feed" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
-	                    <div class="more">
-	                    	<a href="/aup/news-events">View more</a>
-	                    </div>
-	                </div>
-	                <?php echo views_embed_view('news_events', 'block_3'); ?>
-	            </div>
-	    		<div class="fullWidth events">
-	            	<div class="feedTitle">
-	                	<h3>Events <a href="/aup/events-feed" class="rss"><img src="<?php echo base_path().path_to_theme(); ?>/images/rss.png" alt=""/></a></h3>
-	                    <div class="more">
-	                    	<a href="/aup/news-events">View more</a>
-	                    </div>
-	                </div>
-	                <?php echo views_embed_view('news_events', 'block_2'); ?>
-	            </div>
+	    		
+	    		<!-- BEGIN NEWS FEED -->
+	    		<?php if ($page['horizontal_news_feed']): print render($page['horizontal_news_feed']); endif; ?>
+	    		<!-- END NEWS FEED -->
+	    		<!-- BEGIN EVENTS FEED -->
+    			<?php if ($page['horizontal_events_feed']): print render($page['horizontal_events_feed']); endif; ?>
+    			<!-- END EVENTS FEED -->
+    			
 	    		<div class="fullWidth social">
 	                <ul class="feed">
 	                    <li>
+	                    	<?php //if ($page['facebook_block']): print render($page['facebook_block']); endif; ?>
 	                         <h5>
 	                            <img src="<?php echo base_path().path_to_theme(); ?>/images/facebook32.png" alt="" />
 	                            <span>Facebook</span>
@@ -107,6 +97,7 @@
 	                         <p>Have you seen the website dedicated to AUP's 50th anniversary? Check it out! http://50years.aup.edu/ There are two 50th anniversary celebration events in November: Alumni Event in San Francisco- 1 November, 2012 Alumni... <a href="#">Read More</a></p>
 	                    </li>
 	                    <li class="wideCol">
+	                    	<?php //if ($page['youtube_block']): print render($page['youtube_block']); endif; ?>
 	                         <h5>
 	                            <img src="<?php echo base_path().path_to_theme(); ?>/images/youtube32.png" alt="" />
 	                            <span>youtube</span>
@@ -116,6 +107,8 @@
 	                         <h4><a href="#">VIDEO: At home in the world</a></h4>
 	                    </li>
 	                    <li>
+	                    	<?php //if ($page['twitter_block']): print render($page['twitter_block']); endif; ?>
+	                    	
 	                         <h5>
 	                            <img src="<?php echo base_path().path_to_theme(); ?>/images/twitter32.png" alt="" />
 	                            <span>Twitter</span>

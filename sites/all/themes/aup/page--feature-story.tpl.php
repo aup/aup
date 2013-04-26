@@ -32,7 +32,6 @@
 	                        <?php if($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
 	            		</div>
                         <?php echo render($page['content']); ?>
-                        
                     </div>
                     <div class="leftColumn">
                         <div class="secondaryNav">
@@ -52,6 +51,15 @@
                         <?php endif; ?>
                     </div>
                 </div>
+                
+                <script type="text/javascript">
+				//<![CDATA[
+					jQuery(window).load(function(){
+						jQuery('.gInner2').css('display','none');
+						jQuery('.gInner3').css('display','none');
+					});
+				//]]>
+				</script>
                 
                 <!-- Begin Tabs -->
                 <div class="tabSection gatewayFeature">                
@@ -97,7 +105,6 @@
                     </div> 
                 </div>
                 <!-- End Tabs -->
-
                 
             </div>
             <!-- End of Content -->

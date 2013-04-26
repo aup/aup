@@ -26,7 +26,6 @@
                         		<?php echo render($page['content']); ?>
                         	</ul>
                         </div>
-                        
                     </div>
                     <div class="leftColumn">
                         <div class="secondaryNav">
@@ -34,7 +33,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <!-- End of Content -->
             <!-- Start of footer -->
