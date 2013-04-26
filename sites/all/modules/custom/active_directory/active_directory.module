@@ -60,7 +60,7 @@ function active_directory_is_available() {
 
   if (!$ad) {
   	try {
-drupal_set_message('NEW AD');
+      // DEBUG drupal_set_message('NEW AD');
   		$options = array(
   				'account_suffix' => '@'.variable_get('active_directory_account_suffix', NULL),
   				'base_dn' => variable_get('active_directory_basedn', NULL),

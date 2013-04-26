@@ -13,18 +13,18 @@
 function cams_settings_form($form, &$form_state) {
   $terms = cams_query('term', 'get', 'all');
   foreach ($terms as $term) {
-    $termOptions[$term->id] = "$term->id ($term->name)";
-  
+    $term_options[$term->id] = "$term->id ($term->name)";
   }
+
   $form['settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('General Settings'),
   );
-  $form['settings']['cams_current_term'] =  array(
+  $form['settings']['cams_current_term'] = array(
     '#type' => 'select',
     '#title' => t('Current Term'),
     '#default_value' => variable_get('cams_current_term', NULL),
-    '#options' => $termOptions,
+    '#options' => $term_options,
     '#description' => t('Select the current term. This value is used by MyAUP to retrieve data from CAMS in the proper term for mailing lists, role assignments...'),
   );
 

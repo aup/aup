@@ -3,4 +3,5 @@ description = Various Drupal customizations
 package = AUP
 core = 7.x
 files[] = aup_custom.test
+dependencies[] = cas
 configure = admin/config/aup/course

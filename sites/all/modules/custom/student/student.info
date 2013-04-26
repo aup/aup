@@ -1,0 +1,8 @@
+name = Student
+description = Enhancements related to Students
+package = AUP
+core = 7.x
+dependencies[] = aup_custom
+dependencies[] = cams
+dependencies[] = active_directory
+dependencies[] = profile2
