@@ -45,11 +45,11 @@ function cams_menu() {
  *   FALSE otherwise   
  */
 function cams_is_available() {
-  global $cams;
+  global $_cams_;
 
-  if (!$cams) {
+  if (!$_cams_) {
     try {
-drupal_set_message('NEW CAMS');
+      // DEBUG drupal_set_message(t('NEW CAMS'));
       $server = variable_get('cams_server', NULL);
       $database = variable_get('cams_database', NULL);
       $username = variable_get('cams_username', NULL);
@@ -60,7 +60,7 @@ drupal_set_message('NEW CAMS');
         return FALSE;
       }
       // @ignore sniffer_semantics_functioncall_functionalias
-      $cams = mssql_select_db($database);
+      $_cams_ = mssql_select_db($database);
     }
     catch (adLDAPException $e) {
       $message = t('Connection to Active Directory failed: @error',
@@ -71,7 +71,7 @@ drupal_set_message('NEW CAMS');
     }
   }
 
-  return $cams;
+  return $_cams_;
 }
 
 /**

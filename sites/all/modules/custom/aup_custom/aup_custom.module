@@ -39,6 +39,123 @@ function aup_custom_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function aup_custom_menu_alter(&$items) {
+	$items['user/%user/view']['title'] = 'Profile';
+
+	$items['user/%user/view/overview'] = array(
+			'title'  => 'Overview',
+			'type'   => MENU_DEFAULT_LOCAL_TASK,
+			'weight' => -100,
+	);
+	
+	$items['user/%user/account/overview']['weight'] = -100;
+	
+	$items['user/%user/edit']['title'] = 'Edit';
+	$items['user/%user/edit']['type'] = MENU_LOCAL_TASK;
+	$items['user/%user/edit']['tab_parent'] = 'user/%/account';
+
+	$items['user/%user/password']['tab_parent'] = 'user/%/account';
+	
+	$items['user/%user_category/edit/picture']['tab_parent'] = 'user/%/view';
+	$items['user/%user_category/edit/contact']['tab_parent'] = 'user/%/view';
+	$items['user/%user_category/edit/faculty']['tab_parent'] = 'user/%/view';
+	$items['user/%user_category/edit/employee']['tab_parent'] = 'user/%/view';
+
+	return $items;
+}
+
+/**
+ * Implements hook_admin_paths_alter().
+ */
+function aup_custom_admin_paths_alter(&$paths) {
+	// Treat all user edit pages as non-administrative.
+	$paths['user/*'] = FALSE;
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function aup_custom_user_presave(&$edit, $account, $category) {
+  // Update the CAS name
+  $edit['cas_name'] = $account->name;
+
+  // Update Roles
+  if ($user_types = array_key_exists('field_user_type', $edit) ?
+                    $edit['field_user_type'][LANGUAGE_NONE] :
+                    $account->field_user_type[LANGUAGE_NONE]) {
+  	$temp = array();
+    foreach ($user_types as $user_type) {
+      $temp[] = $user_type['value'];
+    }
+    $user_types = $temp;
+    // DEBUG    drupal_set_message('User Types = <pre>' . print_r($user_types, TRUE) . '</pre>');
+
+    $managed_roles = array(
+      'Administrative Staff', 'Faculty Member',
+      'Applicant', 'Current Student', 'Former Student',
+      'Consultant',
+      'Trustee',
+    );
+    $managed_roles = array_intersect(user_roles(), $managed_roles);
+  
+    // DEBUG    drupal_set_message('Managed Roles: <pre>' . print_r($managed_roles, TRUE) . '</pre>');
+
+    if (!array_key_exists('roles', $edit)) {
+      $edit['roles'] = array();
+      if ($account->roles) {
+        foreach ($account->roles as $role->rid => $role->name) {
+          $edit['roles'][$role->rid] = $role->rid;
+        }
+      }
+    }
+    foreach($managed_roles as $role->rid => $role->name) {
+      $edit['roles'][$role->rid] = in_array($role->name, $user_types) ?
+                                   $role->rid : 0;
+    }
+    // DEBUG    drupal_set_message('Edit Roles: <pre>' . print_r($edit['roles'], TRUE) . '</pre>');
+  }
+}
+
+/**
+ * Implements hook_cronapi().
+ */
+function aup_custom_cronapi($op, $function = NULL) {
+	switch ($op) {
+		case 'list':
+			$list = array(
+			'aup_custom_temp_realname_rebuild' => 'TEMP: Rebuilding Real names',
+			);
+			return $list;
+
+		case 'rule':
+			switch ($function) {
+				case 'aup_custom_temp_realname_rebuild':
+					return '0 7 * * *';
+
+			}
+			break;
+
+		case 'execute':
+			switch ($function) {
+				case 'aup_custom_temp_realname_rebuild':
+					aup_custom_temp_realname_rebuild();
+					break;
+
+			}
+			break;
+
+		case 'settings':
+			switch ($function) {
+				case 'aup_custom_temp_realname_rebuild':
+					return array('enabled' => FALSE);
+
+			}
+	}
+}
+
+/**
  * TODO
  *
  * @return bool
@@ -115,7 +232,20 @@ function aup_custom_task_end($report = array(), $rc = WATCHDOG_INFO) {
 					'successfully'),
 			'!report' => implode('<br/>', $report)));
 	watchdog($function, $msg, array(), $rc);
-	drupal_set_message($msg);
 	
 	return ($rc == WATCHDOG_INFO ? TRUE : FALSE);
+}
+
+function aup_custom_temp_realname_rebuild() {
+	$sql = 'SELECT uid FROM {users}'; // LIMIT 20';
+	
+	$rs = db_query($sql);
+	// @ignore sniffer_semantics_functioncall_functionalias
+	foreach ($rs as $result) {
+		$account = user_load($result->uid);
+		if (!$account->realname) {
+		  realname_update($account);
+		}
+	}
+	return 'Done';
 }

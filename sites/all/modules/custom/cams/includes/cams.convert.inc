@@ -57,32 +57,32 @@ function cams_convert_camsday2phpday($value, $long = FALSE) {
  *   The day number (1 = Monday)
  */
 function cams_convert_camsday2daynb($value) {
-	switch ($value) {
-		case 'M':
-			return 1;
+  switch ($value) {
+    case 'M':
+      return 1;
 
-		case 'T':
-			return 2;
+    case 'T':
+      return 2;
 
-		case 'W':
-			return 3;
+    case 'W':
+      return 3;
 
-		case 'R':
-			return 4;
+    case 'R':
+      return 4;
 
-		case 'F':
-			return 5;
+    case 'F':
+      return 5;
 
-		case 'A':
-			return 6;
+    case 'A':
+      return 6;
 
-		case 'U':
-			return 7;
+    case 'U':
+      return 7;
 
-		default:
-			return 0;
+    default:
+      return 0;
 
-	}
+  }
 }
 
 /**

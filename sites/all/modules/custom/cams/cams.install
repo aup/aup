@@ -46,14 +46,13 @@ function cams_requirements($phase) {
       $t('Database: %db', array('%db' => $db)),
       $t('User: %user', array('%user' => $user)),
     );
-    
-    $description = theme('item_list', 
-      array('items' =>
-        array(
-          $t('Connection parameters: !params',
-            array('!params' => implode(' | ', $params))),
-          $t('Version: %version', array('%version' => $version)),
-        )
+
+    $description = theme('item_list', array(
+      'items' => array(
+        $t('Connection parameters: !params', array(
+          '!params' => implode(' | ', $params))),
+        $t('Version: %version', array('%version' => $version)),
+      ),
       )
     );
 

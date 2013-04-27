@@ -923,7 +923,7 @@ function cas_form_alter(&$form, &$form_state, $form_id) {
 
     case 'user_profile_form':
       $account = $form['#user'];
-      if (user_access('administer users')) {
+      if (user_access('administer users') && $form['#user_category'] == 'account') {
         // The user is an administrator, so add fields to allow changing the
         // CAS username(s) associated with the account.
         $cas_names = $account->cas_names;
